@@ -2,23 +2,25 @@
 {
     public class StateMachine
     {
-        State startState;
-        
         State currentState;
-        
+
         public StateMachine(State _startState)
         {
-            startState = _startState;
+            currentState = _startState;
         }
 
-        public void SwapState()
+        public void CheckSwapState()
         {
-            
-        }
-
-        public void Tick()
-        {
-            
+            if (currentState.CheckTransitions(out var nextState))
+            {
+                currentState.StateExit();
+                currentState = nextState;
+                currentState.StateEnter();
+            }
+            else
+            {
+                currentState.Tick();
+            }
         }
     }
 }

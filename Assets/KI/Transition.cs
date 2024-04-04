@@ -4,13 +4,13 @@ namespace KI
 {
     public class Transition
     {
-        Func<bool> condition;
-        State nextState;
+        public readonly Func<bool> Condition;
+        public readonly State NextState;
 
         public Transition(State _nextState, Func<bool> _condition)
         {
-            condition = _condition;
-            nextState = _nextState;
+            Condition = _condition;
+            NextState = _nextState;
         }
     }
 }

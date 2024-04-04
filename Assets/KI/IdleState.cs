@@ -1,29 +1,34 @@
 ﻿using System.Buffers.Text;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace KI
 {
     public class IdleState : State
     {
         float idleTime;
+        NavMeshAgent agent;
         
-        public IdleState(float _idleTime) : base()
+        public IdleState(float _idleTime, NavMeshAgent _agent) : base()
         {
             idleTime = _idleTime;
+            agent = _agent;
         }
 
-        protected override void StateEnter()
+        public override void StateEnter()
         {
-            base.StateEnter();
+            agent.speed = 0f;
+            agent.ResetPath();
         }
 
-        protected override void StateExit()
+        public override void StateExit()
         {
             base.StateExit();
         }
 
-        protected override void Tick()
+        public override void Tick()
         {
-            base.Tick(); 
+            //Debug.Log("waiting");
         }
     }
 }

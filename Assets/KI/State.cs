@@ -1,28 +1,48 @@
+using System.Collections.Generic;
+using KI;
 using UnityEngine;
 
 public abstract class State
 {
-    protected State currentState;
-
-
-    protected State( )
+    protected readonly List<Transition> Transitions;
+    
+    protected State()
     {
-        currentState = this;
+        Transitions = new List<Transition>();
     }
 
-    protected virtual void StateEnter()
+    public virtual void StateEnter()
     {
         
     }
 
-    protected virtual void StateExit()
+    public virtual void StateExit()
     {
         
     }
 
-    protected virtual void Tick()
+    public virtual void Tick()
     {
         
+    }
+
+    public void AddTransition(Transition _transition)
+    {
+        Transitions.Add(_transition);
+    }
+
+    public bool CheckTransitions(out State _nextState)
+    {
+        foreach (var transition in Transitions)
+        {
+            if (transition.Condition())
+            {
+                _nextState = transition.NextState;
+                return true;
+            }
+        }
+        _nextState = null;
+        return false;
     }
     
 }
