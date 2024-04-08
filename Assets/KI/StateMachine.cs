@@ -7,6 +7,7 @@
         public StateMachine(State _startState)
         {
             currentState = _startState;
+            currentState.StateEnter();
         }
 
         public void CheckSwapState()
