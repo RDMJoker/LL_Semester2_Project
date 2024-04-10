@@ -4,55 +4,48 @@ using UnityEngine.AI;
 
 namespace KI
 {
-    [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
-    public class MeleeAgent : MonoBehaviour
+    
+    public class MeleeAgent : Agent
     {
-        TargetComponent targetComponent;
         TargetComponent idleTargetComponent;
-        [SerializeField] LayerMask layerMask;
+        [SerializeField] float idleDuration;
         [SerializeField] float searchRadius;
+        [SerializeField] LayerMask layerMask;
         [SerializeField] float distanceThreshhold;
-        [SerializeField] float attackRange;
         Vector3 patrolRadiusCenter;
-        Animator animator;
         StateMachine stateMachine;
-        NavMeshAgent navMeshAgent;
-        float moveSpeed;
-        IdleState startState;
+        IdleState idleState;
         bool attackDone;
-        
-        float DistanceToEnemy => Vector3.Distance(transform.position, targetComponent.TargetPosition) - navMeshAgent.stoppingDistance;
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             patrolRadiusCenter = transform.position;
-            targetComponent = new TargetComponent();
+            TargetComponent = new TargetComponent();
             idleTargetComponent = new TargetComponent();
-            navMeshAgent = GetComponent<NavMeshAgent>();
-            animator = GetComponent<Animator>();
-            var idleTimer = new Timer(1f);
-            startState = new IdleState(idleTimer, navMeshAgent, animator);
-            State chaseState = new WalkToPointState(navMeshAgent, targetComponent, animator);
-            State returnToPointState = new WalkToPointState(navMeshAgent, idleTargetComponent, animator);
-            State patrolState = new PatrolState(navMeshAgent, idleTargetComponent, animator, RecalculatePatrolPoint);
-            State attackState = new AttackState(animator);
-            stateMachine = new StateMachine(startState);
+            var idleTimer = new Timer(idleDuration);
+            idleState = new IdleState(idleTimer, NavMeshAgent, Animator);
+            State chaseState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
+            State returnToPointState = new WalkToPointState(NavMeshAgent, idleTargetComponent, Animator);
+            State patrolState = new PatrolState(NavMeshAgent, idleTargetComponent, Animator, RecalculatePatrolPoint);
+            State attackState = new AttackState(Animator);
+            stateMachine = new StateMachine(idleState);
 
-            var anyToChase = new Transition(chaseState, () => FindPlayer(searchRadius));
-            var idleToPatrol = new Transition(patrolState, () => startState.IsTimerFinished == true);
-            var movingToIdle = new Transition(startState, () => navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance);
-            var anyToReturn = new Transition(returnToPointState, () => FindPlayer(searchRadius) == false && attackDone);
+            var anyToChase = new Transition(chaseState, () => FindTarget(searchRadius));
+            var idleToPatrol = new Transition(patrolState, () => idleState.IsTimerFinished == true);
+            var movingToIdle = new Transition(idleState, () => NavMeshAgent.remainingDistance < NavMeshAgent.stoppingDistance);
+            var anyToReturn = new Transition(returnToPointState, () => FindTarget(searchRadius) == false && attackDone);
             var toAttack = new Transition(attackState, () =>
             {
-                if (!(DistanceToEnemy <= attackRange)) return false;
+                if (!(DistanceToTarget <= AttackRange)) return false;
                 attackDone = false;
                 return true;
             });
-            var attackToChase = new Transition(chaseState, () => DistanceToEnemy >= attackRange && attackDone);
+            var attackToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange && attackDone);
             var attackToAttack = new Transition(attackState, () => attackDone);
 
-            startState.AddTransition(anyToChase);
-            startState.AddTransition(idleToPatrol);
+            idleState.AddTransition(anyToChase);
+            idleState.AddTransition(idleToPatrol);
             
             chaseState.AddTransition(anyToReturn);
             chaseState.AddTransition(toAttack);
@@ -75,12 +68,12 @@ namespace KI
             stateMachine.CheckSwapState();
         }
 
-        bool FindPlayer(float _radius)
+        protected override bool FindTarget(float _radius)
         {
             var overlap = Physics.OverlapSphere(this.transform.position, searchRadius, layerMask);
             if (overlap.Length > 0)
             {
-                targetComponent.SetTarget(overlap[0].transform);
+                TargetComponent.SetTarget(overlap[0].transform);
                 
                 return true;
             }
@@ -93,10 +86,10 @@ namespace KI
             Vector3 randomPoint;
             do
             {
-                var temp = Random.insideUnitSphere * 5f;
-                randomPoint = new Vector3(temp.x, 0, temp.z);
+                var unitSphere = Random.insideUnitSphere * 5f;
+                randomPoint = new Vector3(unitSphere.x, 0, unitSphere.z);
                 randomPoint += patrolRadiusCenter;
-            } while (!NavMesh.SamplePosition(randomPoint, out _, navMeshAgent.radius * 2, navMeshAgent.areaMask) || Vector3.Distance(transform.position, randomPoint) < distanceThreshhold);
+            } while (!NavMesh.SamplePosition(randomPoint, out _, NavMeshAgent.radius * 2, NavMeshAgent.areaMask) || Vector3.Distance(transform.position, randomPoint) < distanceThreshhold);
 
             idleTargetComponent.SetPoint(randomPoint);
         }

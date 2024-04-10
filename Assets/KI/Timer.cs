@@ -6,7 +6,7 @@ namespace KI
 {
     public class Timer
     {
-        float duration;
+        readonly float duration;
         float endTime;
         public Timer(float _duration)
         {
@@ -20,7 +20,6 @@ namespace KI
 
         public bool CheckTimer()
         {
-            //return (Time.time - endTime) <= 0.01f;
             return Mathf.Approximately(Time.time, endTime);
         }
     }

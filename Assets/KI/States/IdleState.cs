@@ -7,12 +7,11 @@ namespace KI
 {
     public class IdleState : AnimationState
     {
-        Timer timer;
-        NavMeshAgent agent;
-
-        Action onIdleExit;
-
+        readonly Timer timer;
+        readonly NavMeshAgent agent;
         public bool IsTimerFinished;
+        static readonly int isIdle = Animator.StringToHash("isIdle");
+
         public IdleState(Timer _timer, NavMeshAgent _agent, Animator _animator) : base(_animator)
         {
             timer = _timer;
@@ -21,14 +20,14 @@ namespace KI
 
         public override void StateEnter()
         {
-            animator.SetBool(IsIdle, true);
+            animator.SetBool(isIdle, true);
             timer.StartTimer();
             agent.ResetPath();
         }
 
         public override void StateExit()
         {
-            animator.SetBool(IsIdle, false);
+            animator.SetBool(isIdle, false);
             IsTimerFinished = false;
         }
 

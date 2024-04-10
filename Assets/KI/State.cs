@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class State
 {
-    protected readonly List<Transition> Transitions;
-    
+    readonly List<Transition> Transitions;
+
     protected State()
     {
         Transitions = new List<Transition>();
@@ -13,17 +13,14 @@ public abstract class State
 
     public virtual void StateEnter()
     {
-        
     }
 
     public virtual void StateExit()
     {
-        
     }
 
     public virtual void Tick()
     {
-        
     }
 
     public void AddTransition(Transition _transition)
@@ -41,8 +38,8 @@ public abstract class State
                 return true;
             }
         }
+
         _nextState = null;
         return false;
     }
-    
 }

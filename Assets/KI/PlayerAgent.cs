@@ -4,26 +4,28 @@ using UnityEngine.AI;
 
 namespace KI
 {
-    [RequireComponent(typeof(NavMeshAgent))]
-    public class PlayerAgent : MonoBehaviour
+    public class PlayerAgent : Agent
     {
-        NavMeshAgent agent;
-        float moveSpeed;
         StateMachine stateMachine;
 
 
-        void Awake()
+        protected override void Awake()
         {
-            agent = GetComponent<NavMeshAgent>();
-            var idleState = new PlayerIdleState(agent);
+            base.Awake();
+            var idleState = new PlayerIdleState(NavMeshAgent);
             var walkingState = new PlayerWalkingState();
             stateMachine = new StateMachine(idleState);
 
-            var idleToWalk = new Transition(walkingState, () => agent.hasPath);
-            var walkToIdle = new Transition(idleState, () => agent.hasPath == false);
+            var idleToWalk = new Transition(walkingState, () => NavMeshAgent.hasPath);
+            var walkToIdle = new Transition(idleState, () => NavMeshAgent.hasPath == false);
 
             idleState.AddTransition(idleToWalk);
             walkingState.AddTransition(walkToIdle);
+        }
+
+        protected override bool FindTarget(float _radius)
+        {
+            throw new NotImplementedException();
         }
 
         void FixedUpdate()

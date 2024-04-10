@@ -9,6 +9,9 @@ namespace KI
         readonly NavMeshAgent agent;
         readonly TargetComponent target;
         const float RecalculationDistance = 0.5f;
+        static readonly int isWalking = Animator.StringToHash("isWalking");
+        static readonly int currentVelocityX = Animator.StringToHash("CurrentVelocityX");
+        static readonly int currentVelocityZ = Animator.StringToHash("CurrentVelocityZ");
 
         public WalkToPointState(NavMeshAgent _agent, TargetComponent _target, Animator _animator) : base(_animator)
         {
@@ -18,13 +21,13 @@ namespace KI
 
         public override void StateEnter()
         {
-            animator.SetBool(IsWalking, true);
+            animator.SetBool(isWalking, true);
             agent.SetDestination(target.TargetPosition);
         }
 
         public override void StateExit()
         {
-            animator.SetBool(IsWalking, false);
+            animator.SetBool(isWalking, false);
             // Debug.Log("Exit Chase");
         }
 
@@ -34,8 +37,9 @@ namespace KI
             {
                 agent.SetDestination(target.TargetPosition);
             }
-            animator.SetFloat(CurrentVelocityX, agent.velocity.x);
-            animator.SetFloat(CurrentVelocityZ, agent.velocity.z);
+
+            animator.SetFloat(currentVelocityX, agent.velocity.x);
+            animator.SetFloat(currentVelocityZ, agent.velocity.z);
         }
     }
 }
