@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Linq;
+using CombatSystems;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 
 namespace KI
 {
     public class PlayerAgent : Agent
     {
+        [SerializeField] public LayerMask enemyMask;
         StateMachine stateMachine;
 
 
@@ -14,7 +18,7 @@ namespace KI
             base.Awake();
             var idleState = new PlayerIdleState(NavMeshAgent);
             var walkingState = new PlayerWalkingState();
-            stateMachine = new StateMachine(idleState);
+            stateMachine = new StateMachine(idleState, gameObject);
 
             var idleToWalk = new Transition(walkingState, () => NavMeshAgent.hasPath);
             var walkToIdle = new Transition(idleState, () => NavMeshAgent.hasPath == false);
@@ -32,5 +36,6 @@ namespace KI
         {
             stateMachine.CheckSwapState();
         }
+
     }
 }

@@ -10,13 +10,16 @@ namespace KI
     public abstract class Agent : MonoBehaviour, IHitable
     {
         [SerializeField] protected float MoveSpeed;
-        [SerializeField] protected float AttackRange;
+        [SerializeField] public float AttackRange;
+        [SerializeField] public float AttackDamage;
+        HealthSystem HealthSystem;
         protected TargetComponent TargetComponent;
         protected NavMeshAgent NavMeshAgent;
         protected Animator Animator;
-        protected HealthSystem HealthSystem;
+        protected bool IsAggro;
+
         protected float DistanceToTarget => Vector3.Distance(transform.position, TargetComponent.TargetPosition) - NavMeshAgent.stoppingDistance;
-        
+
         protected virtual void Awake()
         {
             NavMeshAgent = GetComponent<NavMeshAgent>();
@@ -28,17 +31,22 @@ namespace KI
 
         public virtual void TakeDamage(float _value)
         {
-           // HealthSystem.ReduceHp(_value);
+            HealthSystem.ReduceCurrentHP(_value);
+            if (HealthSystem.IsDead) return;
+            Debug.Log($"Aua! Ich habe noch {HealthSystem.CurrentHP} von maximal {HealthSystem.MaxHP} Leben!");
         }
 
-        public virtual void OnHit()
+        public virtual void OnHit(Agent _attackingAgent)
         {
-            throw new System.NotImplementedException();
+            TargetComponent.SetTarget(_attackingAgent.transform);
+            TakeDamage(_attackingAgent.AttackDamage);
+            IsAggro = true;
         }
 
         public virtual void OnDeath()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Ich bin tot :( ");
+            Destroy(gameObject);
         }
     }
 }

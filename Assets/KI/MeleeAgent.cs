@@ -4,7 +4,6 @@ using UnityEngine.AI;
 
 namespace KI
 {
-    
     public class MeleeAgent : Agent
     {
         TargetComponent idleTargetComponent;
@@ -29,9 +28,9 @@ namespace KI
             State returnToPointState = new WalkToPointState(NavMeshAgent, idleTargetComponent, Animator);
             State patrolState = new PatrolState(NavMeshAgent, idleTargetComponent, Animator, RecalculatePatrolPoint);
             State attackState = new AttackState(Animator);
-            stateMachine = new StateMachine(idleState);
+            stateMachine = new StateMachine(idleState,gameObject);
 
-            var anyToChase = new Transition(chaseState, () => FindTarget(searchRadius));
+            var anyToChase = new Transition(chaseState, () => FindTarget(searchRadius) || IsAggro);
             var idleToPatrol = new Transition(patrolState, () => idleState.IsTimerFinished == true);
             var movingToIdle = new Transition(idleState, () => NavMeshAgent.remainingDistance < NavMeshAgent.stoppingDistance);
             var anyToReturn = new Transition(returnToPointState, () => FindTarget(searchRadius) == false && attackDone);
@@ -46,22 +45,21 @@ namespace KI
 
             idleState.AddTransition(anyToChase);
             idleState.AddTransition(idleToPatrol);
-            
+
             chaseState.AddTransition(anyToReturn);
             chaseState.AddTransition(toAttack);
-            
+
             returnToPointState.AddTransition(movingToIdle);
             returnToPointState.AddTransition(anyToChase);
-            
+
             patrolState.AddTransition(movingToIdle);
             patrolState.AddTransition(anyToChase);
-            
+
             attackState.AddTransition(anyToReturn);
             attackState.AddTransition(attackToChase);
             attackState.AddTransition(attackToAttack);
         }
 
-        
 
         void FixedUpdate()
         {
@@ -74,10 +72,10 @@ namespace KI
             if (overlap.Length > 0)
             {
                 TargetComponent.SetTarget(overlap[0].transform);
-                
                 return true;
             }
 
+            IsAggro = false;
             return false;
         }
 
