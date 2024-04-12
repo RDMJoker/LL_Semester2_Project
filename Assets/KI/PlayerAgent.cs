@@ -11,17 +11,24 @@ namespace KI
     {
         [SerializeField] public LayerMask enemyMask;
         StateMachine stateMachine;
+        public bool IsWalking;
 
 
         protected override void Awake()
         {
             base.Awake();
+            TargetComponent = new TargetComponent();
             var idleState = new PlayerIdleState(NavMeshAgent);
-            var walkingState = new PlayerWalkingState();
+            var walkingState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
             stateMachine = new StateMachine(idleState, gameObject);
 
-            var idleToWalk = new Transition(walkingState, () => NavMeshAgent.hasPath);
-            var walkToIdle = new Transition(idleState, () => NavMeshAgent.hasPath == false);
+            var idleToWalk = new Transition(walkingState, () => IsWalking);
+            var walkToIdle = new Transition(idleState, () =>
+            {
+                if (NavMeshAgent.hasPath) return false;
+                IsWalking = false;
+                return true;
+            });
 
             idleState.AddTransition(idleToWalk);
             walkingState.AddTransition(walkToIdle);
@@ -37,5 +44,9 @@ namespace KI
             stateMachine.CheckSwapState();
         }
 
+        public void SetTargetComponentPosition(Vector3 _position)
+        {
+            TargetComponent.SetPoint(_position);
+        }
     }
 }

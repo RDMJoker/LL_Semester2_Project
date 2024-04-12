@@ -25,7 +25,9 @@ public class PlayerInputs : MonoBehaviour
             RaycastHit raycastHit;
             if (Physics.Raycast(cameraRay, out raycastHit))
             {
-                navMeshAgent.SetDestination(raycastHit.point);
+                playerAgent.SetTargetComponentPosition(raycastHit.point);
+                playerAgent.IsWalking = true;
+
             }
         }
     }

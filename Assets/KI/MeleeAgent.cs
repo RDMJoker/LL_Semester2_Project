@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 namespace KI
@@ -33,7 +32,7 @@ namespace KI
             var anyToChase = new Transition(chaseState, () => FindTarget(searchRadius) || IsAggro);
             var idleToPatrol = new Transition(patrolState, () => idleState.IsTimerFinished == true);
             var movingToIdle = new Transition(idleState, () => NavMeshAgent.remainingDistance < NavMeshAgent.stoppingDistance);
-            var anyToReturn = new Transition(returnToPointState, () => FindTarget(searchRadius) == false && attackDone);
+            var chaseToReturn = new Transition(returnToPointState, () => FindTarget(searchRadius) == false);
             var toAttack = new Transition(attackState, () =>
             {
                 if (!(DistanceToTarget <= AttackRange)) return false;
@@ -42,11 +41,12 @@ namespace KI
             });
             var attackToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange && attackDone);
             var attackToAttack = new Transition(attackState, () => attackDone);
+            var attackToReturn = new Transition(returnToPointState, () => FindTarget(searchRadius) == false && attackDone);
 
             idleState.AddTransition(anyToChase);
             idleState.AddTransition(idleToPatrol);
 
-            chaseState.AddTransition(anyToReturn);
+            chaseState.AddTransition(chaseToReturn);
             chaseState.AddTransition(toAttack);
 
             returnToPointState.AddTransition(movingToIdle);
@@ -55,7 +55,7 @@ namespace KI
             patrolState.AddTransition(movingToIdle);
             patrolState.AddTransition(anyToChase);
 
-            attackState.AddTransition(anyToReturn);
+            attackState.AddTransition(attackToReturn);
             attackState.AddTransition(attackToChase);
             attackState.AddTransition(attackToAttack);
         }

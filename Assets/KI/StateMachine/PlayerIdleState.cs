@@ -16,7 +16,6 @@ namespace KI
 
         public override void StateEnter()
         {
-           //Debug.Log("I enter idle");
            agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
         }
 
@@ -27,7 +26,6 @@ namespace KI
 
         public override void Tick()
         {
-            //Debug.Log("Me warte");
             agent.velocity = Vector3.zero;
         }
     }

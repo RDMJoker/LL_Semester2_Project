@@ -10,8 +10,6 @@ namespace KI
         readonly TargetComponent target;
         const float RecalculationDistance = 0.5f;
         static readonly int isWalking = Animator.StringToHash("isWalking");
-        static readonly int currentVelocityX = Animator.StringToHash("CurrentVelocityX");
-        static readonly int currentVelocityZ = Animator.StringToHash("CurrentVelocityZ");
 
         public WalkToPointState(NavMeshAgent _agent, TargetComponent _target, Animator _animator) : base(_animator)
         {
@@ -37,9 +35,6 @@ namespace KI
             {
                 agent.SetDestination(target.TargetPosition);
             }
-
-            animator.SetFloat(currentVelocityX, agent.velocity.x);
-            animator.SetFloat(currentVelocityZ, agent.velocity.z);
         }
     }
 }
