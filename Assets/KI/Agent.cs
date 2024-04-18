@@ -18,7 +18,8 @@ namespace KI
         protected Animator Animator;
         protected bool IsAggro;
 
-        protected float DistanceToTarget => Vector3.Distance(transform.position, TargetComponent.TargetPosition) - NavMeshAgent.stoppingDistance;
+        protected float DistanceToTarget => Vector3.Distance(transform.position, TargetComponent.TargetPosition);
+
 
         protected virtual void Awake()
         {
@@ -29,7 +30,7 @@ namespace KI
 
         protected abstract bool FindTarget(float _radius);
 
-        public virtual void TakeDamage(float _value)
+        public virtual void TakeDamage(float _value, GameObject _hitter)
         {
             HealthSystem.ReduceCurrentHP(_value);
             if (HealthSystem.IsDead) return;
@@ -39,7 +40,7 @@ namespace KI
         public virtual void OnHit(Agent _attackingAgent)
         {
             TargetComponent.SetTarget(_attackingAgent.transform);
-            TakeDamage(_attackingAgent.AttackDamage);
+            TakeDamage(_attackingAgent.AttackDamage, gameObject);
             IsAggro = true;
         }
 

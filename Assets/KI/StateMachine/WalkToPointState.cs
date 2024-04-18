@@ -20,6 +20,7 @@ namespace KI
         public override void StateEnter()
         {
             animator.SetBool(isWalking, true);
+            agent.transform.LookAt(target.TargetPosition);
             agent.SetDestination(target.TargetPosition);
         }
 

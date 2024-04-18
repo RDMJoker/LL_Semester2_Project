@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Linq;
-using CombatSystems;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.InputSystem;
 
 namespace KI
 {

@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace KI
 {
@@ -27,7 +30,8 @@ namespace KI
             State returnToPointState = new WalkToPointState(NavMeshAgent, idleTargetComponent, Animator);
             State patrolState = new PatrolState(NavMeshAgent, idleTargetComponent, Animator, RecalculatePatrolPoint);
             State attackState = new AttackState(Animator);
-            stateMachine = new StateMachine(idleState,gameObject);
+            State rotateToPlayerState = new RotateToPlayerState(Animator, TargetComponent, NavMeshAgent);
+            stateMachine = new StateMachine(idleState, gameObject);
 
             var anyToChase = new Transition(chaseState, () => FindTarget(searchRadius) || IsAggro);
             var idleToPatrol = new Transition(patrolState, () => idleState.IsTimerFinished == true);
@@ -40,8 +44,19 @@ namespace KI
                 return true;
             });
             var attackToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange && attackDone);
-            var attackToAttack = new Transition(attackState, () => attackDone);
+            // var attackToAttack = new Transition(attackState, () => attackDone);
             var attackToReturn = new Transition(returnToPointState, () => FindTarget(searchRadius) == false && attackDone);
+            var attackToRotate = new Transition(rotateToPlayerState, () =>
+            {
+                var dotProduct = Vector3.Dot(transform.forward, (TargetComponent.TargetPosition - transform.position).normalized);
+                return dotProduct < 0.9f && attackDone;
+            });
+            var rotateToAttack = new Transition(attackState, () =>
+            {
+                var dotProduct = Vector3.Dot(transform.forward, (TargetComponent.TargetPosition - transform.position).normalized);
+                return dotProduct > 0.9f;
+            });
+            var rotateToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange);
 
             idleState.AddTransition(anyToChase);
             idleState.AddTransition(idleToPatrol);
@@ -57,7 +72,11 @@ namespace KI
 
             attackState.AddTransition(attackToReturn);
             attackState.AddTransition(attackToChase);
-            attackState.AddTransition(attackToAttack);
+            // attackState.AddTransition(attackToAttack);
+            attackState.AddTransition(attackToRotate);
+
+            rotateToPlayerState.AddTransition(rotateToChase);
+            rotateToPlayerState.AddTransition(rotateToAttack);
         }
 
 
@@ -95,17 +114,21 @@ namespace KI
         void OnDrawGizmos()
         {
             Gizmos.color = Color.black;
-            Gizmos.DrawSphere(transform.position, 5f);
+            Gizmos.DrawWireSphere(transform.position, 5f);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(transform.position + Vector3.up, AttackRange);
+        }
+        
+        
+
+        void AttackStart()
+        {
+            attackDone = false;
         }
 
         void AttackDone()
         {
             attackDone = true;
-        }
-
-        void AttackStart()
-        {
-            attackDone = false;
         }
     }
 }
