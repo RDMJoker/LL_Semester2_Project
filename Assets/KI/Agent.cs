@@ -39,7 +39,7 @@ namespace KI
 
         public virtual void OnHit(Agent _attackingAgent)
         {
-            TargetComponent.SetTarget(_attackingAgent.transform);
+            
             TakeDamage(_attackingAgent.AttackDamage, gameObject);
         }
 

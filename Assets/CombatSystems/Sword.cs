@@ -4,16 +4,14 @@ using UnityEngine;
 
 namespace CombatSystems
 {
-    public class Sword : Weapon
+    public class Sword : MeleeWeapon
     {
-        Agent weaponHolder;
-
         void Awake()
         {
             weaponHolder = GetComponentInParent<Agent>();
         }
 
-        void DoDamage(IHitable _target)
+        public override void DoDamage(IHitable _target)
         {
             _target.TakeDamage(weaponHolder.AttackDamage, weaponHolder.gameObject);
         }

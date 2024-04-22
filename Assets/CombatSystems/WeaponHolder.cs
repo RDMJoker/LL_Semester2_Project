@@ -22,5 +22,17 @@ namespace CombatSystems
         {
             hitBox.enabled = false;
         }
+
+        public void UseWeapon()
+        {
+            switch (weapon)
+            {
+                case RangedWeapon rangedWeapon:
+                    rangedWeapon.Shoot();
+                    break;
+                case MeleeWeapon meleeWeapon:
+                    break;
+            }
+        }
     }
 }

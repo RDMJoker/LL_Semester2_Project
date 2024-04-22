@@ -31,15 +31,15 @@ namespace KI
             var toAttack = new Transition(attackState, () =>
             {
                 if (!(DistanceToTarget < AttackRange)) return false;
-                base.AttackDone = false;
+                AttackDone = false;
                 return true;
             });
-            var attackToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange && base.AttackDone);
-            var attackToReturn = new Transition(returnToPointState, () => FindTarget(SearchRadius) == false && base.AttackDone);
+            var attackToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange && AttackDone);
+            var attackToReturn = new Transition(returnToPointState, () => FindTarget(SearchRadius) == false && AttackDone);
             var attackToRotate = new Transition(rotateToPlayerState, () =>
             {
                 var dotProduct = Vector3.Dot(transform.forward, (TargetComponent.TargetPosition - transform.position).normalized);
-                return dotProduct < 0.9f && base.AttackDone;
+                return dotProduct < 0.9f && AttackDone;
             });
             var rotateToAttack = new Transition(attackState, () =>
             {
@@ -76,7 +76,7 @@ namespace KI
 
         protected override bool FindTarget(float _radius)
         {
-            var overlap = Physics.OverlapSphere(this.transform.position, SearchRadius, LayerMask);
+            var overlap = Physics.OverlapSphere(transform.position, SearchRadius, LayerMask);
             if (overlap.Length > 0)
             {
                 TargetComponent.SetTarget(overlap[0].transform);
@@ -111,12 +111,12 @@ namespace KI
 
         void AttackStart()
         {
-            base.AttackDone = false;
+            AttackDone = false;
         }
 
-        void AttackDone()
+        void SetAttackDone()
         {
-            base.AttackDone = true;
+            AttackDone = true;
         }
     }
 }
