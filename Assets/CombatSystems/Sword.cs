@@ -6,34 +6,21 @@ namespace CombatSystems
 {
     public class Sword : Weapon
     {
-        [SerializeField] float damage;
-        GameObject weaponHolder;
-        
-
-
-        public override float Damage
-        {
-            get => damage;
-            protected set
-            {
-                if (Math.Abs(value - damage) < 0.01) return;
-                damage = value;
-            }
-        }
+        Agent weaponHolder;
 
         void Awake()
         {
-            weaponHolder = GetComponentInParent<Agent>().gameObject;
+            weaponHolder = GetComponentInParent<Agent>();
         }
 
         void DoDamage(IHitable _target)
         {
-            _target.TakeDamage(damage,weaponHolder);
+            _target.TakeDamage(weaponHolder.AttackDamage, weaponHolder.gameObject);
         }
 
         void OnTriggerEnter(Collider _collider)
         {
-            if (_collider.TryGetComponent(out IHitable target) && _collider.gameObject != weaponHolder)
+            if (_collider.TryGetComponent(out IHitable target))
             {
                 DoDamage(target);
             }

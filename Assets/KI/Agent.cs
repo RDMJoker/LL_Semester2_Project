@@ -16,7 +16,7 @@ namespace KI
         protected TargetComponent TargetComponent;
         protected NavMeshAgent NavMeshAgent;
         protected Animator Animator;
-        protected bool IsAggro;
+        
 
         protected float DistanceToTarget => Vector3.Distance(transform.position, TargetComponent.TargetPosition);
 
@@ -41,7 +41,6 @@ namespace KI
         {
             TargetComponent.SetTarget(_attackingAgent.transform);
             TakeDamage(_attackingAgent.AttackDamage, gameObject);
-            IsAggro = true;
         }
 
         public virtual void OnDeath()
