@@ -31,6 +31,7 @@ namespace KI
             var toAttack = new Transition(attackState, () =>
             {
                 if (!(DistanceToTarget < AttackRange)) return false;
+                NavMeshAgent.ResetPath();
                 AttackDone = false;
                 return true;
             });
@@ -103,7 +104,7 @@ namespace KI
         void OnDrawGizmos()
         {
             Gizmos.color = Color.black;
-            Gizmos.DrawWireSphere(transform.position, 5f);
+            Gizmos.DrawWireSphere(transform.position, SearchRadius);
             // Gizmos.color = Color.yellow;
             // Gizmos.DrawSphere(transform.position + Vector3.up, AttackRange);
         }

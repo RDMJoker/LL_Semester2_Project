@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace CombatSystems
 {
+    [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
     public class Projectile : MonoBehaviour
     {
         [SerializeField] float flightDuration;
@@ -28,13 +29,29 @@ namespace CombatSystems
             if (destructionTimer.CheckTimer()) Destroy(gameObject);
         }
 
-        void OnTriggerEnter(Collider _collider)
+        // void OnTriggerEnter(Collider _collider)
+        // {
+        //     if (didDamage) return;
+        //     if (_collider.TryGetComponent(out IHitable target))
+        //     {
+        //         didDamage = true;
+        //         weapon.DoDamage(target);
+        //         Destroy(gameObject);
+        //     }
+        // }
+
+        void OnCollisionEnter(Collision _collision)
         {
             if (didDamage) return;
-            if (_collider.TryGetComponent(out IHitable target))
+            if (_collision.gameObject.TryGetComponent(out IHitable target))
             {
                 didDamage = true;
                 weapon.DoDamage(target);
+                Destroy(gameObject);
+            }
+            else
+            {
+                
             }
         }
     }

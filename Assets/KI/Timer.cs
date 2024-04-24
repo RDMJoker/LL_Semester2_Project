@@ -20,7 +20,7 @@ namespace KI
 
         public bool CheckTimer()
         {
-            return Mathf.Approximately(Time.time, endTime);
+            return Time.time > endTime;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace CombatSystems
 {
@@ -6,8 +7,7 @@ namespace CombatSystems
     {
         [SerializeField] Projectile ammunitionPrefab;
         [SerializeField] float projectileSpeed;
-        
-        
+
         public override void DoDamage(IHitable _target)
         {
             _target.TakeDamage(weaponHolder.AttackDamage, weaponHolder.gameObject);
@@ -15,8 +15,8 @@ namespace CombatSystems
 
         public override void Shoot()
         {
-            var projectile = Instantiate(ammunitionPrefab, weaponHolder.transform.position, Quaternion.identity);
-            projectile.GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed, ForceMode.Impulse);
+            var projectile = Instantiate(ammunitionPrefab, transform.position, Quaternion.LookRotation(weaponHolder.transform.forward));
+            projectile.gameObject.GetComponent<Rigidbody>().AddForce(weaponHolder.transform.forward * projectileSpeed, ForceMode.Impulse);
             projectile.SetWeaponReference(this);
         }
     }

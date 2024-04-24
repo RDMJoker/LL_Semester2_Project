@@ -1,4 +1,5 @@
-﻿using KI;
+﻿using System;
+using KI;
 using UnityEngine;
 
 namespace CombatSystems
@@ -7,5 +8,10 @@ namespace CombatSystems
     {
         protected Agent weaponHolder;
         public abstract void DoDamage(IHitable _target);
+
+        protected void Awake()
+        {
+            weaponHolder = GetComponentInParent<Agent>();
+        }
     }
 }
