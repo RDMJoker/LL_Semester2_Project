@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7582005312561621656}
   - component: {fileID: 1959319320901670555}
   - component: {fileID: 5100796176814056764}
+  - component: {fileID: 737601381562459101}
+  - component: {fileID: 3251794318404381130}
   m_Layer: 6
   m_Name: EnemyArrow
   m_TagString: Untagged
@@ -98,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b1900463e8b4ec5b1f1664ac7d81695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flightDuration: 5
+  aliveDuration: 5
 --- !u!54 &1959319320901670555
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -115,7 +117,7 @@ Rigidbody:
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -145,5 +147,47 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.06678635, y: 0.0881674, z: 0.95222783}
-  m_Center: {x: 0.005903095, y: 0.0069678277, z: -0.00073982775}
+  m_Size: {x: 0.06678635, y: 0.0881674, z: 0.90414786}
+  m_Center: {x: 0.005903095, y: 0.0069678277, z: -0.024779812}
+--- !u!114 &737601381562459101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52636661473774556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 626516a9f11642199aa1ba27b28d0929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Duration: 0
+  OnTimerDone:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 737601381562459101}
+        m_TargetAssemblyTypeName: KI.GenericTimerScript, Assembly-CSharp
+        m_MethodName: DestroyGameObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  AutoStart: 0
+--- !u!114 &3251794318404381130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52636661473774556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f680262aa1c744bea49d74c7f00e0cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axis: {x: 0, y: 0, z: 1}

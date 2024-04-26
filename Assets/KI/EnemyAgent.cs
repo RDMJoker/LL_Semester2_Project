@@ -17,7 +17,7 @@ namespace KI
 
         void OnValidate()
         {
-            PatrolPointDistanceThreshhold = Mathf.Clamp(PatrolPointDistanceThreshhold, 1, PatrolRange);
+            PatrolPointDistanceThreshhold = Mathf.Clamp(PatrolPointDistanceThreshhold, 1, PatrolRange - 1);
         }
 
         public override void OnHit(Agent _attackingAgent)
@@ -27,6 +27,4 @@ namespace KI
             base.OnHit(_attackingAgent);
         }
     }
-    
-    
 }
