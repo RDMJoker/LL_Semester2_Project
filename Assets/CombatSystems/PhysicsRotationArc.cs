@@ -7,8 +7,6 @@ namespace CombatSystems
     {
         Rigidbody referenceRigidbody;
 
-        [SerializeField] Vector3 axis;
-
         void Awake()
         {
             referenceRigidbody = GetComponent<Rigidbody>();
@@ -18,7 +16,7 @@ namespace CombatSystems
         {
             if (referenceRigidbody.velocity.magnitude > 0)
             {
-                transform.forward = transform.InverseTransformDirection(axis) + referenceRigidbody.velocity;
+                transform.forward = referenceRigidbody.velocity;
             }
         }
     }

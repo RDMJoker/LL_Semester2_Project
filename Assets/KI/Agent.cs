@@ -9,9 +9,9 @@ namespace KI
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator), typeof(HealthSystem))]
     public abstract class Agent : MonoBehaviour, IHitable
     {
-        [SerializeField] protected float MoveSpeed;
         [SerializeField] public float AttackRange;
         [SerializeField] public float AttackDamage;
+        [SerializeField][Min(0.01f)] public float AttackSpeed;
         HealthSystem HealthSystem;
         protected TargetComponent TargetComponent;
         protected NavMeshAgent NavMeshAgent;

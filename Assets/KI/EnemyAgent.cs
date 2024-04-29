@@ -8,7 +8,8 @@ namespace KI
         protected TargetComponent IdleTargetComponent;
         [SerializeField] protected float IdleDuration;
         [SerializeField] protected float SearchRadius;
-        [SerializeField] protected LayerMask LayerMask;
+        [SerializeField] protected LayerMask DetectionMask;
+        [SerializeField] protected LayerMask DetectionObstructionMask;
         [SerializeField] protected float PatrolRange;
         [SerializeField] protected float PatrolPointDistanceThreshhold;
         protected Vector3 PatrolRadiusCenter;

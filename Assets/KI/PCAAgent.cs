@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
 
@@ -21,7 +22,7 @@ namespace KI
             State chaseState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
             State returnToPointState = new WalkToPointState(NavMeshAgent, IdleTargetComponent, Animator);
             State patrolState = new PatrolState(NavMeshAgent, IdleTargetComponent, Animator, RecalculatePatrolPoint);
-            State attackState = new AttackState(Animator);
+            State attackState = new AttackState(Animator, this);
             // State rotateToPlayerState = new RotateToPlayerState(Animator, TargetComponent, NavMeshAgent);
             stateMachine = new StateMachine(idleState, gameObject);
 
@@ -73,16 +74,16 @@ namespace KI
 
         void FixedUpdate()
         {
-            
             stateMachine.CheckSwapState();
-            // attackspeed / animation lenght = paramter für animationSpeed
         }
 
         protected override bool FindTarget(float _radius)
         {
-            var overlap = Physics.OverlapSphere(transform.position, SearchRadius, LayerMask);
+            var overlap = Physics.OverlapSphere(transform.position, SearchRadius, DetectionMask);
             if (overlap.Length > 0)
             {
+                bool obstruction = Physics.Raycast(transform.position + (transform.up * 0.75f), (overlap[0].transform.position - transform.position).normalized, SearchRadius, DetectionObstructionMask);
+                if (obstruction) return false;
                 TargetComponent.SetTarget(overlap[0].transform);
                 return true;
             }
@@ -99,7 +100,6 @@ namespace KI
                 var unitSphere = Random.insideUnitSphere * PatrolRange;
                 randomPoint = new Vector3(unitSphere.x, 0, unitSphere.z);
                 randomPoint += PatrolRadiusCenter;
-                
             } while (!NavMesh.SamplePosition(randomPoint, out _, NavMeshAgent.radius * 2, NavMeshAgent.areaMask) || Vector3.Distance(transform.position, randomPoint) < PatrolPointDistanceThreshhold);
 
             IdleTargetComponent.SetPoint(randomPoint);
