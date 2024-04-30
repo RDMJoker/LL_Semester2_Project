@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace KI
@@ -12,9 +13,34 @@ namespace KI
         [SerializeField] protected LayerMask DetectionObstructionMask;
         [SerializeField] protected float PatrolRange;
         [SerializeField] protected float PatrolPointDistanceThreshhold;
+        [SerializeField] protected float aggroDuration;
         protected Vector3 PatrolRadiusCenter;
         protected bool AttackDone;
-        protected bool IsAggro;
+        bool isAggro;
+        Timer aggroTimer;
+
+        protected bool IsAggro
+        {
+            get => isAggro;
+            set
+            {
+                Debug.Log($"Current isAggro: {isAggro} -> Value IsAggro: {value}");
+                if (value == isAggro) return;
+                if (value)
+                {
+                    aggroTimer = new Timer(aggroDuration);
+                    aggroTimer.StartTimer();
+                }
+
+                isAggro = value;
+            }
+        }
+
+        protected void CheckAggroState()
+        {
+            if (aggroTimer != null) IsAggro = !aggroTimer.CheckTimer();
+        }
+
 
         void OnValidate()
         {

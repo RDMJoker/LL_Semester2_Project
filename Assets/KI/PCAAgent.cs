@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.EventSystems;
-using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
 
 namespace KI
@@ -29,16 +27,16 @@ namespace KI
             var anyToChase = new Transition(chaseState, () => FindTarget(SearchRadius) || IsAggro);
             var idleToPatrol = new Transition(patrolState, () => idleState.IsTimerFinished == true);
             var movingToIdle = new Transition(idleState, () => NavMeshAgent.remainingDistance < NavMeshAgent.stoppingDistance);
-            var chaseToReturn = new Transition(returnToPointState, () => FindTarget(SearchRadius) == false);
+            var chaseToReturn = new Transition(returnToPointState, () => FindTarget(SearchRadius) == false && !IsAggro);
             var toAttack = new Transition(attackState, () =>
             {
-                if (!(DistanceToTarget < AttackRange)) return false;
+                if (DistanceToTarget >= AttackRange) return false;
                 NavMeshAgent.ResetPath();
                 AttackDone = false;
                 return true;
             });
             var attackToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange && AttackDone);
-            var attackToReturn = new Transition(returnToPointState, () => FindTarget(SearchRadius) == false && AttackDone);
+            var attackToReturn = new Transition(returnToPointState, () => FindTarget(SearchRadius) == false && AttackDone && !IsAggro);
 
             // var attackToRotate = new Transition(rotateToPlayerState, () =>
             // {
@@ -73,9 +71,11 @@ namespace KI
         }
 
 
-        void FixedUpdate()
+          void FixedUpdate()
         {
+            CheckAggroState();
             stateMachine.CheckSwapState();
+            
         }
 
         protected override bool FindTarget(float _radius)
@@ -83,13 +83,12 @@ namespace KI
             var overlap = Physics.OverlapSphere(transform.position, SearchRadius, DetectionMask);
             if (overlap.Length > 0)
             {
+                if(!IsAggro) IsAggro = true;
                 bool obstruction = Physics.Raycast(transform.position + (transform.up * 0.75f), (overlap[0].transform.position - transform.position).normalized, SearchRadius, DetectionObstructionMask);
                 if (obstruction) return false;
                 TargetComponent.SetTarget(overlap[0].transform);
                 return true;
             }
-
-            IsAggro = false;
             return false;
         }
 
