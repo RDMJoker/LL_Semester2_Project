@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using KI;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class PlayerInputs : MonoBehaviour
     PlayerAgent playerAgent;
     bool hasInput;
     Vector2 mousePosition;
+
     void Awake()
     {
         playerAgent = GetComponent<PlayerAgent>();
@@ -26,7 +28,6 @@ public class PlayerInputs : MonoBehaviour
             {
                 playerAgent.SetTargetComponentPosition(raycastHit.point);
                 playerAgent.IsWalking = true;
-
             }
         }
     }

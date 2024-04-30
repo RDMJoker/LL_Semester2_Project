@@ -44,5 +44,12 @@ namespace KI
         {
             TargetComponent.SetPoint(_position);
         }
+
+        void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position + Vector3.up, AttackRange);
+
+        }
     }
 }

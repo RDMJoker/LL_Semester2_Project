@@ -34,7 +34,7 @@ namespace KI
         {
             HealthSystem.ReduceCurrentHP(_value);
             if (HealthSystem.IsDead) return;
-            Debug.Log($"Aua! Ich habe noch {HealthSystem.CurrentHP} von maximal {HealthSystem.MaxHP} Leben!");
+           // Debug.Log($"Aua! Ich habe noch {HealthSystem.CurrentHP} von maximal {HealthSystem.MaxHP} Leben!");
         }
 
         public virtual void OnHit(Agent _attackingAgent)

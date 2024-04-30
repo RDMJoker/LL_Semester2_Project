@@ -39,17 +39,18 @@ namespace KI
             });
             var attackToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange && AttackDone);
             var attackToReturn = new Transition(returnToPointState, () => FindTarget(SearchRadius) == false && AttackDone);
+
             // var attackToRotate = new Transition(rotateToPlayerState, () =>
             // {
             //     var dotProduct = Vector3.Dot(transform.forward, (TargetComponent.TargetPosition - transform.position).normalized);
             //     return dotProduct < 0.98f && AttackDone;
             // });
-            var rotateToAttack = new Transition(attackState, () =>
-            {
-                var dotProduct = Vector3.Dot(transform.forward, (TargetComponent.TargetPosition - transform.position).normalized);
-                return dotProduct > 0.98f;
-            });
-            var rotateToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange);
+            // var rotateToAttack = new Transition(attackState, () =>
+            // {
+            //     var dotProduct = Vector3.Dot(transform.forward, (TargetComponent.TargetPosition - transform.position).normalized);
+            //     return dotProduct > 0.98f;
+            // });
+            // var rotateToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange);
 
             idleState.AddTransition(anyToChase);
             idleState.AddTransition(idleToPatrol);
