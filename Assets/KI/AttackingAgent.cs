@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 namespace KI
 {
-    public class PCAAgent : EnemyAgent
+    public class AttackingAgent : EnemyAgent
     {
         StateMachine stateMachine;
         IdleState idleState;
@@ -68,9 +68,9 @@ namespace KI
             var overlap = Physics.OverlapSphere(transform.position, SearchRadius, DetectionMask);
             if (overlap.Length > 0)
             {
-                if(!IsAggro) IsAggro = true;
                 bool obstruction = Physics.Raycast(transform.position + (transform.up * 0.75f), (overlap[0].transform.position - transform.position).normalized, SearchRadius, DetectionObstructionMask);
                 if (obstruction) return false;
+                if(!IsAggro) IsAggro = true;
                 TargetComponent.SetTarget(overlap[0].transform);
                 return true;
             }

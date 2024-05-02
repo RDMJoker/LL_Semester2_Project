@@ -1,5 +1,4 @@
-﻿using System;
-using Spawner;
+﻿using Spawner;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -7,8 +6,7 @@ using Random = UnityEngine.Random;
 namespace KI
 {
     
-    //Change name to something else.. FleeAlarm Agent ist voll doof  :( 
-    public class FAAgent : EnemyAgent
+    public class ScoutAgent : EnemyAgent
     {
         AgentSpawner reinforcementSpawner;
         IdleState idleState;
@@ -35,7 +33,7 @@ namespace KI
             var idleToPatrol = new Transition(patrolState, () => idleState.IsTimerFinished == true);
             var movingToIdle = new Transition(idleState, () => NavMeshAgent.remainingDistance < NavMeshAgent.stoppingDistance);
             var anyToRunToSpawner = new Transition(runToSpawnerState, () => FindTarget(SearchRadius) || IsAggro);
-            var runToSpawnerToSummon = new Transition(summonReinforcement, () => NavMeshAgent.remainingDistance <= NavMeshAgent.stoppingDistance);
+            var runToSpawnerToSummon = new Transition(summonReinforcement, () => Vector3.Distance(transform.position,TargetComponent.TargetPosition)<= NavMeshAgent.stoppingDistance);
             var summonToRunaway = new Transition(runAwayState, () => true);
             var destruction = new Transition(idleState, () =>
             {
@@ -64,12 +62,10 @@ namespace KI
             var overlap = Physics.OverlapSphere(transform.position, SearchRadius, DetectionMask);
             if (overlap.Length > 0)
             {
-                if (!IsAggro) IsAggro = true;
                 bool obstruction = Physics.Raycast(transform.position + (transform.up * 0.75f), (overlap[0].transform.position - transform.position).normalized, SearchRadius, DetectionObstructionMask);
                 if (obstruction) return false;
-
-
                 TargetComponent.SetTarget(reinforcementSpawner.transform);
+                if (!IsAggro) IsAggro = true;
 
                 return true;
             }
