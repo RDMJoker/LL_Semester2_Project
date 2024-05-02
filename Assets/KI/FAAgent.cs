@@ -11,6 +11,7 @@ namespace KI
         AgentSpawner reinforcementSpawner;
         IdleState idleState;
         StateMachine stateMachine;
+        [SerializeField] float timeTillDestruction;
 
         protected override void Awake()
         {
@@ -20,7 +21,7 @@ namespace KI
             TargetComponent = new TargetComponent();
             IdleTargetComponent = new TargetComponent();
             var idleTimer = new Timer(IdleDuration);
-            var runAwayDestructionTimer = new Timer(10);
+            var runAwayDestructionTimer = new Timer(timeTillDestruction);
             idleState = new IdleState(idleTimer, NavMeshAgent, Animator);
             State patrolState = new PatrolState(NavMeshAgent, IdleTargetComponent, Animator, RecalculatePatrolPoint);
             State runToSpawnerState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
@@ -36,7 +37,10 @@ namespace KI
             var summonToRunaway = new Transition(runAwayState, () => true);
             var destruction = new Transition(idleState, () =>
             {
-                if (runAwayDestructionTimer.CheckTimer()) Destroy(gameObject);
+                if (runAwayDestructionTimer.CheckTimer())
+                {
+                    Destroy(gameObject);
+                }
                 return false;
             });
 

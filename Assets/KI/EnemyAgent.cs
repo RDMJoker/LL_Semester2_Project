@@ -24,7 +24,7 @@ namespace KI
             get => isAggro;
             set
             {
-                Debug.Log($"Current isAggro: {isAggro} -> Value IsAggro: {value}");
+                // Debug.Log($"Current isAggro: {isAggro} -> Value IsAggro: {value}");
                 if (value == isAggro) return;
                 if (value)
                 {

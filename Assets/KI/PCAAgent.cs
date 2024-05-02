@@ -38,18 +38,6 @@ namespace KI
             var attackToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange && AttackDone);
             var attackToReturn = new Transition(returnToPointState, () => FindTarget(SearchRadius) == false && AttackDone && !IsAggro);
 
-            // var attackToRotate = new Transition(rotateToPlayerState, () =>
-            // {
-            //     var dotProduct = Vector3.Dot(transform.forward, (TargetComponent.TargetPosition - transform.position).normalized);
-            //     return dotProduct < 0.98f && AttackDone;
-            // });
-            // var rotateToAttack = new Transition(attackState, () =>
-            // {
-            //     var dotProduct = Vector3.Dot(transform.forward, (TargetComponent.TargetPosition - transform.position).normalized);
-            //     return dotProduct > 0.98f;
-            // });
-            // var rotateToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange);
-
             idleState.AddTransition(anyToChase);
             idleState.AddTransition(idleToPatrol);
 
@@ -64,10 +52,7 @@ namespace KI
 
             attackState.AddTransition(attackToReturn);
             attackState.AddTransition(attackToChase);
-            // attackState.AddTransition(attackToRotate);
 
-            // rotateToPlayerState.AddTransition(rotateToChase);
-            // rotateToPlayerState.AddTransition(rotateToAttack);
         }
 
 
@@ -116,7 +101,7 @@ namespace KI
 
         void AttackStart()
         {
-            NavMeshAgent.transform.LookAt(TargetComponent.TargetPosition);
+            transform.LookAt(new Vector3(TargetComponent.TargetPosition.x, transform.position.y, TargetComponent.TargetPosition.z), Vector3.up);
             AttackDone = false;
         }
 

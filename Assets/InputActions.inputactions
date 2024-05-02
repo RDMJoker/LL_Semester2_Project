@@ -16,8 +16,17 @@
                 },
                 {
                     "name": "MoveTo",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "5b93b5e5-575c-49ec-8caa-72fd2f70da7d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ReadMousePosition",
+                    "type": "Value",
+                    "id": "3ab5c2c7-9130-4ca1-9efd-48e9c04a53f8",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -37,37 +46,26 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "One Modifier",
-                    "id": "45ad053e-5bb0-4226-a1b9-ffccc297f0c9",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveTo",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "20f48525-cc99-499a-bcc2-6f9b1e1b03ca",
+                    "name": "",
+                    "id": "d88a58cb-7452-43c9-a06e-12f26360f809",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "MoveTo",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
-                    "name": "binding",
-                    "id": "9bd3cb59-017e-4f25-9123-ebd1073f0bc2",
+                    "name": "",
+                    "id": "ae28e071-ccd6-4241-a233-09e73117ad73",
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MoveTo",
+                    "action": "ReadMousePosition",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 }
             ]
         }

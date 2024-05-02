@@ -34,7 +34,7 @@ namespace KI
         {
             if (Vector3.Distance(agent.destination, target.TargetPosition) >= RecalculationDistance)
             {
-                agent.SetDestination(target.TargetPosition);
+                if (agent.isActiveAndEnabled) agent.SetDestination(target.TargetPosition);
             }
         }
     }

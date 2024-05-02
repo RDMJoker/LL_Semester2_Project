@@ -15,20 +15,8 @@ namespace Spawner
         [SerializeField] Transform spawnPoint;
         [SerializeField] Vector3 spawnPosition;
         [SerializeField] bool useTransform;
-        [SerializeField] float spawnAmount;
+        [SerializeField][Tooltip("Amount of EACH mobData that gets spawned by this spawner")] float spawnAmount;
         [SerializeField] List<MobDataScriptable> mobData;
-        
-        [Header("AutoSpawn Functions")]
-        [SerializeField] bool autoSpawn;
-
-        [SerializeField] float playerDetectionRange;
-        [SerializeField] LayerMask playerLayer;
-        bool didAutoSpawning;
-
-        void Awake()
-        {
-            if (autoSpawn) StartCoroutine(CheckArea());
-        }
 
         [Button]
         public void TriggerSpawning()
@@ -56,29 +44,6 @@ namespace Spawner
             var instantiatePos = new Vector3(randomPos.x, 0, randomPos.y);
             instantiatePos += _position;
             Instantiate(_agent, instantiatePos, Quaternion.identity);
-        }
-
-        void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, playerDetectionRange);
-        }
-
-        IEnumerator CheckArea()
-        {
-            while (!didAutoSpawning)
-            {
-                Debug.Log("Checking for Player...");
-                var overlap = Physics.OverlapSphere(transform.position, playerDetectionRange, playerLayer);
-                if (overlap.Length > 0)
-                {
-                    TriggerSpawning();
-                    didAutoSpawning = true;
-                    StopAllCoroutines();
-                }
-                
-                yield return new WaitForSeconds(0.25f); 
-            }
         }
     }
 }

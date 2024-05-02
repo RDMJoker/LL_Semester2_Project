@@ -2868,6 +2868,7 @@ GameObject:
   - component: {fileID: 3555714246634696043}
   - component: {fileID: 3118516382967321514}
   - component: {fileID: 4886590869141522981}
+  - component: {fileID: 4767418699947515594}
   m_Layer: 6
   m_Name: SwordEnemy
   m_TagString: Enemy
@@ -2999,6 +3000,7 @@ MonoBehaviour:
     m_Bits: 128
   PatrolRange: 5
   PatrolPointDistanceThreshhold: 4
+  aggroDuration: 5
 --- !u!136 &3555714246634696043
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3048,6 +3050,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 1.5
+--- !u!65 &4767418699947515594
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8294424083578390703}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.1351576, z: 0.87234116}
+  m_Center: {x: 0, y: 1.0239735, z: -0.011816025}
 --- !u!1 &8450595018401466594
 GameObject:
   m_ObjectHideFlags: 0

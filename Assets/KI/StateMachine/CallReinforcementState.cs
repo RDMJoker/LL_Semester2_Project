@@ -1,6 +1,7 @@
 ﻿using Spawner;
 using UnityEngine;
 using UnityEngine.AI;
+using static System.Single;
 
 namespace KI
 {
@@ -25,12 +26,13 @@ namespace KI
             spawner.TriggerSpawning();
             var playerPosition = GameObject.FindWithTag("Player").transform.position;
             var directionToPlayer = playerPosition - agent.transform.position;
-            targetComponent.SetPoint(agent.transform.position + -directionToPlayer * 5f);
+            targetComponent.SetTarget(null);
+            targetComponent.SetPoint(agent.transform.position + -directionToPlayer.normalized * 20f);
         }
 
         public override void StateExit()
         {
-            Debug.Log("Exit Reinforcement State");
+            // Debug.Log("Exit Reinforcement State");
             runawayTimerReference.StartTimer();
         }
 
