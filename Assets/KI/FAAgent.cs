@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 namespace KI
 {
+    
+    //Change name to something else.. FleeAlarm Agent ist voll doof  :( 
     public class FAAgent : EnemyAgent
     {
         AgentSpawner reinforcementSpawner;
@@ -27,7 +29,7 @@ namespace KI
             State runToSpawnerState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
             State runAwayState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
             State summonReinforcement = new CallReinforcementState(Animator, reinforcementSpawner, TargetComponent, NavMeshAgent, runAwayDestructionTimer);
-            stateMachine = new StateMachine(idleState, gameObject);
+            stateMachine = new StateMachine(idleState, gameObject,StateMachineDebugMode);
 
 
             var idleToPatrol = new Transition(patrolState, () => idleState.IsTimerFinished == true);

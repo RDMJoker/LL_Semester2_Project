@@ -16,7 +16,7 @@ namespace KI
             TargetComponent = new TargetComponent();
             var idleState = new PlayerIdleState(NavMeshAgent);
             var walkingState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
-            stateMachine = new StateMachine(idleState, gameObject);
+            stateMachine = new StateMachine(idleState, gameObject,StateMachineDebugMode);
 
             var idleToWalk = new Transition(walkingState, () => IsWalking);
             var walkToIdle = new Transition(idleState, () =>

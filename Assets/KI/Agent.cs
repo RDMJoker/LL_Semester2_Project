@@ -12,6 +12,7 @@ namespace KI
         [SerializeField] public float AttackRange;
         [SerializeField] public float AttackDamage;
         [SerializeField] [Min(0.01f)] public float AttackSpeed;
+        [SerializeField] protected bool StateMachineDebugMode;
         HealthSystem HealthSystem;
         protected TargetComponent TargetComponent;
         protected NavMeshAgent NavMeshAgent;

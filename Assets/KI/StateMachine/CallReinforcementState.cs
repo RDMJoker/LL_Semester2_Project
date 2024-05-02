@@ -1,7 +1,6 @@
 ﻿using Spawner;
 using UnityEngine;
 using UnityEngine.AI;
-using static System.Single;
 
 namespace KI
 {
@@ -34,11 +33,6 @@ namespace KI
         {
             // Debug.Log("Exit Reinforcement State");
             runawayTimerReference.StartTimer();
-        }
-
-        public override void Tick()
-        {
-            base.Tick();
         }
     }
 }

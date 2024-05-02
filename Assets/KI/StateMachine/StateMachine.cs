@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace KI
 {
@@ -7,12 +6,14 @@ namespace KI
     {
         State currentState;
         GameObject agent;
+        bool debug;
 
-        public StateMachine(State _startState, GameObject _agent)
+        public StateMachine(State _startState, GameObject _agent, bool _debug)
         {
             currentState = _startState;
             currentState.StateEnter();
             agent = _agent;
+            debug = _debug;
         }
 
         public void CheckSwapState()
@@ -20,9 +21,9 @@ namespace KI
             if (currentState.CheckTransitions(out var nextState))
             {
                 currentState.StateExit();
-                // Debug.Log(agent.name + "Leaving State: " + currentState);
+                if (debug) Debug.Log(agent.name + "Leaving State: " + currentState);
                 currentState = nextState;
-                // Debug.Log(agent.name + "Enter State: " + currentState);
+                if (debug) Debug.Log(agent.name + "Enter State: " + currentState);
                 currentState.StateEnter();
             }
             else

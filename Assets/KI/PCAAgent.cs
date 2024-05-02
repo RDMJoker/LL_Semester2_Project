@@ -22,7 +22,7 @@ namespace KI
             State patrolState = new PatrolState(NavMeshAgent, IdleTargetComponent, Animator, RecalculatePatrolPoint);
             State attackState = new AttackState(Animator, this);
             // State rotateToPlayerState = new RotateToPlayerState(Animator, TargetComponent, NavMeshAgent);
-            stateMachine = new StateMachine(idleState, gameObject);
+            stateMachine = new StateMachine(idleState, gameObject,StateMachineDebugMode);
 
             var anyToChase = new Transition(chaseState, () => FindTarget(SearchRadius) || IsAggro);
             var idleToPatrol = new Transition(patrolState, () => idleState.IsTimerFinished == true);
