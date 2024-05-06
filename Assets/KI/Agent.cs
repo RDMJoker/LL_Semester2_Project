@@ -11,12 +11,15 @@ namespace KI
     {
         [SerializeField] public float AttackRange;
         [SerializeField] public float AttackDamage;
+        [SerializeField] public float SpellDamage;
         [SerializeField] [Min(0.01f)] public float AttackSpeed;
         [SerializeField] protected bool StateMachineDebugMode;
         HealthSystem HealthSystem;
         protected TargetComponent TargetComponent;
         protected NavMeshAgent NavMeshAgent;
         protected Animator Animator;
+
+        public bool IsDead => HealthSystem.IsDead;
 
 
         protected float DistanceToTarget => Vector3.Distance(transform.position, TargetComponent.TargetPosition);
@@ -38,9 +41,9 @@ namespace KI
             Debug.Log($"Aua! Ich habe noch {HealthSystem.CurrentHP} von maximal {HealthSystem.MaxHP} Leben!");
         }
 
-        public virtual void OnHit(Agent _attackingAgent)
+        public virtual void OnHit(Agent _attackingAgent, float _damage)
         {
-            TakeDamage(_attackingAgent.AttackDamage, gameObject);
+            TakeDamage(_damage, _attackingAgent.gameObject);
         }
 
         public virtual void OnDeath()

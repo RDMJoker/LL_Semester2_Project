@@ -47,11 +47,11 @@ namespace KI
             PatrolPointDistanceThreshhold = Mathf.Clamp(PatrolPointDistanceThreshhold, 1, PatrolRange - 1);
         }
 
-        public override void OnHit(Agent _attackingAgent)
+        public override void OnHit(Agent _attackingAgent, float _damage)
         {
             TargetComponent.SetTarget(_attackingAgent.transform);
             IsAggro = true;
-            base.OnHit(_attackingAgent);
+            base.OnHit(_attackingAgent,_damage);
         }
     }
 }

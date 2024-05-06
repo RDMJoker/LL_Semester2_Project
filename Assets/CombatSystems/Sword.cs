@@ -13,7 +13,7 @@ namespace CombatSystems
 
         public override void DoDamage(IHitable _target)
         {
-            _target.TakeDamage(weaponHolder.AttackDamage, weaponHolder.gameObject);
+            _target.OnHit(weaponHolder,weaponHolder.AttackDamage);
         }
 
         void OnTriggerEnter(Collider _collider)

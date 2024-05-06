@@ -1,5 +1,7 @@
+using System;
 using KI;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class PlayerInputs : MonoBehaviour
@@ -10,18 +12,22 @@ public class PlayerInputs : MonoBehaviour
     bool hasInput;
     Vector2 mousePosition;
     Collider test;
+    Ray cameraRay;
+    RaycastHit raycastHit;
+
+    public static Action OnSkillButtonPressed;
 
     void Awake()
     {
         playerAgent = GetComponent<PlayerAgent>();
+        
     }
 
     void Update()
     {
         if (hasInput)
         {
-            var cameraRay = mainCamera.ScreenPointToRay(mousePosition);
-            RaycastHit raycastHit;
+            cameraRay = mainCamera.ScreenPointToRay(mousePosition);
             if (Physics.Raycast(cameraRay, out raycastHit))
             {
                 playerAgent.SetTargetComponentPosition(raycastHit.point);
@@ -40,15 +46,21 @@ public class PlayerInputs : MonoBehaviour
         hasInput = _callbackContext.phase != InputActionPhase.Canceled;
     }
 
-    public void HitEnemy(InputAction.CallbackContext _callbackContext)
+    public void CastSkill(InputAction.CallbackContext _callbackContext)
     {
         if (_callbackContext.phase != InputActionPhase.Started) return;
-        var cameraRay = mainCamera.ScreenPointToRay(mousePosition);
-        RaycastHit raycastHit;
-        Physics.Raycast(cameraRay, out raycastHit, hitboxLayer);
-        if (raycastHit.collider.gameObject.TryGetComponent(out EnemyAgent target) && Vector3.Distance(playerAgent.transform.position, target.transform.position) <= playerAgent.AttackRange)
-        {
-            target.OnHit(playerAgent);
-        }
+        Physics.Raycast(mainCamera.ScreenPointToRay(mousePosition), out raycastHit);
+        transform.LookAt(raycastHit.point);
+        OnSkillButtonPressed.Invoke();
+    }
+    public void PointAndClick(InputAction.CallbackContext _callbackContext)
+    {
+        // var cameraRay = mainCamera.ScreenPointToRay(mousePosition);
+        // RaycastHit raycastHit;
+        // Physics.Raycast(cameraRay, out raycastHit, hitboxLayer);
+        // if (raycastHit.collider.gameObject.TryGetComponent(out EnemyAgent target) && Vector3.Distance(playerAgent.transform.position, target.transform.position) <= playerAgent.AttackRange)
+        // {
+        //     target.OnHit(playerAgent);
+        // }
     }
 }
