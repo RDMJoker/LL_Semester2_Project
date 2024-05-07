@@ -11,6 +11,8 @@ namespace KI
         readonly NavMeshAgent agent;
         readonly Timer runawayTimerReference;
 
+        static readonly int isCalling = Animator.StringToHash("isCalling");
+        
         public CallReinforcementState(Animator _animator, AgentSpawner _spawner, TargetComponent _targetComponent, NavMeshAgent _agent, Timer _runawayTimerReference) : base(_animator)
         {
             spawner = _spawner;
@@ -21,8 +23,7 @@ namespace KI
 
         public override void StateEnter()
         {
-            // Potential "Calling" Animation here
-            spawner.TriggerSpawning();
+            animator.SetBool(isCalling, true);
             var playerPosition = GameObject.FindWithTag("Player").transform.position;
             var directionToPlayer = playerPosition - agent.transform.position;
             targetComponent.SetTarget(null);
@@ -31,7 +32,7 @@ namespace KI
 
         public override void StateExit()
         {
-            // Debug.Log("Exit Reinforcement State");
+            animator.SetBool(isCalling, false);
             runawayTimerReference.StartTimer();
         }
     }

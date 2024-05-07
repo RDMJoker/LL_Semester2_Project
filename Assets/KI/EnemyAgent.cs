@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using CombatSystems;
 using UnityEngine;
 
 namespace KI
@@ -49,6 +50,7 @@ namespace KI
 
         public override void OnHit(Agent _attackingAgent, float _damage)
         {
+            
             TargetComponent.SetTarget(_attackingAgent.transform);
             IsAggro = true;
             base.OnHit(_attackingAgent,_damage);

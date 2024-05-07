@@ -41,17 +41,12 @@ namespace CombatSystems.Skills
 
         void OnGameObjectHit(GameObject _hit)
         {
-            if (!_hit.TryGetComponent(out Agent target) || hits.Contains(target)) return;
+            if (!_hit.TryGetComponent(out Agent target) || hits.Contains(target) || target.IsDead) return;
             Debug.Log(_hit.name);
             hits.Add(target);
             
             target.OnHit(castingAgent,BaseDamage + castingAgent.SpellDamage);
             if (target.IsDead || !target.isActiveAndEnabled) hits.Remove(target);
-        }
-
-        void FixedUpdate()
-        {
-            if(!particle.isEmitting) Destroy(gameObject);
         }
     }
 }

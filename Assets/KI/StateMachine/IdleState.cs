@@ -22,7 +22,7 @@ namespace KI
         {
             animator.SetBool(isIdle, true);
             timer.StartTimer();
-            agent.ResetPath();
+           // agent.ResetPath();
         }
 
         public override void StateExit()

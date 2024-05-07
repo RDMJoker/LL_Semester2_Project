@@ -20,17 +20,22 @@ namespace CombatSystems
             {
                 if (isDead == value) return;
                 if (value != true) isDead = false;
-                OnDeath.Invoke();
+                OnDeath.Invoke(transform.position);
                 isDead = true;
             }
         }
 
-        public UnityEvent OnDeath;
+        public UnityEvent<Vector3> OnDeath;
 
         public void ReduceCurrentHP(float _value)
         {
             currentHP = Mathf.Max(0, currentHP - _value);
             if (currentHP == 0) IsDead = true;
+        }
+
+        public bool CheckStunned(float _damageTaken, float _stunThreshhold)
+        {
+            return _damageTaken >= maxHP * (_stunThreshhold / 100f);
         }
 
         public void IncreaseCurrentHP(float _value)

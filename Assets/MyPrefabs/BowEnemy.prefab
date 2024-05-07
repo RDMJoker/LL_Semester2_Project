@@ -1600,8 +1600,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0802de43ccf41388de7faf4342024cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 50
-  currentHP: 50
+  maxHP: 100
+  currentHP: 100
   OnDeath:
     m_PersistentCalls:
       m_Calls:
@@ -1609,6 +1609,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: KI.Agent, Assembly-CSharp
         m_MethodName: OnDeath
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: fe009d6ddafae5647bf5fcd0062f08df, type: 2}
+        m_TargetAssemblyTypeName: Scriptables.VFXSpawner.VFXSpawner, Assembly-CSharp
+        m_MethodName: Spawn
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1631,9 +1643,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackRange: 8
   AttackDamage: 2
+  SpellDamage: 0
   AttackSpeed: 1.5
+  StateMachineDebugMode: 0
+  stunThreshhold: 20
+  StunDuration: 1
   IdleDuration: 1
-  SearchRadius: 12
+  SearchRadius: 10
   DetectionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -1698,8 +1714,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2.1351576, z: 0.87234116}
-  m_Center: {x: 0, y: 1.0239735, z: -0.011816025}
+  m_Size: {x: 1.5725174, y: 2.1351576, z: 0.87234116}
+  m_Center: {x: 0.0054893494, y: 1.0239735, z: -0.011816025}
 --- !u!1 &5208073483016578886
 GameObject:
   m_ObjectHideFlags: 0

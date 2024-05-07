@@ -5,6 +5,7 @@ namespace KI
     public class StateMachine
     {
         State currentState;
+        public State CurrentState => currentState;
         GameObject agent;
         bool debug;
 

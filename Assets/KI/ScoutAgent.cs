@@ -6,13 +6,14 @@ using Random = UnityEngine.Random;
 
 namespace KI
 {
-    
     public class ScoutAgent : EnemyAgent
     {
         AgentSpawner reinforcementSpawner;
         IdleState idleState;
         StateMachine stateMachine;
         [SerializeField] float timeTillDestruction;
+
+        bool calledReinforcement;
 
         protected override void Awake()
         {
@@ -28,34 +29,46 @@ namespace KI
             State runToSpawnerState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
             State runAwayState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
             State summonReinforcement = new CallReinforcementState(Animator, reinforcementSpawner, TargetComponent, NavMeshAgent, runAwayDestructionTimer);
-            stateMachine = new StateMachine(idleState, gameObject,StateMachineDebugMode);
+            State deathState = new DeathState(Animator);
+            stateMachine = new StateMachine(idleState, gameObject, StateMachineDebugMode);
 
 
             var idleToPatrol = new Transition(patrolState, () => idleState.IsTimerFinished == true);
             var movingToIdle = new Transition(idleState, () => NavMeshAgent.remainingDistance < NavMeshAgent.stoppingDistance);
             var anyToRunToSpawner = new Transition(runToSpawnerState, () => FindTarget(SearchRadius) || IsAggro);
-            var runToSpawnerToSummon = new Transition(summonReinforcement, () => Vector3.Distance(transform.position,TargetComponent.TargetPosition)<= NavMeshAgent.stoppingDistance);
-            var summonToRunaway = new Transition(runAwayState, () => true);
+            var runToSpawnerToSummon = new Transition(summonReinforcement, () => Vector3.Distance(transform.position, TargetComponent.TargetPosition) <= NavMeshAgent.stoppingDistance);
+            var summonToRunaway = new Transition(runAwayState, () => calledReinforcement);
             var destruction = new Transition(idleState, () =>
             {
                 if (runAwayDestructionTimer.CheckTimer())
                 {
                     Destroy(gameObject);
                 }
+
                 return false;
             });
+            var anyToDeath = new Transition(deathState, () => IsDead);
+            var deathToIdle = new Transition(idleState, () => !IsDead);
 
+            
+            idleState.AddTransition(anyToDeath);
             idleState.AddTransition(anyToRunToSpawner);
             idleState.AddTransition(idleToPatrol);
 
+            patrolState.AddTransition(anyToDeath);
             patrolState.AddTransition(anyToRunToSpawner);
             patrolState.AddTransition(movingToIdle);
 
+            runToSpawnerState.AddTransition(anyToDeath);
             runToSpawnerState.AddTransition(runToSpawnerToSummon);
 
+            summonReinforcement.AddTransition(anyToDeath);
             summonReinforcement.AddTransition(summonToRunaway);
 
+            runAwayState.AddTransition(anyToDeath);
             runAwayState.AddTransition(destruction);
+
+            deathState.AddTransition(deathToIdle);
         }
 
         protected override bool FindTarget(float _radius)
@@ -96,6 +109,12 @@ namespace KI
         {
             Gizmos.color = Color.black;
             Gizmos.DrawWireSphere(transform.position, SearchRadius);
+        }
+
+        public void SpawnReinforcements()
+        {
+            reinforcementSpawner.TriggerSpawning();
+            calledReinforcement = true;
         }
     }
 }

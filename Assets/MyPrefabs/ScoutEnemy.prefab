@@ -1554,7 +1554,7 @@ Animator:
   m_GameObject: {fileID: 5083799845664636927}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 4fa1e5bccd88a88459452767852ce80b, type: 3}
-  m_Controller: {fileID: 9100000, guid: 5dacbbec522b1fc49b7b4ed2e45d12d3, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6f5a631a22066bc459167e7abb410ae0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1604,10 +1604,22 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4349273755294791516}
         m_TargetAssemblyTypeName: KI.Agent, Assembly-CSharp
         m_MethodName: OnDeath
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: fe009d6ddafae5647bf5fcd0062f08df, type: 2}
+        m_TargetAssemblyTypeName: Scriptables.VFXSpawner.VFXSpawner, Assembly-CSharp
+        m_MethodName: Spawn
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1653,7 +1665,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackRange: 0
   AttackDamage: 0
+  SpellDamage: 0
   AttackSpeed: 0
+  StateMachineDebugMode: 0
+  stunThreshhold: 20
+  StunDuration: 1
   IdleDuration: 1
   SearchRadius: 10
   DetectionMask:
@@ -1664,8 +1680,8 @@ MonoBehaviour:
     m_Bits: 128
   PatrolRange: 5
   PatrolPointDistanceThreshhold: 1
-  aggroDuration: 1
-  timeTillDestruction: 0
+  aggroDuration: 10
+  timeTillDestruction: 5
 --- !u!65 &7197099498021344000
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1685,8 +1701,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2.1351576, z: 0.87234116}
-  m_Center: {x: 0, y: 1.0239735, z: -0.011816025}
+  m_Size: {x: 1.5725174, y: 2.1351576, z: 0.87234116}
+  m_Center: {x: 0.0054893494, y: 1.0239735, z: -0.011816025}
 --- !u!1 &5208073483016578886
 GameObject:
   m_ObjectHideFlags: 0

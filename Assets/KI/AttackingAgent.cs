@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CombatSystems;
+using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
@@ -21,8 +22,9 @@ namespace KI
             State returnToPointState = new WalkToPointState(NavMeshAgent, IdleTargetComponent, Animator);
             State patrolState = new PatrolState(NavMeshAgent, IdleTargetComponent, Animator, RecalculatePatrolPoint);
             State attackState = new AttackState(Animator, this);
+            State deathState = new DeathState(Animator);
             // State rotateToPlayerState = new RotateToPlayerState(Animator, TargetComponent, NavMeshAgent);
-            stateMachine = new StateMachine(idleState, gameObject,StateMachineDebugMode);
+            stateMachine = new StateMachine(idleState, gameObject, StateMachineDebugMode);
 
             var anyToChase = new Transition(chaseState, () => FindTarget(SearchRadius) || IsAggro);
             var idleToPatrol = new Transition(patrolState, () => idleState.IsTimerFinished == true);
@@ -37,30 +39,56 @@ namespace KI
             });
             var attackToChase = new Transition(chaseState, () => DistanceToTarget >= AttackRange && AttackDone);
             var attackToReturn = new Transition(returnToPointState, () => FindTarget(SearchRadius) == false && AttackDone && !IsAggro);
+            var anyToDeath = new Transition(deathState, () => IsDead);
+            var deathToIdle = new Transition(idleState, () => !IsDead);
 
+            var stunTimer = new Timer(StunDuration);
+            var stunnedState = new StunnedState(Animator, stunTimer,this);
+
+            var anyToStunned = new Transition(stunnedState, () => isStunned);
+            var stunnedToIdle = new Transition(idleState, () =>
+            {
+                if (!stunTimer.CheckTimer()) return false;
+                isStunned = false;
+                return true;
+            });
+
+            
+            idleState.AddTransition(anyToDeath);
+            idleState.AddTransition(anyToStunned);
             idleState.AddTransition(anyToChase);
             idleState.AddTransition(idleToPatrol);
 
+            chaseState.AddTransition(anyToDeath);
+            chaseState.AddTransition(anyToStunned);
             chaseState.AddTransition(chaseToReturn);
             chaseState.AddTransition(toAttack);
 
+            returnToPointState.AddTransition(anyToDeath);
+            returnToPointState.AddTransition(anyToStunned);
             returnToPointState.AddTransition(movingToIdle);
             returnToPointState.AddTransition(anyToChase);
 
+            patrolState.AddTransition(anyToDeath);
+            patrolState.AddTransition(anyToStunned);
             patrolState.AddTransition(movingToIdle);
             patrolState.AddTransition(anyToChase);
 
+            attackState.AddTransition(anyToDeath);
+            attackState.AddTransition(anyToStunned);
             attackState.AddTransition(attackToReturn);
             attackState.AddTransition(attackToChase);
-
+            
+            stunnedState.AddTransition(stunnedToIdle);
+            
+            deathState.AddTransition(deathToIdle);
         }
 
 
-          void FixedUpdate()
+        void FixedUpdate()
         {
             CheckAggroState();
             stateMachine.CheckSwapState();
-            
         }
 
         protected override bool FindTarget(float _radius)
@@ -70,10 +98,11 @@ namespace KI
             {
                 bool obstruction = Physics.Raycast(transform.position + (transform.up * 0.75f), (overlap[0].transform.position - transform.position).normalized, SearchRadius, DetectionObstructionMask);
                 if (obstruction) return false;
-                if(!IsAggro) IsAggro = true;
+                if (!IsAggro) IsAggro = true;
                 TargetComponent.SetTarget(overlap[0].transform);
                 return true;
             }
+
             return false;
         }
 

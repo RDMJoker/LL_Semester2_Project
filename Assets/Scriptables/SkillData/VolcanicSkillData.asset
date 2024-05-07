@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4314e5567abb44ac910a747b808e7374, type: 3}
   m_Name: VolcanicSkillData
   m_EditorClassIdentifier: 
-  SkillBaseDamage: 5
-  SkillCooldown: 2
+  SkillBaseDamage: 15
+  SkillCooldown: 0.25

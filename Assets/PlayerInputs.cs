@@ -1,4 +1,5 @@
 using System;
+using CombatSystems.Skills;
 using KI;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,17 +11,19 @@ public class PlayerInputs : MonoBehaviour
     [SerializeField] LayerMask hitboxLayer;
     PlayerAgent playerAgent;
     bool hasInput;
+    bool hasCastInput;
     Vector2 mousePosition;
     Collider test;
     Ray cameraRay;
     RaycastHit raycastHit;
+    SkillCaster skillCaster;
 
     public static Action OnSkillButtonPressed;
 
     void Awake()
     {
         playerAgent = GetComponent<PlayerAgent>();
-        
+        skillCaster = GetComponent<SkillCaster>();
     }
 
     void Update()
@@ -33,6 +36,11 @@ public class PlayerInputs : MonoBehaviour
                 playerAgent.SetTargetComponentPosition(raycastHit.point);
                 playerAgent.IsWalking = true;
             }
+        }
+
+        if (hasCastInput)
+        {
+            Casting();
         }
     }
 
@@ -48,11 +56,27 @@ public class PlayerInputs : MonoBehaviour
 
     public void CastSkill(InputAction.CallbackContext _callbackContext)
     {
-        if (_callbackContext.phase != InputActionPhase.Started) return;
-        Physics.Raycast(mainCamera.ScreenPointToRay(mousePosition), out raycastHit);
-        transform.LookAt(raycastHit.point);
-        OnSkillButtonPressed.Invoke();
+        hasCastInput = _callbackContext.phase != InputActionPhase.Canceled;
+
+
+        //transform.LookAt(raycastHit.point);
+        // OnSkillButtonPressed.Invoke();
     }
+
+    void Casting()
+    {
+        if (!skillCaster.GetCurrentTimerStatus())
+        {
+            Debug.Log("Still on cooldown!");
+            return;
+        }
+
+        playerAgent.IsWalking = false;
+        playerAgent.IsCasting = true;
+        Physics.Raycast(mainCamera.ScreenPointToRay(mousePosition), out raycastHit);
+        playerAgent.SetTargetComponentPosition(raycastHit.point);
+    }
+
     public void PointAndClick(InputAction.CallbackContext _callbackContext)
     {
         // var cameraRay = mainCamera.ScreenPointToRay(mousePosition);

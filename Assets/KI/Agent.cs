@@ -14,10 +14,14 @@ namespace KI
         [SerializeField] public float SpellDamage;
         [SerializeField] [Min(0.01f)] public float AttackSpeed;
         [SerializeField] protected bool StateMachineDebugMode;
+        [SerializeField] protected float stunThreshhold;
+        [SerializeField] public float StunDuration;
+        [SerializeField] bool debugHealthSystem;
         HealthSystem HealthSystem;
         protected TargetComponent TargetComponent;
         protected NavMeshAgent NavMeshAgent;
         protected Animator Animator;
+        protected bool isStunned;
 
         public bool IsDead => HealthSystem.IsDead;
 
@@ -38,18 +42,19 @@ namespace KI
         {
             HealthSystem.ReduceCurrentHP(_value);
             if (HealthSystem.IsDead) return;
-            Debug.Log($"Aua! Ich habe noch {HealthSystem.CurrentHP} von maximal {HealthSystem.MaxHP} Leben!");
+            if (debugHealthSystem) Debug.Log($"Aua! Ich habe noch {HealthSystem.CurrentHP} von maximal {HealthSystem.MaxHP} Leben!");
         }
 
         public virtual void OnHit(Agent _attackingAgent, float _damage)
         {
+            isStunned = HealthSystem.CheckStunned(_damage, stunThreshhold);
             TakeDamage(_damage, _attackingAgent.gameObject);
         }
 
         public virtual void OnDeath()
         {
-            Debug.Log("Ich bin tot :( ");
-            Destroy(gameObject);
+            if (debugHealthSystem) Debug.Log("Ich bin tot :( ");
+            NavMeshAgent.enabled = false;
         }
     }
 }

@@ -6,14 +6,9 @@ namespace CombatSystems
 {
     public class Sword : MeleeWeapon
     {
-        void Awake()
-        {
-            weaponHolder = GetComponentInParent<Agent>();
-        }
-
         public override void DoDamage(IHitable _target)
         {
-            _target.OnHit(weaponHolder,weaponHolder.AttackDamage);
+            _target.OnHit(weaponHolder, weaponHolder.AttackDamage);
         }
 
         void OnTriggerEnter(Collider _collider)

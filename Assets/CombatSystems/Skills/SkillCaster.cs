@@ -25,19 +25,23 @@ namespace CombatSystems.Skills
             PlayerInputs.OnSkillButtonPressed -= OnCastSkill;
         }
 
-        void OnCastSkill()
+        public void OnCastSkill()
         {
-            if (cooldownTimer == null || cooldownTimer.CheckTimer())
-            {
+           //// {
                 var skillInstance = Instantiate(skill,transform);
                 skillInstance.SetCastingAgent(castingAgent);
                 cooldownTimer = new Timer(skillInstance.Cooldown);
                 cooldownTimer.StartTimer();
-            }
-            else
-            {
-                Debug.Log("Still on Cooldown!");
-            }
+           // }
+           // else
+           // {
+           //     Debug.Log("Still on Cooldown!");
+           // }
+        }
+
+        public bool GetCurrentTimerStatus()
+        {
+            return cooldownTimer == null || cooldownTimer.CheckTimer();
         }
     }
 }
