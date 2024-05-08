@@ -116,5 +116,12 @@ namespace KI
             reinforcementSpawner.TriggerSpawning();
             calledReinforcement = true;
         }
+        
+        public override void OnHit(Agent _attackingAgent, float _damage)
+        {
+            IsAggro = true;
+            isStunned = HealthSystem.CheckStunned(_damage, stunThreshhold);
+            TakeDamage(_damage, _attackingAgent.gameObject);
+        }
     }
 }

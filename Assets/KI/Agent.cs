@@ -17,14 +17,16 @@ namespace KI
         [SerializeField] protected float stunThreshhold;
         [SerializeField] public float StunDuration;
         [SerializeField] bool debugHealthSystem;
-        HealthSystem HealthSystem;
+        protected HealthSystem HealthSystem;
         protected TargetComponent TargetComponent;
         protected NavMeshAgent NavMeshAgent;
         protected Animator Animator;
+        CapsuleCollider capsuleCollider;
+        BoxCollider hitCollider;
         protected bool isStunned;
 
         public bool IsDead => HealthSystem.IsDead;
-
+        public bool IsCasting;
 
         protected float DistanceToTarget => Vector3.Distance(transform.position, TargetComponent.TargetPosition);
 
@@ -34,6 +36,9 @@ namespace KI
             NavMeshAgent = GetComponent<NavMeshAgent>();
             Animator = GetComponent<Animator>();
             HealthSystem = GetComponent<HealthSystem>();
+            capsuleCollider = GetComponent<CapsuleCollider>();
+            hitCollider = GetComponent<BoxCollider>();
+
         }
 
         protected abstract bool FindTarget(float _radius);
@@ -55,6 +60,8 @@ namespace KI
         {
             if (debugHealthSystem) Debug.Log("Ich bin tot :( ");
             NavMeshAgent.enabled = false;
+            capsuleCollider.enabled = false;
+            hitCollider.enabled = false;
         }
     }
 }

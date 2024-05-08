@@ -11,16 +11,13 @@ namespace CombatSystems.Skills
         public float BaseDamage => skillData.SkillBaseDamage;
         public float Cooldown => skillData.SkillCooldown;
 
-        List<Agent> hits = new ();
+        List<Agent> hits = new();
         Agent castingAgent;
-        ParticleSystem particle;
         EffectCollider effectCollider;
 
         public void SetCastingAgent(Agent _castingAgent)
         {
             castingAgent = _castingAgent;
-            particle = GetComponent<ParticleSystem>();
-            
         }
 
         void Awake()
@@ -30,7 +27,6 @@ namespace CombatSystems.Skills
 
         void Start()
         {
-            
             transform.SetParent(null);
         }
 
@@ -44,8 +40,8 @@ namespace CombatSystems.Skills
             if (!_hit.TryGetComponent(out Agent target) || hits.Contains(target) || target.IsDead) return;
             Debug.Log(_hit.name);
             hits.Add(target);
-            
-            target.OnHit(castingAgent,BaseDamage + castingAgent.SpellDamage);
+
+            target.OnHit(castingAgent, BaseDamage + castingAgent.SpellDamage);
             if (target.IsDead || !target.isActiveAndEnabled) hits.Remove(target);
         }
     }

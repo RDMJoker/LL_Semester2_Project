@@ -9,10 +9,9 @@ namespace KI
         [SerializeField] float castingSpeed;
         StateMachine stateMachine;
         public bool IsWalking;
-        public bool IsCasting;
+        
 
         static readonly int castingSpeedHash = Animator.StringToHash("CastSpeed");
-        static readonly int isCasting = Animator.StringToHash("isCasting");
 
         protected override void Awake()
         {
@@ -36,8 +35,13 @@ namespace KI
                 NavMeshAgent.ResetPath();
                 return true;
             });
-            var castingToIdle = new Transition(idleState, () => !IsCasting);
-            var castingToWalking = new Transition(walkingState, () => !IsCasting && IsWalking);
+            var castingToIdle = new Transition(idleState, () => !IsCasting && !IsWalking);
+            var castingToWalking = new Transition(walkingState, () =>
+            {
+                if (!IsWalking) return false;
+                IsCasting = false;
+                return true;
+            });
 
             var stunTimer = new Timer(StunDuration);
             var stunnedState = new StunnedState(Animator, stunTimer, this);
@@ -48,7 +52,13 @@ namespace KI
                 return true;
             });
 
-            var anyToStunned = new Transition(stunnedState, () => isStunned);
+            var anyToStunned = new Transition(stunnedState, () =>
+            {
+                if (!isStunned) return false;
+                IsWalking = false;
+                IsCasting = false;
+                return true;
+            });
 
             idleState.AddTransition(anyToStunned);
             idleState.AddTransition(anyToCasting);
@@ -64,17 +74,7 @@ namespace KI
 
             stunnedState.AddTransition(stunnedToIdle);
         }
-
-        void OnEnable()
-        {
-            CastingBehaviour.OnCastingEnd += SetCastingDone;
-        }
-
-        void OnDisable()
-        {
-            CastingBehaviour.OnCastingEnd -= SetCastingDone;
-        }
-
+        
         protected override bool FindTarget(float _radius)
         {
             throw new NotImplementedException();

@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputs : MonoBehaviour
 {
     [SerializeField] Camera mainCamera;
-    [SerializeField] LayerMask hitboxLayer;
+    [SerializeField] LayerMask mouseRayLayer;
     PlayerAgent playerAgent;
     bool hasInput;
     bool hasCastInput;
@@ -18,7 +18,7 @@ public class PlayerInputs : MonoBehaviour
     RaycastHit raycastHit;
     SkillCaster skillCaster;
 
-    public static Action OnSkillButtonPressed;
+    public static Action<Vector3> OnSkillButtonPressed;
 
     void Awake()
     {
@@ -31,13 +31,14 @@ public class PlayerInputs : MonoBehaviour
         if (hasInput)
         {
             cameraRay = mainCamera.ScreenPointToRay(mousePosition);
-            if (Physics.Raycast(cameraRay, out raycastHit))
+            if (Physics.Raycast(cameraRay, out raycastHit, Mathf.Infinity ,mouseRayLayer))
             {
+                Debug.Log(mouseRayLayer.value);
+                Debug.Log(raycastHit.transform.gameObject.layer);
                 playerAgent.SetTargetComponentPosition(raycastHit.point);
                 playerAgent.IsWalking = true;
             }
         }
-
         if (hasCastInput)
         {
             Casting();
@@ -60,7 +61,7 @@ public class PlayerInputs : MonoBehaviour
 
 
         //transform.LookAt(raycastHit.point);
-        // OnSkillButtonPressed.Invoke();
+        
     }
 
     void Casting()
@@ -75,6 +76,7 @@ public class PlayerInputs : MonoBehaviour
         playerAgent.IsCasting = true;
         Physics.Raycast(mainCamera.ScreenPointToRay(mousePosition), out raycastHit);
         playerAgent.SetTargetComponentPosition(raycastHit.point);
+        OnSkillButtonPressed.Invoke(raycastHit.point);
     }
 
     public void PointAndClick(InputAction.CallbackContext _callbackContext)

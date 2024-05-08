@@ -45,7 +45,12 @@ namespace KI
             var stunTimer = new Timer(StunDuration);
             var stunnedState = new StunnedState(Animator, stunTimer,this);
 
-            var anyToStunned = new Transition(stunnedState, () => isStunned);
+            var anyToStunned = new Transition(stunnedState, () =>
+            {
+                if (!isStunned) return false;
+                AttackDone = true;
+                return true;
+            });
             var stunnedToIdle = new Transition(idleState, () =>
             {
                 if (!stunTimer.CheckTimer()) return false;

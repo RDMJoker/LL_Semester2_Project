@@ -3006,6 +3006,8 @@ MonoBehaviour:
   StateMachineDebugMode: 0
   stunThreshhold: 20
   StunDuration: 1
+  debugHealthSystem: 0
+  IsCasting: 0
   IdleDuration: 0.75
   SearchRadius: 5
   DetectionMask:

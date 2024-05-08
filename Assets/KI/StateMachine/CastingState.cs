@@ -21,5 +21,10 @@ namespace KI
             animator.SetBool(isCasting, true);
             castingAgent.transform.LookAt(targetComponent.TargetPosition);
         }
+
+        public override void StateExit()
+        {
+            animator.SetBool(isCasting, false);
+        }
     }
 }

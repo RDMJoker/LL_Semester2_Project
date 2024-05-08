@@ -9826,6 +9826,7 @@ GameObject:
   - component: {fileID: 9076946276504718601}
   - component: {fileID: 3758880940628299762}
   - component: {fileID: 1207778955520558491}
+  - component: {fileID: 8748453673025890327}
   m_Layer: 0
   m_Name: DeathFire
   m_TagString: Untagged
@@ -9841,8 +9842,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3295544892835374119}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.29883623, y: -0.64085644, z: -0.64085644, w: 0.29883623}
-  m_LocalPosition: {x: 78.96595, y: -7.432944, z: 19.020926}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -9855,7 +9856,7 @@ Transform:
   - {fileID: 6715047892704678619}
   - {fileID: 2004465942380019955}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -130}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &3758880940628299762
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -14699,7 +14700,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_RenderMode: 4
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -14730,6 +14731,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &8748453673025890327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3295544892835374119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b5c40e028c54d69bfc41a72293d1f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationOffset: {x: -45, y: 180, z: 0}
 --- !u!1 &3511869854952143973
 GameObject:
   m_ObjectHideFlags: 0
