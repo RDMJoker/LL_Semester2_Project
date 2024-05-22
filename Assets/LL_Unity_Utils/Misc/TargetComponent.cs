@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace KI
+namespace LL_Unity_Utils.Misc
 {
     public class TargetComponent
     {

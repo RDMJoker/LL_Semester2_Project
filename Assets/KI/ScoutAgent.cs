@@ -28,7 +28,7 @@ namespace KI
             State patrolState = new PatrolState(NavMeshAgent, IdleTargetComponent, Animator, RecalculatePatrolPoint);
             State runToSpawnerState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
             State runAwayState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
-            State summonReinforcement = new CallReinforcementState(Animator, reinforcementSpawner, TargetComponent, NavMeshAgent, runAwayDestructionTimer);
+            State summonReinforcement = new CallReinforcementState(Animator, TargetComponent, NavMeshAgent, runAwayDestructionTimer);
             State deathState = new DeathState(Animator);
             stateMachine = new StateMachine(idleState, gameObject, StateMachineDebugMode);
 

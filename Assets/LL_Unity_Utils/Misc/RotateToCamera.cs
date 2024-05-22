@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace Utils
+namespace LL_Unity_Utils.Misc
 {
     public class RotateToCamera : MonoBehaviour
     {
