@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LL_Unity_Utils.Misc;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace KI

@@ -1616,8 +1616,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: fe009d6ddafae5647bf5fcd0062f08df, type: 2}
-        m_TargetAssemblyTypeName: Scriptables.VFXSpawner.VFXSpawner, Assembly-CSharp
+      - m_Target: {fileID: 11400000, guid: 78a1e740ab6155641b07563b635cf018, type: 2}
+        m_TargetAssemblyTypeName: LL_Unity_Utils.Scriptables.VFXSpawner, Assembly-CSharp
         m_MethodName: Spawn
         m_Mode: 0
         m_Arguments:

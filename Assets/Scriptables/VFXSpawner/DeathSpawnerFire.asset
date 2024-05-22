@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c17e8cd0b5c41e1aba5cec05cc3865c, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c9f6dc212644f2d9561e5cb1d7ff578, type: 3}
   m_Name: DeathSpawnerFire
   m_EditorClassIdentifier: 
   vfxPrefab: {fileID: 3295544892835374119, guid: 13431f9f16be6bc47a7420a018a0ba73,
