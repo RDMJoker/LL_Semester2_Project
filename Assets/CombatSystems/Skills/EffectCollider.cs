@@ -9,7 +9,6 @@ namespace CombatSystems.Skills
 
         void OnParticleCollision(GameObject _collisionGameObject)
         {
-            
             OnCollision.Invoke(_collisionGameObject);
         }
     }

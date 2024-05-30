@@ -33,8 +33,6 @@ public class PlayerInputs : MonoBehaviour
             cameraRay = mainCamera.ScreenPointToRay(mousePosition);
             if (Physics.Raycast(cameraRay, out raycastHit, Mathf.Infinity ,mouseRayLayer))
             {
-                Debug.Log(mouseRayLayer.value);
-                Debug.Log(raycastHit.transform.gameObject.layer);
                 playerAgent.SetTargetComponentPosition(raycastHit.point);
                 playerAgent.IsWalking = true;
             }

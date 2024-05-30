@@ -18855,7 +18855,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 10000
-    radiusScale: 0.02
+    radiusScale: 0.18
     collidesWith:
       serializedVersion: 2
       m_Bits: 64

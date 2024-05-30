@@ -86,6 +86,7 @@ namespace KI
             attackState.AddTransition(attackToReturn);
             attackState.AddTransition(attackToChase);
             
+            stunnedState.AddTransition(anyToDeath);
             stunnedState.AddTransition(stunnedToIdle);
             
             deathState.AddTransition(deathToIdle);
