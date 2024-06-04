@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5100796176814056764}
   - component: {fileID: 3251794318404381130}
   - component: {fileID: 4558717793200765768}
+  - component: {fileID: -6585299351319311103}
   m_Layer: 6
   m_Name: EnemyArrow
   m_TagString: Untagged
@@ -66,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5229fb2ff862b044b8c884fc9549bd5a, type: 2}
+  - {fileID: 2100000, guid: 6b76ad16b39da3441913cbbdaf805f24, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -177,9 +178,9 @@ MonoBehaviour:
   OnTimerDone:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4558717793200765768}
-        m_TargetAssemblyTypeName: LL_Unity_Utils.Timers.GenericTimerScript, Assembly-CSharp
-        m_MethodName: DestroyGameObject
+      - m_Target: {fileID: -6585299351319311103}
+        m_TargetAssemblyTypeName: CombatSystems.Dissolver, Assembly-CSharp
+        m_MethodName: StartDissolve
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -190,3 +191,15 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   AutoStart: 0
+--- !u!114 &-6585299351319311103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52636661473774556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632929ce44224e1eb56c89b69fb58ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
