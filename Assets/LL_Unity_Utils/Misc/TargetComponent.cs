@@ -13,9 +13,9 @@ namespace LL_Unity_Utils.Misc
             targetTransform = _target;
         }
 
-        public void SetPoint(Vector3 _point)
+        public void SetPoint(Vector3 _point, bool _setTransformNull = true)
         {
-            targetTransform = null;
+            if (_setTransformNull) targetTransform = null;
             position = _point;
         }
     }

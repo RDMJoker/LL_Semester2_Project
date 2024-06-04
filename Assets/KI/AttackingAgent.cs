@@ -43,7 +43,6 @@ namespace KI
             var attackToReturn = new Transition(returnToPointState, () => FindTarget(SearchRadius) == false && AttackDone && !IsAggro);
             var anyToDeath = new Transition(deathState, () => IsDead);
             var deathToIdle = new Transition(idleState, () => !IsDead);
-
             var stunTimer = new Timer(StunDuration);
             var stunnedState = new StunnedState(Animator, stunTimer,this);
 
