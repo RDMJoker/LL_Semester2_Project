@@ -9,6 +9,13 @@ namespace KI.Non_Humanoid
         [SerializeField] float yMovementFrequence;
         [SerializeField] float yMovementAmplitude;
 
+        [SerializeField] float timeOffset;
+        [SerializeField] float yOffset;
+        [SerializeField] float secondaryFrequence;
+        [SerializeField] float secondaryAmplitude;
+        
+        
+        
         float startY;
 
         void Awake()
@@ -19,7 +26,9 @@ namespace KI.Non_Humanoid
 
         void FixedUpdate()
         {
-            transform.position = new Vector3(transform.position.x, startY + Mathf.Sin(Time.time * yMovementFrequence) * yMovementAmplitude, transform.position.z);
+            var mainCurve = Mathf.Sin(Time.time * yMovementFrequence) * yMovementAmplitude;
+            var secondaryCurve = Mathf.Sin((Time.time + timeOffset) * secondaryFrequence) * secondaryAmplitude + yOffset;
+            transform.position = new Vector3(transform.position.x, startY + mainCurve + secondaryCurve, transform.position.z);
         }
     }
 }
