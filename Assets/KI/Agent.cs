@@ -1,9 +1,13 @@
 ﻿using System;
-using Cinemachine;
+using System.Linq;
 using CombatSystems;
 using LL_Unity_Utils.Misc;
+using LL_Unity_Utils.Scriptables;
+using Scriptables.Lists;
+using Scriptables.VFXScriptables;
 using UnityEngine;
 using UnityEngine.AI;
+using VFXScripts;
 
 namespace KI
 {
@@ -18,6 +22,8 @@ namespace KI
         [SerializeField] protected float stunThreshhold;
         [SerializeField] public float StunDuration;
         [SerializeField] bool debugHealthSystem;
+        [SerializeField] VFXSpawner hitEffectSpawner;
+        [SerializeField] ColorGradientList hitEffectColorGradients;
         protected HealthSystem HealthSystem;
         protected TargetComponent TargetComponent;
         protected NavMeshAgent NavMeshAgent;
@@ -25,6 +31,8 @@ namespace KI
         CapsuleCollider capsuleCollider;
         BoxCollider hitCollider;
         protected bool isStunned;
+
+        
 
         public bool IsDead => HealthSystem.IsDead;
         public bool IsCasting;
@@ -51,10 +59,22 @@ namespace KI
             if (debugHealthSystem) Debug.Log($"Aua! Ich habe noch {HealthSystem.CurrentHP} von maximal {HealthSystem.MaxHP} Leben!");
         }
 
-        public virtual void OnHit(Agent _attackingAgent, float _damage)
+        public virtual void OnHit(Agent _attackingAgent, float _damage, EDamageType _damageType)
         {
             isStunned = HealthSystem.CheckStunned(_damage, stunThreshhold);
+            hitEffectSpawner.Spawn(transform.position, out var spawnedObject);
+            var colorGradient = GetColorByDamageType(_damageType);
+            spawnedObject.GetComponent<VFXColorChanger>().ChangeColor(colorGradient);
             TakeDamage(_damage, _attackingAgent.gameObject);
+        }
+
+        ColorGradient GetColorByDamageType(EDamageType _damageType)
+        {
+            foreach (var colorGradient in hitEffectColorGradients.colorGradients.Where(colorGradient => colorGradient.DamageType == _damageType))
+            {
+                return colorGradient;
+            }
+            throw new NotImplementedException();
         }
 
         public virtual void OnDeath()

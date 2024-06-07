@@ -7,7 +7,7 @@ namespace CombatSystems.Skills
     {
         public float SkillBaseDamage;
         public float SkillCooldown;
-        //public EDamageType damageType;
+        public EDamageType DamageType;
 
     }
 }

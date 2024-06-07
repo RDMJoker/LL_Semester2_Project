@@ -6,10 +6,12 @@ namespace LL_Unity_Utils.Scriptables
     public class VFXSpawner : ScriptableObject
     {
         [SerializeField] GameObject vfxPrefab;
+        [SerializeField] Vector3 positionOffset = Vector3.up;
 
-        public void Spawn(Vector3 _position)
+        public void Spawn(Vector3 _position, out GameObject _spawnedObject)
         {
-            Instantiate(vfxPrefab, _position + Vector3.up, vfxPrefab.transform.rotation);
+           _spawnedObject = Instantiate(vfxPrefab, _position + positionOffset, vfxPrefab.transform.rotation);
         }
+
     }
 }

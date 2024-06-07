@@ -1782,6 +1782,9 @@ MonoBehaviour:
   stunThreshhold: 20
   StunDuration: 1
   debugHealthSystem: 0
+  hitEffectSpawner: {fileID: 11400000, guid: 91ff0d2335282004189ed38560702c61, type: 2}
+  hitEffectColorGradients: {fileID: 11400000, guid: 5467b67ae36119947b29afd5e6a3827b,
+    type: 2}
   IsCasting: 0
   IdleDuration: 0.75
   SearchRadius: 5

@@ -699,7 +699,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1707493625348714364}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.5017638, z: -0, w: 0.86500466}
+  m_LocalRotation: {x: 0, y: 0.5017598, z: 0, w: 0.865007}
   m_LocalPosition: {x: 74.48, y: -7.4, z: 16.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -833,6 +833,8 @@ MonoBehaviour:
   stunThreshhold: 80
   StunDuration: 1
   debugHealthSystem: 0
+  hitEffectSpawner: {fileID: 11400000, guid: 91ff0d2335282004189ed38560702c61, type: 2}
+  hitEffectColorGradients: {fileID: 0}
   IsCasting: 0
   enemyMask:
     serializedVersion: 2

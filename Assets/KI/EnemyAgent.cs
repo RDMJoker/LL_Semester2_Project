@@ -50,12 +50,12 @@ namespace KI
             PatrolPointDistanceThreshhold = Mathf.Clamp(PatrolPointDistanceThreshhold, 1, PatrolRange - 1);
         }
 
-        public override void OnHit(Agent _attackingAgent, float _damage)
+        public override void OnHit(Agent _attackingAgent, float _damage, EDamageType _damageType)
         {
             
             TargetComponent.SetTarget(_attackingAgent.transform);
             IsAggro = true;
-            base.OnHit(_attackingAgent,_damage);
+            base.OnHit(_attackingAgent,_damage, _damageType);
         }
     }
 }

@@ -5,11 +5,12 @@ using UnityEngine;
 
 namespace CombatSystems.Skills
 {
-    public class Skill : MonoBehaviour, ISkill
+    public class Skill : MonoBehaviour, ISkill, IHasDamageType
     {
         [SerializeField] SkillData skillData;
         public float BaseDamage => skillData.SkillBaseDamage;
         public float Cooldown => skillData.SkillCooldown;
+        public EDamageType DamageType => skillData.DamageType;
 
         List<Agent> hits = new();
         Agent castingAgent;
@@ -41,8 +42,10 @@ namespace CombatSystems.Skills
             Debug.Log(_hit.name);
             hits.Add(target);
 
-            target.OnHit(castingAgent, BaseDamage + castingAgent.SpellDamage);
+            target.OnHit(castingAgent, BaseDamage + castingAgent.SpellDamage, DamageType);
             if (target.IsDead || !target.isActiveAndEnabled) hits.Remove(target);
         }
+
+        
     }
 }

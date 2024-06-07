@@ -1,4 +1,5 @@
 ﻿using System;
+using CombatSystems;
 using LL_Unity_Utils.Misc;
 using LL_Unity_Utils.Timers;
 using Spawner;
@@ -119,7 +120,7 @@ namespace KI
             calledReinforcement = true;
         }
         
-        public override void OnHit(Agent _attackingAgent, float _damage)
+        public override void OnHit(Agent _attackingAgent, float _damage, EDamageType _damageType)
         {
             IsAggro = true;
             isStunned = HealthSystem.CheckStunned(_damage, stunThreshhold);

@@ -11,7 +11,7 @@ namespace CombatSystems
         public override void DoDamage(IHitable _target)
         {
             if (!isActiveAndEnabled) return;
-            _target.OnHit(weaponHolder,weaponHolder.AttackDamage);
+            _target.OnHit(weaponHolder,weaponHolder.AttackDamage, DamageType);
         }
 
         public override void Shoot()
