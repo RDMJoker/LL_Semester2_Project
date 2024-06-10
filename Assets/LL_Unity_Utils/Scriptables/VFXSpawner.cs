@@ -13,5 +13,10 @@ namespace LL_Unity_Utils.Scriptables
            _spawnedObject = Instantiate(vfxPrefab, _position + positionOffset, vfxPrefab.transform.rotation);
         }
 
+        public void Spawn(Vector3 _position)
+        {
+            Instantiate(vfxPrefab, _position + positionOffset, vfxPrefab.transform.rotation);
+        }
+
     }
 }
