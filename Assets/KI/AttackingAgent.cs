@@ -12,12 +12,16 @@ namespace KI
         StateMachine stateMachine;
         IdleState idleState;
 
+        [Header("Simulation Scene Options - ONLY FOR SHOWCASE")]
+        [SerializeField] bool isStationary;
+
         protected override void Awake()
         {
             base.Awake();
             PatrolRadiusCenter = transform.position;
             TargetComponent = new TargetComponent();
             IdleTargetComponent = new TargetComponent();
+            if (isStationary) IdleTargetComponent.SetPoint(transform.position);
             var idleTimer = new Timer(IdleDuration);
             idleState = new IdleState(idleTimer, NavMeshAgent, Animator);
             State chaseState = new WalkToPointState(NavMeshAgent, TargetComponent, Animator);
@@ -44,7 +48,7 @@ namespace KI
             var anyToDeath = new Transition(deathState, () => IsDead);
             var deathToIdle = new Transition(idleState, () => !IsDead);
             var stunTimer = new Timer(StunDuration);
-            var stunnedState = new StunnedState(Animator, stunTimer,this);
+            var stunnedState = new StunnedState(Animator, stunTimer, this);
 
             var anyToStunned = new Transition(stunnedState, () =>
             {
@@ -59,11 +63,11 @@ namespace KI
                 return true;
             });
 
-            
+
             idleState.AddTransition(anyToDeath);
             idleState.AddTransition(anyToStunned);
             idleState.AddTransition(anyToChase);
-            idleState.AddTransition(idleToPatrol);
+            if (!isStationary) idleState.AddTransition(idleToPatrol);
 
             chaseState.AddTransition(anyToDeath);
             chaseState.AddTransition(anyToStunned);
@@ -75,19 +79,22 @@ namespace KI
             returnToPointState.AddTransition(movingToIdle);
             returnToPointState.AddTransition(anyToChase);
 
-            patrolState.AddTransition(anyToDeath);
-            patrolState.AddTransition(anyToStunned);
-            patrolState.AddTransition(movingToIdle);
-            patrolState.AddTransition(anyToChase);
+            if (!isStationary)
+            {
+                patrolState.AddTransition(anyToDeath);
+                patrolState.AddTransition(anyToStunned);
+                patrolState.AddTransition(movingToIdle);
+                patrolState.AddTransition(anyToChase);
+            }
 
             attackState.AddTransition(anyToDeath);
             attackState.AddTransition(anyToStunned);
             attackState.AddTransition(attackToReturn);
             attackState.AddTransition(attackToChase);
-            
+
             stunnedState.AddTransition(anyToDeath);
             stunnedState.AddTransition(stunnedToIdle);
-            
+
             deathState.AddTransition(deathToIdle);
         }
 

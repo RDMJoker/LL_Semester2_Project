@@ -21,7 +21,7 @@ namespace CombatSystems.Skills
             castingAgent = _castingAgent;
         }
 
-        void Awake()
+        protected virtual void Awake()
         {
             effectCollider = GetComponentInChildren<EffectCollider>();
         }

@@ -52,7 +52,6 @@ namespace KI
 
         public override void OnHit(Agent _attackingAgent, float _damage, EDamageType _damageType)
         {
-            
             TargetComponent.SetTarget(_attackingAgent.transform);
             IsAggro = true;
             base.OnHit(_attackingAgent,_damage, _damageType);

@@ -68,6 +68,11 @@ namespace KI
             TakeDamage(_damage, _attackingAgent.gameObject);
         }
 
+        public void OnHit(float _damage, EDamageType _damageType)
+        {
+            OnHit(this, _damage, _damageType);
+        }
+
         ColorGradient GetColorByDamageType(EDamageType _damageType)
         {
             foreach (var colorGradient in hitEffectColorGradients.colorGradients.Where(colorGradient => colorGradient.DamageType == _damageType))

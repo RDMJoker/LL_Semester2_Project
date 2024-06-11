@@ -1,9 +1,12 @@
 using System;
 using CombatSystems.Skills;
+using DefaultNamespace.Enums;
 using KI;
+using Scriptables.SceneLoader;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerInputs : MonoBehaviour
 {
@@ -75,6 +78,19 @@ public class PlayerInputs : MonoBehaviour
         Physics.Raycast(mainCamera.ScreenPointToRay(mousePosition), out raycastHit);
         playerAgent.SetTargetComponentPosition(raycastHit.point);
         OnSkillButtonPressed.Invoke(raycastHit.point);
+    }
+
+    public void Interact(InputAction.CallbackContext _callbackContext)
+    {
+        if (_callbackContext.phase != InputActionPhase.Started) return;
+        playerAgent.Interact();
+    }
+
+    public void ReturnToMenu(InputAction.CallbackContext _callbackContext)
+    {
+        if (_callbackContext.phase != InputActionPhase.Started) return;
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        SceneManager.LoadScene((int)EScenes.MainMenu);
     }
 
     public void PointAndClick(InputAction.CallbackContext _callbackContext)

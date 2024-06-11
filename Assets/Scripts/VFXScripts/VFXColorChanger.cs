@@ -19,5 +19,10 @@ namespace VFXScripts
             visualEffect.SetVector4("InnerGradientColor", _gradient.InnerColor);
             visualEffect.SetVector4("OuterGradientColor", _gradient.OuterColor);
         }
+
+        public void ChangeColor(Color _color, string _colorName = "MainColor")
+        {
+            visualEffect.SetVector4(_colorName, _color);
+        }
     }
 }

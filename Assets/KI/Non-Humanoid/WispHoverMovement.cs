@@ -13,12 +13,10 @@ namespace KI.Non_Humanoid
         [SerializeField] float yOffset;
         [SerializeField] float secondaryFrequence;
         [SerializeField] float secondaryAmplitude;
-        
-        
-        
+
         float startY;
 
-        void Awake()
+        void Start()
         {
             startY = transform.position.y;
         }

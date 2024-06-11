@@ -27,7 +27,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -52,6 +52,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BottomPart: 0.35
+    - _Float: 4.74
     - _FresnelPower: 1
     - _Metallic: 0.615
     - _QueueControl: 0

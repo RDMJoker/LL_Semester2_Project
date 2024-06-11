@@ -1,4 +1,6 @@
 ﻿using System;
+using DefaultNamespace;
+using Interface;
 using LL_Unity_Utils.Misc;
 using LL_Unity_Utils.Timers;
 using UnityEngine;
@@ -11,7 +13,12 @@ namespace KI
         [SerializeField] float castingSpeed;
         StateMachine stateMachine;
         public bool IsWalking;
-        
+
+        [Header("Interaction Values")]
+        [SerializeField] float interactionRadius;
+        [SerializeField] LayerMask detectionLayer;
+        IInteractable collisionObject;
+
 
         static readonly int castingSpeedHash = Animator.StringToHash("CastSpeed");
 
@@ -76,7 +83,7 @@ namespace KI
 
             stunnedState.AddTransition(stunnedToIdle);
         }
-        
+
         protected override bool FindTarget(float _radius)
         {
             throw new NotImplementedException();
@@ -102,6 +109,22 @@ namespace KI
         public void SetCastingDone()
         {
             IsCasting = false;
+        }
+
+        public void Interact()
+        {
+            var overlap = Physics.OverlapSphere(transform.position, interactionRadius, detectionLayer);
+            if (overlap.Length > 0)
+            {
+                collisionObject = overlap[0].GetComponent<Interactable>();
+            }
+            collisionObject?.Interaction();
+        }
+
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(transform.position, interactionRadius);
         }
     }
 }
