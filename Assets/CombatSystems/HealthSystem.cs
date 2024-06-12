@@ -1,4 +1,5 @@
 ﻿using System;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -52,6 +53,12 @@ namespace CombatSystems
         public void IncreaseMaxHP(float _value)
         {
             maxHP += _value;
+        }
+        
+        [Button]
+        public void DebugTakeDamage()
+        {
+            ReduceCurrentHP(1);
         }
 
         /*  Maybe this?

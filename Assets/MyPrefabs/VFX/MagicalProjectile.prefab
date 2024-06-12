@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6614936584270835577}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.25, y: 11.19, z: 2.72}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3876,7 +3876,7 @@ ParticleSystem:
     - serializedVersion: 3
       emitter: {fileID: 5192625396515374533}
       type: 0
-      properties: 24
+      properties: 8
       emitProbability: 1
   LightsModule:
     enabled: 0
@@ -4944,7 +4944,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8249628989231833093}
   serializedVersion: 8
-  lengthInSec: 1
+  lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0

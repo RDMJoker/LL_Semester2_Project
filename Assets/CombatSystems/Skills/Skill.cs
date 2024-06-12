@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using KI;
+using KI.Non_Humanoid;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CombatSystems.Skills
@@ -38,6 +40,18 @@ namespace CombatSystems.Skills
 
         void OnGameObjectHit(GameObject _hit)
         {
+            // --- Only for showcase
+            List<ProtectWisp> localWispList = new();
+            if (_hit.TryGetComponent(out ProtectWisp wisp))
+            {
+                if (!localWispList.Contains(wisp))
+                {
+                    localWispList.Add(wisp);
+                    wisp.OnHit(castingAgent, BaseDamage + castingAgent.SpellDamage, DamageType);
+                }
+            }
+
+            // ---
             if (!_hit.TryGetComponent(out Agent target) || hits.Contains(target) || target.IsDead) return;
             Debug.Log(_hit.name);
             hits.Add(target);
@@ -45,7 +59,5 @@ namespace CombatSystems.Skills
             target.OnHit(castingAgent, BaseDamage + castingAgent.SpellDamage, DamageType);
             if (target.IsDead || !target.isActiveAndEnabled) hits.Remove(target);
         }
-
-        
     }
 }

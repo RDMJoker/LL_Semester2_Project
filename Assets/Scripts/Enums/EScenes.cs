@@ -3,6 +3,8 @@
     public enum EScenes
     {
         MainMenu,
-        Simulation
+        Simulation,
+        LoadingScreenScene,
+        AIScene
     }
 }

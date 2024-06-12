@@ -86,8 +86,8 @@ namespace KI
         {
             if (debugHealthSystem) Debug.Log("Ich bin tot :( ");
             NavMeshAgent.enabled = false;
-            capsuleCollider.enabled = false;
             hitCollider.enabled = false;
+            capsuleCollider.enabled = false;
         }
     }
 }

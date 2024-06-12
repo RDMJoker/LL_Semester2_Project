@@ -1,4 +1,5 @@
 ﻿using LL_Unity_Utils.Misc;
+using ProgramWideConstants;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,7 +9,6 @@ namespace KI
     {
         readonly NavMeshAgent agent;
         readonly TargetComponent target;
-        const float RecalculationDistance = 0.5f;
         static readonly int isWalking = Animator.StringToHash("isWalking");
 
         public WalkToPointState(NavMeshAgent _agent, TargetComponent _target, Animator _animator) : base(_animator)
@@ -32,7 +32,7 @@ namespace KI
 
         public override void Tick()
         {
-            if (Vector3.Distance(agent.destination, target.TargetPosition) >= RecalculationDistance)
+            if (Vector3.Distance(agent.destination, target.TargetPosition) >= Constants.AIRecalculationDistance)
             {
                 if (agent.isActiveAndEnabled) agent.SetDestination(target.TargetPosition);
             }

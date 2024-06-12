@@ -11,7 +11,6 @@ namespace Scriptables.SceneLoader
 
         public void Invoke()
         {
-            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
             SceneManager.LoadScene((int)scene);
         }
     }
