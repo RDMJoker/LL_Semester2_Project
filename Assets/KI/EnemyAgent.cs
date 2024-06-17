@@ -16,7 +16,7 @@ namespace KI
         [SerializeField] protected LayerMask DetectionObstructionMask;
         [SerializeField] protected float PatrolRange;
         [SerializeField] protected float PatrolPointDistanceThreshhold;
-        [SerializeField] protected float aggroDuration;
+        [SerializeField] protected float AggroDuration;
         protected Vector3 PatrolRadiusCenter;
         protected bool AttackDone;
         bool isAggro;
@@ -31,7 +31,7 @@ namespace KI
                 if (value == isAggro) return;
                 if (value)
                 {
-                    aggroTimer = new Timer(aggroDuration);
+                    aggroTimer = new Timer(AggroDuration);
                     aggroTimer.StartTimer();
                 }
 

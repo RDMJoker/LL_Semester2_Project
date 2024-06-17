@@ -123,7 +123,7 @@ namespace KI
         public override void OnHit(Agent _attackingAgent, float _damage, EDamageType _damageType)
         {
             IsAggro = true;
-            isStunned = HealthSystem.CheckStunned(_damage, stunThreshhold);
+            IsStunned = HealthSystem.CheckStunned(_damage, StunThreshhold);
             TakeDamage(_damage, _attackingAgent.gameObject);
         }
     }

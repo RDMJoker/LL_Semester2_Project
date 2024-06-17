@@ -17,8 +17,6 @@ namespace KI
             agent = _agent;
         }
 
-// attackspeed / animation lenght = paramter für animationSpeed
-
         public override void StateEnter()
         {
             animator.SetBool(isAttacking, true);

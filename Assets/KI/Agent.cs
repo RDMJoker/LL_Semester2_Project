@@ -3,6 +3,7 @@ using System.Linq;
 using CombatSystems;
 using LL_Unity_Utils.Misc;
 using LL_Unity_Utils.Scriptables;
+using NaughtyAttributes;
 using Scriptables.Lists;
 using Scriptables.VFXScriptables;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace KI
         [SerializeField] public float SpellDamage;
         [SerializeField] [Min(0.01f)] public float AttackSpeed;
         [SerializeField] protected bool StateMachineDebugMode;
-        [SerializeField] protected float stunThreshhold;
+        [SerializeField] protected float StunThreshhold;
         [SerializeField] public float StunDuration;
         [SerializeField] bool debugHealthSystem;
         [SerializeField] VFXSpawner hitEffectSpawner;
@@ -30,8 +31,7 @@ namespace KI
         protected Animator Animator;
         CapsuleCollider capsuleCollider;
         BoxCollider hitCollider;
-        protected bool isStunned;
-
+        protected bool IsStunned;
         
 
         public bool IsDead => HealthSystem.IsDead;
@@ -61,7 +61,7 @@ namespace KI
 
         public virtual void OnHit(Agent _attackingAgent, float _damage, EDamageType _damageType)
         {
-            isStunned = HealthSystem.CheckStunned(_damage, stunThreshhold);
+            IsStunned = HealthSystem.CheckStunned(_damage, StunThreshhold);
             hitEffectSpawner.Spawn(transform.position, out var spawnedObject);
             var colorGradient = GetColorByDamageType(_damageType);
             spawnedObject.GetComponent<VFXColorChanger>().ChangeColor(colorGradient);

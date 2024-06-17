@@ -52,14 +52,14 @@ namespace KI
 
             var anyToStunned = new Transition(stunnedState, () =>
             {
-                if (!isStunned) return false;
+                if (!IsStunned) return false;
                 AttackDone = true;
                 return true;
             });
             var stunnedToIdle = new Transition(idleState, () =>
             {
                 if (!stunTimer.CheckTimer()) return false;
-                isStunned = false;
+                IsStunned = false;
                 return true;
             });
 

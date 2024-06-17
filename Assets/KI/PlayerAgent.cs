@@ -57,13 +57,13 @@ namespace KI
             var stunnedToIdle = new Transition(idleState, () =>
             {
                 if (!stunTimer.CheckTimer()) return false;
-                isStunned = false;
+                IsStunned = false;
                 return true;
             });
 
             var anyToStunned = new Transition(stunnedState, () =>
             {
-                if (!isStunned) return false;
+                if (!IsStunned) return false;
                 IsWalking = false;
                 IsCasting = false;
                 return true;
