@@ -17,6 +17,9 @@ namespace Generation.DungeonGenerator
         [SerializeField] int minRoomCount;
         [SerializeField] float roomCountIncrementPerLevel;
         [SerializeField] int seed;
+        [SerializeField] DungeonBuilder builder;
+
+        int maxRoomCount => (int)((generationWidth + generationHeight) * 0.5f);
 
         ObjectGrid<ERoomTypes> grid;
         System.Random random;
@@ -31,7 +34,7 @@ namespace Generation.DungeonGenerator
         [Button]
         public void InitMap(int _level = 1)
         {
-            Stopwatch stopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
             if (seed == 0) seed = System.DateTime.Now.Millisecond;
             random = new System.Random(seed);
@@ -39,6 +42,7 @@ namespace Generation.DungeonGenerator
             grid = new ObjectGrid<ERoomTypes>(generationWidth, generationHeight);
             ResetMap();
             GenerateLevelMap(_level);
+            builder.BuildDungeon(grid);
             Debug.Log(GetLevelLog());
             stopwatch.Stop();
             Debug.Log(stopwatch.ElapsedMilliseconds);
@@ -58,7 +62,7 @@ namespace Generation.DungeonGenerator
 
         void GenerateLevelMap(int _level)
         {
-            int roomCountToGenerate = (int)(random.Next(0, 2) + minRoomCount + _level * roomCountIncrementPerLevel);
+            int roomCountToGenerate = (int)(random.Next(0, 2) + minRoomCount + Mathf.Min(_level * roomCountIncrementPerLevel, maxRoomCount));
             var center = new Vector2Int(generationWidth, generationHeight) / 2;
             bool isValid = false;
             const int maxIterations = 100;
@@ -137,7 +141,7 @@ namespace Generation.DungeonGenerator
                 _coord + Vector2Int.down,
             };
 
-            return neighbourCoords.Count(currentCoord => grid.GetValue(currentCoord) != ERoomTypes.Free);
+            return neighbourCoords.Count(_currentCoord => grid.GetValue(_currentCoord) != ERoomTypes.Free);
         }
 
         string GetLevelLog()

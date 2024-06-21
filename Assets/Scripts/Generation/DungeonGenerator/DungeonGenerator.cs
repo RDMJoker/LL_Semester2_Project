@@ -9,6 +9,8 @@ namespace Generation.DungeonGenerator
         [SerializeField] int levelAmount;
         
         
+        //TODO: LevelSeed that influences FloorSeed
+        
         [Button]
         void GenerateDungeon()
         {

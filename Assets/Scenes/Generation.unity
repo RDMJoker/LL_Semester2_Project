@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 528067346}
   - component: {fileID: 528067345}
   - component: {fileID: 528067344}
+  - component: {fileID: 528067347}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -215,6 +216,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &528067347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528067343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &1157581264
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +271,7 @@ GameObject:
   - component: {fileID: 1157581266}
   - component: {fileID: 1157581265}
   - component: {fileID: 1157581267}
+  - component: {fileID: 1157581268}
   m_Layer: 0
   m_Name: DungeonGenerator
   m_TagString: Untagged
@@ -249,7 +295,8 @@ MonoBehaviour:
   generationHeight: 10
   minRoomCount: 5
   roomCountIncrementPerLevel: 2.6
-  seed: 705
+  seed: 0
+  builder: {fileID: 1157581268}
 --- !u!4 &1157581266
 Transform:
   m_ObjectHideFlags: 0
@@ -277,7 +324,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a90fa0a7c743ae9f5558d878f03b46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelAmount: 5
+  levelAmount: 1
+--- !u!114 &1157581268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157581264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c653a24df00e40a780bfc00991bc8a31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 2836129782512244722, guid: 1ae1ffe3d675f8c4eabbcfed9d37d025, type: 3}
 --- !u!1 &1546186594
 GameObject:
   m_ObjectHideFlags: 0
