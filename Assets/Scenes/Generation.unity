@@ -123,6 +123,57 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &44487385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 44487387}
+  - component: {fileID: 44487386}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &44487386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44487385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6dd9877c19441358905dc1fd03379e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generationWidth: 10
+  generationHeight: 10
+  minRoomCount: 5
+  roomCountIncrementPerLevel: 2.6
+  seed: 0
+  builder: {fileID: 1157581268}
+  gridList: {fileID: 11400000, guid: 9d8a9414759d9d64ea67c021f50cd2e3, type: 2}
+--- !u!4 &44487387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44487385}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.201274, y: -0.53527474, z: 4.528971}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &528067343
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +348,7 @@ MonoBehaviour:
   roomCountIncrementPerLevel: 2.6
   seed: 0
   builder: {fileID: 1157581268}
+  gridList: {fileID: 11400000, guid: 9d8a9414759d9d64ea67c021f50cd2e3, type: 2}
 --- !u!4 &1157581266
 Transform:
   m_ObjectHideFlags: 0
@@ -324,7 +376,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a90fa0a7c743ae9f5558d878f03b46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelAmount: 1
+  levelAmount: 5
+  gridList: {fileID: 11400000, guid: 9d8a9414759d9d64ea67c021f50cd2e3, type: 2}
+  levelGenerator: {fileID: 1157581265}
+  levelGenerator2: {fileID: 0}
 --- !u!114 &1157581268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,3 +518,4 @@ SceneRoots:
   - {fileID: 528067346}
   - {fileID: 1546186596}
   - {fileID: 1157581266}
+  - {fileID: 44487387}
