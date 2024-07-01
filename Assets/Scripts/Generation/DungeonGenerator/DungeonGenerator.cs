@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Threading;
-using Cinemachine;
-using DefaultNamespace.Enums;
+﻿using DefaultNamespace.Enums;
 using DefaultNamespace.Generation;
 using LL_Unity_Utils.Generic;
 using NaughtyAttributes;
-using Unity.Jobs;
-using Unity.Jobs.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace Generation.DungeonGenerator
@@ -35,8 +29,8 @@ namespace Generation.DungeonGenerator
         void GenDungeonMultithreading()
         {
             gridList.ResetEntireList();
-            GenerateDungeonJob dungeonJobFirst = new GenerateDungeonJob(1, 10, levelGenerator);
-            GenerateDungeonJob dungeonJobSecond = new GenerateDungeonJob(11, 20, levelGenerator2);
+            var dungeonJobFirst = new GenerateDungeonJob(1, 10, levelGenerator);
+            var dungeonJobSecond = new GenerateDungeonJob(11, 20, levelGenerator2);
             dungeonJobFirst.Execute();
             dungeonJobSecond.Execute();
             var list = gridList.OutputList();
