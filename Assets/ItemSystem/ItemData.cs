@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ItemSystem
 {
     [Serializable]
     public class ItemData
     {
-        public Dictionary<EItemStat, float> ItemStats = new()
+        public Dictionary<EItemStat, StatData> ItemStats = new()
         {
-            { EItemStat.Health , 0},
-            { EItemStat.Mana , 0},
-            { EItemStat.AttackSpeed , 0},
-            { EItemStat.DamageFlat , 0},
-            { EItemStat.MovementSpeed , 0},
-            { EItemStat.DamagePercent, 0}
+            { EItemStat.Health , new StatData()},
+            { EItemStat.Mana , new StatData()},
+            { EItemStat.AttackSpeed , new StatData()},
+            { EItemStat.DamageFlat , new StatData()},
+            { EItemStat.MovementSpeed , new StatData()},
+            { EItemStat.DamagePercent, new StatData()}
         }; 
-        public EItemRarity ItemRarity;
+        [HideInInspector] public EItemRarity ItemRarity;
+        public EItemType ItemType;
+        
     }
 }

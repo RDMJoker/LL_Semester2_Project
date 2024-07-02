@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &44487386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +329,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1157581265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,7 +409,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1224020174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,7 +423,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: []
-  amountToGenerate: 15
+  amountToGenerate: 1
+  itemTypes:
+    weightedList:
+    - {fileID: 11400000, guid: 844837fc3bae7aa43af6a8c945559405, type: 2}
+    - {fileID: 11400000, guid: bf40a0b630d530f4481e7642188abb7b, type: 2}
+    - {fileID: 11400000, guid: 0ec0336efb489d5408529e07b672faaa, type: 2}
+    - {fileID: 11400000, guid: 2aa6164967b912d419a58ba51c97242a, type: 2}
+  itemPrefab: {fileID: 8098913559592829485, guid: 907d5a201228c3b4bbe0dc6303929edd,
+    type: 3}
 --- !u!4 &1224020175
 Transform:
   m_ObjectHideFlags: 0
