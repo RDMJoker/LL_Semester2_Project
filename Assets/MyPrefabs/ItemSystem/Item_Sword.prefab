@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6642894163375987722}
   serializedVersion: 2
   m_LocalRotation: {x: -0.6981561, y: -0.5819369, z: 0.39958706, w: 0.11940582}
-  m_LocalPosition: {x: 0.1069, y: 0.0145, z: -0.0026}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -122,6 +122,37 @@ MonoBehaviour:
   itemData:
     ItemRarity: 0
     ItemType: 0
-  <BaseType>k__BackingField: 0
+    ItemStats:
+      _serializedList:
+      - Key: 0
+        Value:
+          IsElevated: 0
+          StatValue: 0
+          TierValue: 0
+      - Key: 1
+        Value:
+          IsElevated: 0
+          StatValue: 0
+          TierValue: 0
+      - Key: 5
+        Value:
+          IsElevated: 0
+          StatValue: 0
+          TierValue: 0
+      - Key: 3
+        Value:
+          IsElevated: 0
+          StatValue: 0
+          TierValue: 0
+      - Key: 4
+        Value:
+          IsElevated: 0
+          StatValue: 0
+          TierValue: 0
+      - Key: 2
+        Value:
+          IsElevated: 0
+          StatValue: 0
+          TierValue: 0
   BaseDamage: 5
   BaseAttackSpeed: 1

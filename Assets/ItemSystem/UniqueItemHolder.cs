@@ -7,7 +7,7 @@ namespace ItemSystem
     [CreateAssetMenu(menuName = "Scriptables/Items/UniqueItemHolder", fileName = "NewUniqueItemHolder")]
     public class UniqueItemHolder : ScriptableObject, IWeighable
     {
-        public List<UniqueItemData> UniqueItems;
+        public List<Item> UniqueItems;
         public int Tier;
         [field: SerializeField] public int Weight { get; set; }
     }

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 10
   weight: 5
+  BaseWeight: 5

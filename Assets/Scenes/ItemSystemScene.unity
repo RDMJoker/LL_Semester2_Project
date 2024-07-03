@@ -343,6 +343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1810868215}
   - component: {fileID: 1810868214}
+  - component: {fileID: 1810868216}
   m_Layer: 0
   m_Name: ItemDropper
   m_TagString: Untagged
@@ -363,20 +364,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: []
-  amountToGenerate: 1
-  itemTypes:
-    weightedList:
-    - {fileID: 11400000, guid: 844837fc3bae7aa43af6a8c945559405, type: 2}
-    - {fileID: 11400000, guid: 654c19c75cbac9a4db4c82102aad11d4, type: 2}
-    - {fileID: 11400000, guid: bf40a0b630d530f4481e7642188abb7b, type: 2}
-    - {fileID: 11400000, guid: 0ec0336efb489d5408529e07b672faaa, type: 2}
-    - {fileID: 11400000, guid: 9a20451eedeb6b04b91f77e7bc4e07e6, type: 2}
-    - {fileID: 11400000, guid: f9799acfc91c53b4f9ea6b2612c77a73, type: 2}
-    - {fileID: 11400000, guid: f6bedef8c890ab34fbbf45f0d0302d4d, type: 2}
-    - {fileID: 11400000, guid: 1a4a4734fe9998645b4b6d8b06b6a6fe, type: 2}
-    - {fileID: 11400000, guid: 67a6bdea35be5664a8607a99cfcea9a4, type: 2}
-    - {fileID: 11400000, guid: e8b33aad6cde21e48b56875ddc875367, type: 2}
-    - {fileID: 11400000, guid: 2aa6164967b912d419a58ba51c97242a, type: 2}
   tierDatas:
     weightedList:
     - {fileID: 11400000, guid: a5832b8f355e1be4185086ccb39d4e70, type: 2}
@@ -404,10 +391,18 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1461bef8b0433114199bec9849b81ebe, type: 2}
     - {fileID: 11400000, guid: 1f7a5657730c543459048479e52cd858, type: 2}
   uniqueItems:
-    weightedList: []
+    weightedList:
+    - {fileID: 11400000, guid: ea5923339b837204c90debf97299769c, type: 2}
+    - {fileID: 11400000, guid: f749330f76d5fee4496ca2ef8b34eef3, type: 2}
+    - {fileID: 11400000, guid: 3056a659946da4c43887b7d843d976c9, type: 2}
+    - {fileID: 11400000, guid: e5f614073000fb4469dbd0ac015c4d0f, type: 2}
+  defaultItemTypeDropTable: {fileID: 11400000, guid: 4edeccc33a5b7ee4f8942d161e8ff1cf,
+    type: 2}
+  defaultItemRarityDropTable: {fileID: 11400000, guid: 18adac44863c82c469546b0f82dd139f,
+    type: 2}
   itemPrefabs:
   - {fileID: -2241689211327080073, guid: 32750c6d14ff4ea48977a04127ccbbdf, type: 3}
-  debugPrefab: {fileID: 8098913559592829485, guid: 907d5a201228c3b4bbe0dc6303929edd,
+  fallbackPrefab: {fileID: 8098913559592829485, guid: 907d5a201228c3b4bbe0dc6303929edd,
     type: 3}
 --- !u!4 &1810868215
 Transform:
@@ -418,12 +413,27 @@ Transform:
   m_GameObject: {fileID: 1810868213}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.68882275, y: 2.493155, z: -0.7693281}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1810868216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810868213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b02b389f0bf0466eb11eedc40fdbd3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropper: {fileID: 1810868214}
+  customDropTable: {fileID: 11400000, guid: e4cc1ecb9afa3ac49aaa1ac3f5ee1141, type: 2}
+  customRarityTable: {fileID: 11400000, guid: 60f083e5bc13ff04886db085637f73d3, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -11,50 +11,25 @@ namespace ItemSystem
     {
         ItemData data;
         readonly RandomWeightedList<TierData> tierData;
-        readonly RandomWeightedList<UniqueItemHolder> uniqueItems;
         EItemStat chosenStat;
         const int MaxElevatedStats = 3;
         const float ElevationChancePercentile = 2;
 
-        public ItemRoller(RandomWeightedList<TierData> _tierDatas, RandomWeightedList<UniqueItemHolder> _uniqueItems)
+        public ItemRoller(RandomWeightedList<TierData> _tierDatas)
         {
             tierData = _tierDatas;
-            uniqueItems = _uniqueItems;
         }
 
-        public ItemData RollItem(ItemType _itemType, out UniqueItemData _uniqueItem)
+        public ItemData RollItem(ItemType _itemType, EItemRarity _rarity)
         {
-            _uniqueItem = null;
             data = new ItemData
             {
-                ItemRarity = GenerateRarity(),
+                ItemRarity = _rarity,
                 ItemType = _itemType.Type
             };
-            if (data.ItemRarity == EItemRarity.Unique)
-            {
-                _uniqueItem = GetRandomUnique();
-                data = _uniqueItem.itemData;
-                return data;
-            }
-
             GenerateStats();
             return data;
         }
-
-        EItemRarity GenerateRarity()
-        {
-            float random = Random.Range(0f, 100f);
-            return random switch
-            {
-                < RarityWeights.UniqueWeightThreshhold => EItemRarity.Unique,
-                < RarityWeights.LegendaryWeightThreshhold => EItemRarity.Legendary,
-                < RarityWeights.RareWeightThreshhold => EItemRarity.Rare,
-                < RarityWeights.UncommonWeightThreshhold => EItemRarity.Uncommon,
-                <= RarityWeights.CommonWeightThreshhold => EItemRarity.Common,
-                _ => throw new NotImplementedException()
-            };
-        }
-
         void GenerateStats()
         {
             var potentialStats = GetFilteredList();
@@ -127,12 +102,6 @@ namespace ItemSystem
 
             Debug.LogWarning("Something went wrong! Default TierData got returned!");
             return default;
-        }
-
-        UniqueItemData GetRandomUnique()
-        {
-            var randomUniqueList = uniqueItems.GetRandom();
-            return randomUniqueList.UniqueItems[Random.Range(0, randomUniqueList.UniqueItems.Count)];
         }
     }
 }

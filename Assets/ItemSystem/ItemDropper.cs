@@ -3,48 +3,59 @@ using System.Linq;
 using LL_Unity_Utils.Lists;
 using NaughtyAttributes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ItemSystem
 {
     public class ItemDropper : MonoBehaviour
     {
-        /* Only temporary SerializeField, to Debug better */
-        [SerializeField] List<ItemData> items;
-        
-        /* TODO: Replace with random Drop amount, but keep different option for debugging */
-        [SerializeField] int amountToGenerate;
+        List<ItemData> items;
 
-        [SerializeField] RandomWeightedList<ItemType> itemTypes;
         [SerializeField] RandomWeightedList<TierData> tierDatas;
         [SerializeField] RandomWeightedList<UniqueItemHolder> uniqueItems;
-        
+
+        [SerializeField] ItemTypeDropTable defaultItemTypeDropTable;
+        [SerializeField] ItemRarityDropTable defaultItemRarityDropTable;
+        RandomWeightedList<ItemType> itemTypes = new();
+        RandomWeightedList<ItemRarity> itemRarities = new();
 
         [SerializeField] List<Item> itemPrefabs;
-        [SerializeField] Item debugPrefab;
+        [SerializeField] Item fallbackPrefab;
         ItemRoller itemRoller;
-        Item rolledUnique;
+        WeightedListManager weightedListManager;
 
         void Awake()
         {
-            // itemTypes = new RandomWeightedList<ItemType>();
+            weightedListManager = new WeightedListManager();
+            itemTypes = weightedListManager.SetupItemTypeDropList(defaultItemTypeDropTable);
+            itemRarities = weightedListManager.SetupItemRarityDropList(defaultItemRarityDropTable);
             itemTypes.SortList();
             tierDatas.SortList();
-            itemRoller = new ItemRoller(tierDatas,uniqueItems);
+            itemRoller = new ItemRoller(tierDatas);
         }
 
         [Button]
-        void GenerateItems()
+        public void DropItem(int _amount = 1, ItemTypeDropTable _typeDropTable = null, ItemRarityDropTable _rarityDropTable = null)
         {
-            rolledUnique = null;
+            itemTypes = weightedListManager.SetupItemTypeDropList(_typeDropTable == null ? defaultItemTypeDropTable : _typeDropTable);
+            itemRarities = weightedListManager.SetupItemRarityDropList(_rarityDropTable == null ? defaultItemRarityDropTable : _rarityDropTable);
             items.Clear();
-            for (int i = 0; i < amountToGenerate; i++)
+            for (int i = 0; i < _amount; i++)
             {
-                var item = itemRoller.RollItem(GetDroppedType(), out var uniqueItem);
-                if (uniqueItem != null) rolledUnique = uniqueItem.prefab;
-                items.Add(item);
+                var type = GetDroppedType();
+                var rarity = GetDroppedRarity();
+                if (rarity.Rarity == EItemRarity.Unique)
+                {
+                    Instantiate(GetRandomUnique(type.Type));
+                }
+                else
+                {
+                    var item = itemRoller.RollItem(type, rarity.Rarity);
+                    items.Add(item);
+                }
             }
-            DropItems();
-            LogList();
+
+            SpawnItems();
         }
 
         ItemType GetDroppedType()
@@ -52,39 +63,40 @@ namespace ItemSystem
             return itemTypes.GetRandom();
         }
 
-        void DropItems()
+        ItemRarity GetDroppedRarity()
         {
-            if (rolledUnique != null)
-            {
-                var droppedItem = Instantiate(rolledUnique);
-            }
+            return itemRarities.GetRandom();
+        }
+
+        void SpawnItems()
+        {
             foreach (var itemData in items)
             {
                 var prefab = GetPrefab(itemData);
-                var droppedItem = Instantiate(rolledUnique != null ? rolledUnique : prefab);
+                var droppedItem = Instantiate(prefab);
                 droppedItem.itemData = itemData;
             }
         }
 
         Item GetPrefab(ItemData _itemData)
         {
-            var potentialDrops = itemPrefabs.Where(_prefab => _itemData.ItemType == _prefab.BaseType).ToList();
-            if(potentialDrops.Count == 0) potentialDrops.Add(debugPrefab);
+            var potentialDrops = itemPrefabs.Where(_prefab => _itemData.ItemType == _prefab.itemData.ItemType).ToList();
+            if (potentialDrops.Count == 0) potentialDrops.Add(fallbackPrefab);
             return potentialDrops[Random.Range(0, potentialDrops.Count)];
         }
 
-        void LogList()
+        Item GetRandomUnique(EItemType _type)
         {
-            int commonCount = items.Count(_item => _item.ItemRarity == EItemRarity.Common);
-            int uncommonCount = items.Count(_item => _item.ItemRarity == EItemRarity.Uncommon);
-            int rareCount = items.Count(_item => _item.ItemRarity == EItemRarity.Rare);
-            int legendaryCount = items.Count(_item => _item.ItemRarity == EItemRarity.Legendary);
-            int uniqueCount = items.Count(_item => _item.ItemRarity == EItemRarity.Unique);
-            Debug.Log(commonCount);
-            Debug.Log(uncommonCount);
-            Debug.Log(rareCount);
-            Debug.Log(legendaryCount);
-            Debug.Log(uniqueCount);
+            var selectedUniqueTier = uniqueItems.GetRandom();
+            var filteredList = selectedUniqueTier.UniqueItems.Where(_item => _item.itemData.ItemType == _type).ToList();
+            if (filteredList.Count == 0)
+            {
+                Debug.LogWarning("No suitable Item found! Spawning different type! Not found type was: " + _type);
+                return selectedUniqueTier.UniqueItems[Random.Range(0, selectedUniqueTier.UniqueItems.Count)];
+            }
+
+            var selectedUnique = filteredList[Random.Range(0, filteredList.Count)];
+            return selectedUnique;
         }
     }
 }

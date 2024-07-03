@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 228aef10448f47c7a987d8d37b75b1ca, type: 3}
+  m_Name: DefaultItemRarityDropTable
+  m_EditorClassIdentifier: 
+  DropTable:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: ecbb8871d79d17843bae1022c9fe27c5, type: 2}
+      Value: 0
+    - Key: {fileID: 11400000, guid: a0f1133f416460e44b5f18f7bc3d37de, type: 2}
+      Value: 0
+    - Key: {fileID: 11400000, guid: 7325984780f05684ca8b715b2597780e, type: 2}
+      Value: 0
+    - Key: {fileID: 11400000, guid: 864aafa91f597c647b5c586309b73877, type: 2}
+      Value: 0
+    - Key: {fileID: 11400000, guid: c40596e759f340c4585cfe1701477597, type: 2}
+      Value: 0
