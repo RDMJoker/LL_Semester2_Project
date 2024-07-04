@@ -329,7 +329,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1157581265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,16 +422,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f183be3b4b491cbdd1b9cde121d896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
-  amountToGenerate: 1
-  itemTypes:
-    weightedList:
-    - {fileID: 11400000, guid: 844837fc3bae7aa43af6a8c945559405, type: 2}
-    - {fileID: 11400000, guid: bf40a0b630d530f4481e7642188abb7b, type: 2}
-    - {fileID: 11400000, guid: 0ec0336efb489d5408529e07b672faaa, type: 2}
-    - {fileID: 11400000, guid: 2aa6164967b912d419a58ba51c97242a, type: 2}
-  itemPrefab: {fileID: 8098913559592829485, guid: 907d5a201228c3b4bbe0dc6303929edd,
-    type: 3}
+  tierDatas:
+    weightedList: []
+  uniqueItems:
+    weightedList: []
+  defaultItemTypeDropTable: {fileID: 0}
+  defaultItemRarityDropTable: {fileID: 0}
+  itemPrefabs: []
+  fallbackPrefab: {fileID: 0}
 --- !u!4 &1224020175
 Transform:
   m_ObjectHideFlags: 0
