@@ -402,12 +402,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be645aa82bfb463db304cc9a741c439f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yMovementFrequence: 10
-  yMovementAmplitude: 0.5
+  yMovementFrequence: 12
+  yMovementAmplitude: 0.65
   timeOffset: 1
-  yOffset: 0.1
-  secondaryFrequence: 8
-  secondaryAmplitude: 0.2
+  yOffset: 0.15
+  secondaryFrequence: 9
+  secondaryAmplitude: 0.45
 --- !u!114 &186697820918831907
 MonoBehaviour:
   m_ObjectHideFlags: 0
