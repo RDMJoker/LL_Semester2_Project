@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using DefaultNamespace.Enums;
-using DefaultNamespace.Generation;
 using LL_Unity_Utils.Generic;
 using NaughtyAttributes;
 using Unity.Collections;
@@ -21,7 +20,6 @@ namespace Generation.DungeonGenerator
         [SerializeField] float roomCountIncrementPerLevel;
         [SerializeField] int seed;
         [SerializeField] DungeonBuilder builder;
-        [SerializeField] ScriptableGridListTest gridList;
 
         int maxRoomCount => (int)((generationWidth + generationHeight) * 0.5f);
 
@@ -36,7 +34,7 @@ namespace Generation.DungeonGenerator
         }
 
         [Button]
-        public void InitMap(int _level = 1)
+        public ObjectGrid<ERoomTypes> InitMap(int _level = 1)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -46,11 +44,11 @@ namespace Generation.DungeonGenerator
             grid = new ObjectGrid<ERoomTypes>(generationWidth, generationHeight);
             ResetMap();
             GenerateLevelMap(_level);
-            gridList.AddToList(grid);
-            builder.BuildDungeon(grid);
+            // builder.BuildDungeon(grid);
             Debug.Log(GetLevelLog());
             stopwatch.Stop();
             Debug.Log(stopwatch.ElapsedMilliseconds);
+            return grid;
         }
 
         void ResetMap()
