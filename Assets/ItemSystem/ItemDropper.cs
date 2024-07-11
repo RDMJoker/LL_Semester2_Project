@@ -9,7 +9,7 @@ namespace ItemSystem
 {
     public class ItemDropper : MonoBehaviour
     {
-        List<ItemData> items;
+        List<ItemData> items = new();
 
         [SerializeField] RandomWeightedList<TierData> tierDatas;
         [SerializeField] RandomWeightedList<UniqueItemHolder> uniqueItems;

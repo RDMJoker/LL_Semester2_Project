@@ -8,6 +8,7 @@ using LL_Unity_Utils.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 
 namespace Generation.DungeonGenerator
 {
@@ -16,10 +17,11 @@ namespace Generation.DungeonGenerator
         [SerializeField] int levelAmount;
         [SerializeField] LevelGenerator levelGenerator;
         [SerializeField] bool useMultithreading;
-        [SerializeField] int multithreadIterations;
+        [SerializeField] int generationIterations;
 
         List<ObjectGrid<ERoomTypes>> objectList01;
         List<long> timeList;
+        List<int> seedList;
 
         //TODO: LevelSeed that influences FloorSeed
 
@@ -31,83 +33,59 @@ namespace Generation.DungeonGenerator
             stopWatch.Start();
             for (int i = 1; i < levelAmount + 1; i++)
             {
-                levelGenerator.ResetSeed();
-                // localList.Add(levelGenerator.InitMap(i));
                 if (useMultithreading)
                 {
+                    // levelGenerator.ResetSeed();
                     int i1 = i;
-                    var newTask = new Task<ObjectGrid<ERoomTypes>>(() => levelGenerator.InitMap(i1));
+                    // var secondNewTask = new Task(levelGenerator.ResetSeed);
+                    var newTask = new Task<ObjectGrid<ERoomTypes>>(() => levelGenerator.InitMap(i1, seedList[i1 - 1]));
+                    // secondNewTask.Start();
                     newTask.Start();
-                    newTask.Wait();
                     localList.Add(newTask.Result);
                 }
                 else
                 {
-                    localList.Add(levelGenerator.InitMap(i));
+                    levelGenerator.ResetSeed();
+                    localList.Add(levelGenerator.InitMap(i, seedList[i - 1]));
                 }
             }
 
             stopWatch.Stop();
             timeList.Add(stopWatch.ElapsedMilliseconds);
-            
-            return localList;
-        }
-
-        List<ObjectGrid<ERoomTypes>> GenerateDungeon(int _amount)
-        {
-            List<ObjectGrid<ERoomTypes>> localList = new();
-            for (int i = 0; i < _amount; i++)
-            {
-                levelGenerator.ResetSeed();
-                localList.Add(levelGenerator.InitMap(i));
-            }
 
             return localList;
-        }
-
-        void GenDungeonMultithreading()
-        {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            if (useMultithreading)
-            {
-                var myTask = new Task<List<ObjectGrid<ERoomTypes>>>(GenerateDungeon);
-                myTask.Start();
-                var breakoutTimeSpan = new TimeSpan(hours: 0, minutes: 1, seconds: 0);
-                myTask.Wait(breakoutTimeSpan);
-                if (!myTask.IsCompletedSuccessfully)
-                {
-                    Debug.LogError("Task had a problem! Please verify integrity of the code!");
-                    return;
-                }
-
-                objectList01 = myTask.Result;
-            }
-            else
-            {
-                objectList01 = GenerateDungeon(levelAmount);
-            }
-
-            stopwatch.Stop();
-            timeList.Add(stopwatch.ElapsedMilliseconds);
         }
 
         [Button]
-        void MultipleMultithreadingRuns()
+        void MultipleGenerationRuns()
         {
+            if (seedList == null)
+            {
+                seedList = new List<int>();
+                for (int i = 0; i < levelAmount; i++)
+                {
+                    seedList.Add(Random.Range(0, 30001));
+                }
+            }
+
             timeList = new List<long>();
-            for (int i = 0; i < multithreadIterations; i++)
+            for (int i = 0; i < generationIterations; i++)
             {
                 objectList01 = GenerateDungeon();
             }
 
             long additiveTime = timeList.Sum();
             long medianTime = additiveTime / timeList.Count;
+            timeList.Sort();
+            long minTime = timeList.First();
+            long maxTime = timeList.Last();
             Debug.Log("Generation took an average time of: " + medianTime);
-            Debug.Log("First Level Room Count: " + GetRoomAmountFromGrid(objectList01.First()));
-            Debug.Log("Fifth Level Room Count " + GetRoomAmountFromGrid(objectList01[5]));
-            Debug.Log("Tenth Level Room Count " + GetRoomAmountFromGrid(objectList01[10]));
-            Debug.Log("Last Level Room Count: " + GetRoomAmountFromGrid(objectList01.Last()));
+            Debug.Log("The shortest generation took: " + minTime);
+            Debug.Log("The longest generation took: " + maxTime);
+            // Debug.Log("First Level Room Count: " + GetRoomAmountFromGrid(objectList01.First()));
+            // Debug.Log("Fifth Level Room Count " + GetRoomAmountFromGrid(objectList01[5]));
+            // Debug.Log("Tenth Level Room Count " + GetRoomAmountFromGrid(objectList01[10]));
+            // Debug.Log("Last Level Room Count: " + GetRoomAmountFromGrid(objectList01.Last()));
         }
 
         int GetRoomAmountFromGrid(ObjectGrid<ERoomTypes> _grid)

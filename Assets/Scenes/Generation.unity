@@ -158,6 +158,7 @@ MonoBehaviour:
   roomCountIncrementPerLevel: 2.6
   seed: 0
   builder: {fileID: 1157581268}
+  debugLevel: 0
 --- !u!4 &44487387
 Transform:
   m_ObjectHideFlags: 0
@@ -341,12 +342,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6dd9877c19441358905dc1fd03379e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generationWidth: 20
-  generationHeight: 20
+  generationWidth: 50
+  generationHeight: 50
   minRoomCount: 5
   roomCountIncrementPerLevel: 2.6
   seed: 0
   builder: {fileID: 1157581268}
+  debugLevel: 0
 --- !u!4 &1157581266
 Transform:
   m_ObjectHideFlags: 0
@@ -376,8 +378,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelAmount: 200
   levelGenerator: {fileID: 1157581265}
-  useMultithreading: 1
-  multithreadIterations: 100
+  useMultithreading: 0
+  generationIterations: 100
 --- !u!114 &1157581268
 MonoBehaviour:
   m_ObjectHideFlags: 0

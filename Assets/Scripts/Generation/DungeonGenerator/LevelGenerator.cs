@@ -20,8 +20,9 @@ namespace Generation.DungeonGenerator
         [SerializeField] float roomCountIncrementPerLevel;
         [SerializeField] int seed;
         [SerializeField] DungeonBuilder builder;
+        [SerializeField] bool debugLevel;
 
-        int maxRoomCount => (int)((generationWidth + generationHeight) * 0.5f);
+        int maxRoomCount => (int)((generationWidth + generationHeight) * 0.25f);
 
         ObjectGrid<ERoomTypes> grid;
         System.Random random;
@@ -34,20 +35,20 @@ namespace Generation.DungeonGenerator
         }
 
         [Button]
-        public ObjectGrid<ERoomTypes> InitMap(int _level = 1)
+        public ObjectGrid<ERoomTypes> InitMap(int _level = 1, int _seed = 0)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            if (seed == 0) seed = System.DateTime.Now.Millisecond;
+            seed = _seed;
             random = new System.Random(seed);
             endRooms = new List<Vector2Int>();
             grid = new ObjectGrid<ERoomTypes>(generationWidth, generationHeight);
             ResetMap();
             GenerateLevelMap(_level);
-            // builder.BuildDungeon(grid);
-            Debug.Log(GetLevelLog());
+            // builder.BuildDungeon(grid); --> temporarily disabled for multithreading purpose
+            if (debugLevel) Debug.Log(GetLevelLog());
             stopwatch.Stop();
-            Debug.Log(stopwatch.ElapsedMilliseconds);
+            if (debugLevel) Debug.Log(stopwatch.ElapsedMilliseconds);
             return grid;
         }
 
@@ -79,7 +80,7 @@ namespace Generation.DungeonGenerator
             }
 
             if (currentIterations >= maxIterations) Debug.LogError("Something went wrong!!" + seed);
-            Debug.Log("Generated after " + currentIterations + " iterations!");
+            if (debugLevel) Debug.Log("Generated after " + currentIterations + " iterations!");
             GenerateSpecialRooms();
         }
 
