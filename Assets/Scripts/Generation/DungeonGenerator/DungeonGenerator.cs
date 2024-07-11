@@ -26,13 +26,30 @@ namespace Generation.DungeonGenerator
         [Button]
         List<ObjectGrid<ERoomTypes>> GenerateDungeon()
         {
+            var stopWatch = new Stopwatch();
             List<ObjectGrid<ERoomTypes>> localList = new();
+            stopWatch.Start();
             for (int i = 1; i < levelAmount + 1; i++)
             {
                 levelGenerator.ResetSeed();
-                localList.Add(levelGenerator.InitMap(i));
+                // localList.Add(levelGenerator.InitMap(i));
+                if (useMultithreading)
+                {
+                    int i1 = i;
+                    var newTask = new Task<ObjectGrid<ERoomTypes>>(() => levelGenerator.InitMap(i1));
+                    newTask.Start();
+                    newTask.Wait();
+                    localList.Add(newTask.Result);
+                }
+                else
+                {
+                    localList.Add(levelGenerator.InitMap(i));
+                }
             }
 
+            stopWatch.Stop();
+            timeList.Add(stopWatch.ElapsedMilliseconds);
+            
             return localList;
         }
 
@@ -48,7 +65,6 @@ namespace Generation.DungeonGenerator
             return localList;
         }
 
-        [Button]
         void GenDungeonMultithreading()
         {
             var stopwatch = new Stopwatch();
@@ -74,7 +90,6 @@ namespace Generation.DungeonGenerator
 
             stopwatch.Stop();
             timeList.Add(stopwatch.ElapsedMilliseconds);
-
         }
 
         [Button]
@@ -83,7 +98,7 @@ namespace Generation.DungeonGenerator
             timeList = new List<long>();
             for (int i = 0; i < multithreadIterations; i++)
             {
-                GenDungeonMultithreading();
+                objectList01 = GenerateDungeon();
             }
 
             long additiveTime = timeList.Sum();
