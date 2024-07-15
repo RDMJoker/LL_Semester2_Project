@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8901326134229211308}
   - component: {fileID: 3870318652823956884}
   - component: {fileID: 5802601911647862389}
-  - component: {fileID: 8098913559592829485}
+  - component: {fileID: 6804948597319970736}
   m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
@@ -108,7 +108,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8098913559592829485
+--- !u!114 &6804948597319970736
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

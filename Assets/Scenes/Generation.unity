@@ -342,13 +342,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6dd9877c19441358905dc1fd03379e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generationWidth: 50
-  generationHeight: 50
+  generationWidth: 20
+  generationHeight: 20
   minRoomCount: 5
   roomCountIncrementPerLevel: 2.6
   seed: 0
   builder: {fileID: 1157581268}
-  debugLevel: 0
+  debugLevel: 1
 --- !u!4 &1157581266
 Transform:
   m_ObjectHideFlags: 0
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a90fa0a7c743ae9f5558d878f03b46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelAmount: 200
+  levelAmount: 100
   levelGenerator: {fileID: 1157581265}
   useMultithreading: 0
   generationIterations: 100

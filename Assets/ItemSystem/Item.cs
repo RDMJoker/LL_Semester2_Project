@@ -1,5 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Reflection;
+using UnityEditor.TextCore.Text;
 using UnityEngine;
 
 namespace ItemSystem
@@ -7,6 +8,7 @@ namespace ItemSystem
     public class Item : MonoBehaviour
     {
         public ItemData itemData;
+
         protected virtual void Start()
         {
             Debug.Log(itemData.ItemType);
