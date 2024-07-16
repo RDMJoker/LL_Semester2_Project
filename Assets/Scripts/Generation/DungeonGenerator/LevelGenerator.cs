@@ -22,7 +22,8 @@ namespace Generation.DungeonGenerator
         [SerializeField] DungeonBuilder builder;
         [SerializeField] bool debugLevel;
 
-        int maxRoomCount => (int)((generationWidth + generationHeight) * 0.25f);
+        // int maxRoomCount => (int)((generationWidth + generationHeight) * 0.25f);
+        int maxRoomCount => (int)Mathf.Min((generationWidth + generationHeight) * 0.25f, 60);
 
         ObjectGrid<ERoomTypes> grid;
         System.Random random;

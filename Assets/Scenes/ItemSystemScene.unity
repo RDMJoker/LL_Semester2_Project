@@ -485,12 +485,14 @@ MonoBehaviour:
           IsElevated: 0
           StatValue: 0
           TierValue: 0
-  baseDamage: 20
-  baseAttackSpeed: 10
+  baseDamage: 199
+  baseAttackSpeed: 53
   baseDefence: 0
   uniqueName: ErstelltesUnique
   chosenIndex: 0
   uniqueTier: 0
+  testText: 
+  ThisIsAUniqueInt: 12
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -19,6 +19,8 @@ namespace ItemSystem
         [SerializeField] string uniqueName;
         [SerializeField] int chosenIndex = 0;
         [SerializeField] [Range(0, 3)] int uniqueTier;
+        [SerializeField] string testText;
+        [SerializeField] int ThisIsAUniqueInt;
 
         string filePath = "Assets/MyPrefabs/ItemSystem/UniqueItems/";
         string uniqueItemHolderPath = "Assets/ItemSystem/ItemSystemScriptables/UniqueItems/UniqueItems_Tier0";
