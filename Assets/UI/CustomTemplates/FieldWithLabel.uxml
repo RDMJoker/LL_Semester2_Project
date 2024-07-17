@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="FieldWithLabel" style="flex-grow: 0; flex-direction: row; flex-basis: auto; height: auto; align-self: auto; justify-content: flex-start; align-items: center; flex-wrap: nowrap; width: auto; min-height: auto; min-width: auto; flex-shrink: 0;">
+        <uie:ObjectField label="Object Field" style="width: auto; flex-direction: row; max-width: 50%; max-height: none; min-height: auto; min-width: 25%;" />
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+    </ui:VisualElement>
+</ui:UXML>

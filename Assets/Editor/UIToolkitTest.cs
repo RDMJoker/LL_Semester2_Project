@@ -33,7 +33,7 @@ namespace Editor
             uxmlRef.CloneTree(root);
 
             PropertyField field = root.Q<PropertyField>("PropertyField1");
-            field.RegisterValueChangeCallback((onChangeEvent) => TestMethod(onChangeEvent.changedProperty.intValue));
+            field.RegisterValueChangeCallback((_onChangeEvent) => TestMethod(_onChangeEvent.changedProperty.intValue));
             PropertyField field2 = root.Q<PropertyField>("PropertyField2");
             //   field2.Bind(secondSerializedObject);
             PropertyField field3 = root.Q<PropertyField>("PropertyField3");
@@ -47,7 +47,7 @@ namespace Editor
             // container.onGUIHandler = new Action(GUI CODE)
             
             Toggle toggle = root.Q<Toggle>("Toggle");
-            toggle.RegisterValueChangedCallback((onValueChanged) => DisableGroup(properties, onValueChanged.newValue));
+            toggle.RegisterValueChangedCallback((_onValueChanged) => DisableGroup(properties, _onValueChanged.newValue));
             
             root.Bind(serializedObject);
             root.Bind(secondSerializedObject);

@@ -10,52 +10,60 @@ namespace ItemSystem
     public class UniqueItemPrefabBuilder : MonoBehaviour
     {
         [SerializeField] Item basePrefab;
-        [SerializeField] Mesh mesh;
-        [SerializeField] Material material;
-        [SerializeField] ItemData itemData;
-        [SerializeField] int baseDamage;
-        [SerializeField] int baseAttackSpeed;
-        [SerializeField] int baseDefence;
-        [SerializeField] string uniqueName;
-        [SerializeField] int chosenIndex = 0;
-        [SerializeField] [Range(0, 3)] int uniqueTier;
-        [SerializeField] string testText;
-        [SerializeField] int ThisIsAUniqueInt;
+
+        // [SerializeField] Mesh mesh;
+        // [SerializeField] Material material;
+        ItemData itemData;
+        // [SerializeField] int baseDamage;
+        // [SerializeField] int baseAttackSpeed;
+        // [SerializeField] int baseDefence;
+        // [SerializeField] string uniqueName;
+        // [SerializeField] int chosenIndex = 0;
+        // [SerializeField] [Range(0, 3)] int uniqueTier;
 
         string filePath = "Assets/MyPrefabs/ItemSystem/UniqueItems/";
         string uniqueItemHolderPath = "Assets/ItemSystem/ItemSystemScriptables/UniqueItems/UniqueItems_Tier0";
 
-        List<Type> itemTypes = new()
+        public List<Type> itemTypes = new()
         {
             typeof(Sword),
             typeof(Boots)
         };
 
 
-        [Button]
-        void CreatePrefab()
+        public void CreatePrefab(string _name, Type _type, Mesh _mesh, Material _material, int _uniqueTier, int _baseDamage = 0, int _baseAttackSpeed = 0, int _baseDefence = 0)
         {
-            var newUniqueItem = PrefabUtility.SaveAsPrefabAsset(basePrefab.gameObject, filePath + uniqueName + ".prefab");
+            var newUniqueItem = PrefabUtility.SaveAsPrefabAsset(basePrefab.gameObject, filePath + _name + ".prefab");
             DestroyImmediate(newUniqueItem.GetComponent<Item>(), true);
-            var scriptComponent = newUniqueItem.AddComponent(itemTypes[chosenIndex]);
+            var scriptComponent = newUniqueItem.AddComponent(_type);
             switch (scriptComponent)
             {
                 case Weapon weapon:
-                    weapon.BaseDamage = baseDamage;
-                    weapon.BaseAttackSpeed = baseAttackSpeed;
+                    weapon.BaseDamage = _baseDamage;
+                    weapon.BaseAttackSpeed = _baseAttackSpeed;
                     newUniqueItem.AddComponent<MeshCollider>();
                     break;
                 case Armor armor:
-                    armor.BaseDefence = baseDefence;
+                    armor.BaseDefence = _baseDefence;
                     break;
             }
 
             scriptComponent.GetComponent<Item>().itemData = itemData;
-            newUniqueItem.GetComponent<MeshFilter>().mesh = mesh;
-            newUniqueItem.GetComponent<MeshRenderer>().material = material;
-            newUniqueItem.name = uniqueName;
-            var uniqueItemHolder = AssetDatabase.LoadAssetAtPath<UniqueItemHolder>(uniqueItemHolderPath + uniqueTier + ".asset");
+            newUniqueItem.GetComponent<MeshFilter>().mesh = _mesh;
+            newUniqueItem.GetComponent<MeshRenderer>().material = _material;
+            newUniqueItem.name = _name;
+            var uniqueItemHolder = AssetDatabase.LoadAssetAtPath<UniqueItemHolder>(uniqueItemHolderPath + _uniqueTier + ".asset");
             uniqueItemHolder.UniqueItems.Add(newUniqueItem.GetComponent<Item>());
+        }
+
+        public void CreateItemDate(Type _type, Dictionary<EItemStat, int> _values)
+        {  
+            itemData = new ItemData()
+            {
+                ItemRarity = EItemRarity.Unique,
+                ItemType = ItemTypeDictionary.GetEItemType(_type)
+            };
+            
         }
     }
 }
