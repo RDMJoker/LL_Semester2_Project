@@ -1,33 +1,43 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:TextField picking-mode="Ignore" label="Unique Item Name" name="UniqueNameTextField" max-length="45" password="false" value="5555" style="min-width: 25%; min-height: auto; max-height: none; max-width: 50%; width: auto; -unity-text-align: upper-center; margin-top: 10px; text-overflow: clip; flex-direction: column; align-items: stretch; justify-content: flex-start; align-self: center; white-space: nowrap; -unity-font-style: normal;" />
-    <ui:VisualElement name="ObjectVisualsGroup" style="flex-grow: 0; align-self: center; justify-content: space-around; align-items: center; flex-shrink: 0; flex-direction: row; margin-top: 10px; padding-top: 0; padding-right: 0; width: 80%;">
-        <uie:ObjectField label="Mesh" focusable="true" type="UnityEngine.Mesh, UnityEngine.CoreModule" name="MeshField" style="max-width: 50%; min-width: 20%; -unity-text-align: upper-left; align-self: auto; justify-content: flex-start; align-items: flex-start; white-space: normal; -unity-font-style: normal;" />
+    <uie:Toolbar name="Toolbar">
+        <uie:ToolbarButton text="Item Buider" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ItemBuilderTabButton" />
+        <uie:ToolbarButton text="Droptable Builder" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DroptableBuilderTabButton" />
+    </uie:Toolbar>
+    <ui:VisualElement name="ItemBuilderTab" style="flex-grow: 0; flex-shrink: 0; display: flex;">
+        <ui:TextField picking-mode="Ignore" label="Unique Item Name" name="UniqueNameTextField" max-length="45" password="false" value="5555" style="min-width: 25%; min-height: auto; max-height: none; max-width: 50%; width: auto; -unity-text-align: upper-left; margin-top: 10px; text-overflow: clip; flex-direction: row; align-items: auto; justify-content: flex-start; align-self: auto; white-space: nowrap; -unity-font-style: normal;" />
         <uie:ObjectField label="Material" type="UnityEngine.Material, UnityEngine.CoreModule" name="MaterialField" style="max-width: 50%; min-width: 20%;" />
+        <uie:ObjectField label="Mesh" focusable="true" type="UnityEngine.Mesh, UnityEngine.CoreModule" name="MeshField" style="max-width: 50%; min-width: 20%; -unity-text-align: upper-left; align-self: auto; justify-content: flex-start; align-items: flex-start; white-space: normal; -unity-font-style: normal;" />
+        <ui:GroupBox name="ItemStatsBox" text="Item Stats">
+            <ui:DropdownField label="Script Type" index="-1" name="ScriptTypeDropDown" style="max-width: 50%;" />
+            <ui:DropdownField label="Unique Tier" index="-1" name="UniqueTierDropDown" style="max-width: 50%; align-items: stretch;" />
+            <ui:Foldout text="Weapon Base Stats" name="WeaponStats">
+                <ui:VisualElement name="WeaponStatGroup" style="flex-grow: 0; flex-shrink: 0; flex-direction: column; min-width: 20%; min-height: auto; max-width: 100%; align-items: flex-start;">
+                    <ui:IntegerField label="Base Damage" value="42" name="BaseDamage" />
+                    <ui:IntegerField label="Base Attack Speed" value="42" name="BaseAttackSpeed" readonly="false" />
+                </ui:VisualElement>
+            </ui:Foldout>
+            <ui:Foldout text="Armor Base Stats" name="ArmorStats">
+                <ui:VisualElement name="ArmorStatGroup" style="flex-grow: 0; flex-shrink: 0; flex-direction: column; min-width: 20%; min-height: auto; max-width: 100%; align-items: flex-start;">
+                    <ui:IntegerField label="Base Armor" value="42" name="BaseArmor" />
+                </ui:VisualElement>
+            </ui:Foldout>
+            <ui:Foldout text="Values" name="SpecificStats" value="true">
+                <ui:VisualElement name="StatGroup" style="flex-grow: 0; flex-shrink: 0; flex-direction: column; min-width: 20%; min-height: auto; max-width: 100%; align-items: flex-start;">
+                    <ui:IntegerField label="Health" value="42" name="HealthTextField" />
+                    <ui:IntegerField label="Mana" value="42" name="ManaTextField" />
+                    <ui:IntegerField label="AttackSpeed" value="42" name="AttackSpeedField" />
+                    <ui:IntegerField label="Flat Damage" value="42" name="FlatDamageField" />
+                    <ui:IntegerField label="Damge Percent" value="42" name="PercentDamageField" />
+                    <ui:IntegerField label="Movement Speed" value="42" name="MovementSpedField" />
+                </ui:VisualElement>
+            </ui:Foldout>
+        </ui:GroupBox>
+        <ui:Button text="Generate Item" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GenerationButton" style="min-height: auto; min-width: auto; max-width: none; max-height: none; width: 50%; height: 5%; align-self: center; justify-content: flex-start; align-items: stretch; margin-top: 20px;" />
     </ui:VisualElement>
-    <ui:GroupBox name="ItemStatsBox" text="Item Stats">
-        <ui:DropdownField label="Script Type" index="-1" name="ScriptTypeDropDown" style="max-width: 50%;" />
-        <ui:DropdownField label="Unique Tier" index="-1" name="UniqueTierDropDown" style="max-width: 50%; align-items: stretch;" />
-        <ui:Foldout text="Weapon Base Stats" name="WeaponStats">
-            <ui:VisualElement name="WeaponStatGroup" style="flex-grow: 0; flex-shrink: 0; flex-direction: column; min-width: 20%; min-height: auto; max-width: 100%; align-items: flex-start;">
-                <ui:TextField picking-mode="Ignore" label="Base Damage" value="0" max-length="6" password="false" name="BaseDamage" style="flex-direction: row; -unity-text-align: upper-center; align-items: stretch; justify-content: flex-start; align-self: auto;" />
-                <ui:TextField picking-mode="Ignore" label="Base Attack Speed" value="0" max-length="6" password="false" name="BaseAttackSpeed" style="flex-direction: row; -unity-text-align: upper-center; align-items: stretch; justify-content: flex-start; align-self: auto;" />
-            </ui:VisualElement>
-        </ui:Foldout>
-        <ui:Foldout text="Armor Base Stats" name="ArmorStats">
-            <ui:VisualElement name="ArmorStatGroup" style="flex-grow: 0; flex-shrink: 0; flex-direction: column; min-width: 20%; min-height: auto; max-width: 100%; align-items: flex-start;">
-                <ui:TextField picking-mode="Ignore" label="Base Armor" value="0" max-length="6" password="false" name="BaseArmor" style="flex-direction: row; -unity-text-align: upper-center; align-items: stretch; justify-content: flex-start; align-self: auto;" />
-            </ui:VisualElement>
-        </ui:Foldout>
-        <ui:Foldout text="Values" name="SpecificStats" value="true">
-            <ui:VisualElement name="StatGroup" style="flex-grow: 0; flex-shrink: 0; flex-direction: column; min-width: 20%; min-height: auto; max-width: 100%; align-items: flex-start;">
-                <ui:TextField picking-mode="Ignore" label="Health" value="0" max-length="6" password="false" name="HealthTextField" style="flex-direction: row; -unity-text-align: upper-center; align-items: stretch; justify-content: flex-start; align-self: auto;" />
-                <ui:TextField picking-mode="Ignore" label="Mana" value="0" max-length="6" password="false" name="ManaTextField" style="flex-direction: row; -unity-text-align: upper-center; align-items: stretch; justify-content: flex-start; align-self: auto;" />
-                <ui:TextField picking-mode="Ignore" label="Attack Speed" value="0" max-length="6" password="false" name="AttackSpeedField" style="flex-direction: row; -unity-text-align: upper-center; align-items: stretch; justify-content: flex-start; align-self: auto;" />
-                <ui:TextField picking-mode="Ignore" label="Flat Damage" value="0" max-length="6" password="false" name="FlatDamageField" style="flex-direction: row; -unity-text-align: upper-center; align-items: stretch; justify-content: flex-start; align-self: auto;" />
-                <ui:TextField picking-mode="Ignore" label="Percentage Damage" value="0" max-length="6" password="false" name="PercentDamageField" style="flex-direction: row; -unity-text-align: upper-center; align-items: stretch; justify-content: flex-start; align-self: auto;" />
-                <ui:TextField picking-mode="Ignore" label="Movement Speed" value="0" max-length="6" password="false" name="MovementSpeedField" style="flex-direction: row; -unity-text-align: upper-center; align-items: stretch; justify-content: flex-start; align-self: auto;" />
-            </ui:VisualElement>
-        </ui:Foldout>
-    </ui:GroupBox>
-    <ui:Button text="Generate Item" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GenerationButton" style="min-height: auto; min-width: auto; max-width: none; max-height: none; width: 50%; height: 5%; align-self: center; justify-content: flex-start; align-items: stretch; margin-top: 50px;" />
+    <ui:VisualElement focusable="false" name="DroptableBuilderTab" style="flex-grow: 0; display: none; flex-shrink: 0;">
+        <ui:TextField picking-mode="Ignore" label="Droptable Name" name="DroptableName" style="min-width: 20%; max-width: 50%;" />
+        <uie:PropertyField name="DroptableField" binding-path="DropTable" />
+        <ui:Button text="Create Droptable" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DroptableButton" style="max-width: 80%; min-width: 40%; align-self: center; height: auto;" />
+        <ui:Button text="Delete Droptable" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DeleteDroptableButton" tooltip="Deletes the droptable with the given name" style="max-width: 80%; min-width: 40%; align-self: center; height: auto;" />
+    </ui:VisualElement>
 </ui:UXML>

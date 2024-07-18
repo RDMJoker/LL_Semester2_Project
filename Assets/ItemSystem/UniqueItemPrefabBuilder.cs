@@ -56,14 +56,13 @@ namespace ItemSystem
             uniqueItemHolder.UniqueItems.Add(newUniqueItem.GetComponent<Item>());
         }
 
-        public void CreateItemDate(Type _type, Dictionary<EItemStat, int> _values)
+        public void CreateItemData(Type _type, Dictionary<EItemStat, int> _values)
         {  
             itemData = new ItemData()
             {
                 ItemRarity = EItemRarity.Unique,
-                ItemType = ItemTypeDictionary.GetEItemType(_type)
+                ItemType = ItemTypeDictionaries.GetEItemType(_type)
             };
-            
         }
     }
 }

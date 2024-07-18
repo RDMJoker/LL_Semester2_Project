@@ -448,51 +448,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basePrefab: {fileID: 6804948597319970736, guid: 907d5a201228c3b4bbe0dc6303929edd,
     type: 3}
-  mesh: {fileID: -8278102857510682554, guid: 19cfcefab4d48fb409582a6a591f0ca0, type: 3}
-  material: {fileID: 2100000, guid: 09a84924202a7c14dbbdcc7846bd818a, type: 2}
-  itemData:
-    ItemRarity: 0
-    ItemType: 0
-    ItemStats:
-      _serializedList:
-      - Key: 0
-        Value:
-          IsElevated: 0
-          StatValue: 0
-          TierValue: 0
-      - Key: 1
-        Value:
-          IsElevated: 0
-          StatValue: 0
-          TierValue: 0
-      - Key: 5
-        Value:
-          IsElevated: 0
-          StatValue: 0
-          TierValue: 0
-      - Key: 3
-        Value:
-          IsElevated: 0
-          StatValue: 0
-          TierValue: 0
-      - Key: 4
-        Value:
-          IsElevated: 0
-          StatValue: 0
-          TierValue: 0
-      - Key: 2
-        Value:
-          IsElevated: 0
-          StatValue: 0
-          TierValue: 0
-  baseDamage: 199
-  baseAttackSpeed: 53
-  baseDefence: 0
-  uniqueName: ErstelltesUnique
-  chosenIndex: 0
-  uniqueTier: 0
-  testText: 
-  ThisIsAUniqueInt: 12
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

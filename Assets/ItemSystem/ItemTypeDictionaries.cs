@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ItemSystem
 {
-    public static class ItemTypeDictionary
+    public static class ItemTypeDictionaries
     {
         static readonly Dictionary<Type, Type[]> itemTypes = new Dictionary<Type, Type[]>()
         {

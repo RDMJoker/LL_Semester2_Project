@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ItemSystem;
 using UnityEditor;
+using UnityEditor.ShortcutManagement;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,7 +13,6 @@ namespace Editor
 {
     public class ItemSystemBuilderTool : EditorWindow
     {
-        //TODO: Summaries for every function(especially the last 3)
         [SerializeField] VisualTreeAsset uxmlRef;
 
         UniqueItemPrefabBuilder builder;
@@ -24,6 +23,20 @@ namespace Editor
         TextField textField;
         ObjectField meshObjectField;
         ObjectField materialObjectField;
+
+        VisualElement firstTab;
+        VisualElement secondTab;
+
+        ToolbarButton firstTabButton;
+        ToolbarButton secondTabButton;
+
+        ScriptableObject dropTableInstance;
+        SerializedObject dropTableObject;
+
+        static ItemSystemBuilderTool window;
+
+        const string SavePath = "Assets/ItemSystem/ItemSystemScriptables/ItemTypes/DropTables/";
+        string dropTableName = "";
 
         List<Type> typeList = new();
         // ObjectField uniqueItemHolderObjectField = null;
@@ -41,10 +54,14 @@ namespace Editor
             { EItemStat.MovementSpeed, 0 }
         };
 
-        [MenuItem("Window/ItemSystemBuilderTool")]
+        int baseDamage = 0;
+        int baseAttackSpeed = 0;
+        int baseArmor = 0;
+
+        [MenuItem("Window/ItemSystemBuilderTool %#i")]
         public static void ShowWindow()
         {
-            var window = GetWindow<ItemSystemBuilderTool>();
+            window = GetWindow<ItemSystemBuilderTool>();
             window.minSize = new Vector2(650, 500);
             window.titleContent = new GUIContent("ItemSystemBuilderTool");
         }
@@ -54,6 +71,10 @@ namespace Editor
             builder = FindObjectOfType<UniqueItemPrefabBuilder>();
             typeList = new List<Type>(builder.itemTypes);
             serializedBuilderObject = new SerializedObject(builder);
+
+            dropTableInstance = CreateInstance(typeof(ItemTypeDropTable));
+            dropTableObject = new SerializedObject(dropTableInstance);
+            rootVisualElement.Bind(dropTableObject);
         }
 
         void CreateGUI()
@@ -62,39 +83,48 @@ namespace Editor
             uxmlRef.CloneTree(root);
             root.Bind(serializedBuilderObject);
 
+            firstTab = root.Q<VisualElement>("ItemBuilderTab");
+            secondTab = root.Q<VisualElement>("DroptableBuilderTab");
+
+            firstTabButton = root.Q<ToolbarButton>("ItemBuilderTabButton");
+            firstTabButton.style.color = Color.green;
+            secondTabButton = root.Q<ToolbarButton>("DroptableBuilderTabButton");
+
+            firstTabButton.RegisterCallback<ClickEvent>(_onClick => SwitchTabs(1));
+            secondTabButton.RegisterCallback<ClickEvent>(_onClick => SwitchTabs(2));
+
+            #region FirstTab
 
             textField = root.Q<TextField>("UniqueNameTextField");
-            textField.Q("unity-text-input").style.unityTextAlign = TextAnchor.MiddleCenter;
-
-
             meshObjectField = root.Q<ObjectField>("MeshField");
-            meshObjectField.Q<Label>().style.unityTextAlign = TextAnchor.MiddleRight;
-
             materialObjectField = root.Q<ObjectField>("MaterialField");
-            materialObjectField.Q<Label>().style.unityTextAlign = TextAnchor.MiddleRight;
+
             var weaponStatsFoldout = root.Q<Foldout>("WeaponStats");
             var armorStatsFoldout = root.Q<Foldout>("ArmorStats");
-            ToggleSpecificStatGroup(armorStatsFoldout, false);
-            ToggleSpecificStatGroup(weaponStatsFoldout, false);
+            ToggleSpecificGroup(armorStatsFoldout, false);
+            ToggleSpecificGroup(weaponStatsFoldout, false);
 
-            
-            //TODO: TextFields => IntFields (like wtf)
-            var healthField = root.Q<TextField>("HealthTextField");
-            var manaField = root.Q<TextField>("ManaTextField");
-            var attackSpeedField = root.Q<TextField>("AttackSpeedField");
-            var damageFlatField = root.Q<TextField>("FlatDamageField");
-            var damagePercentField = root.Q<TextField>("PercentDamageField");
-            var movementSpeedField = root.Q<TextField>("MovementSpeedField");
-            var baseArmorField = root.Q<TextField>("BaseArmor");
-            var baseDamageField = root.Q<TextField>("BaseDamage");
-            var baseAttackSpeedField = root.Q<TextField>("BaseAttackSpeed");
 
-            healthField.RegisterValueChangedCallback((_onValueChange) =>
-            {
-                int.TryParse(_onValueChange.newValue.ToString(), out int value);
-                ChangeDictionaryValue(EItemStat.Health,value);
-            });
-            
+            var healthField = root.Q<IntegerField>("HealthTextField");
+            var manaField = root.Q<IntegerField>("ManaTextField");
+            var attackSpeedField = root.Q<IntegerField>("AttackSpeedField");
+            var damageFlatField = root.Q<IntegerField>("FlatDamageField");
+            var damagePercentField = root.Q<IntegerField>("PercentDamageField");
+            var movementSpeedField = root.Q<IntegerField>("MovementSpeedField");
+            var baseArmorField = root.Q<IntegerField>("BaseArmor");
+            var baseDamageField = root.Q<IntegerField>("BaseDamage");
+            var baseAttackSpeedField = root.Q<IntegerField>("BaseAttackSpeed");
+
+            healthField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.Health, _onValueChange.newValue));
+            manaField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.Mana, _onValueChange.newValue));
+            attackSpeedField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.AttackSpeed, _onValueChange.newValue));
+            damageFlatField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.DamageFlat, _onValueChange.newValue));
+            damagePercentField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.DamagePercent, _onValueChange.newValue));
+            movementSpeedField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.MovementSpeed, _onValueChange.newValue));
+            baseArmorField.RegisterValueChangedCallback((_onValueChange) => baseArmor = _onValueChange.newValue);
+            baseDamageField.RegisterValueChangedCallback((_onValueChange) => baseDamage = _onValueChange.newValue);
+            baseAttackSpeedField.RegisterValueChangedCallback((_onValueChange) => baseAttackSpeed = _onValueChange.newValue);
+
 
             uniqueDropDown = root.Q<DropdownField>("UniqueTierDropDown");
 
@@ -113,23 +143,40 @@ namespace Editor
 
             typeDropDown.RegisterValueChangedCallback((_onValueChange) =>
             {
-                if (ItemTypeDictionary.IsWeapon(typeList[typeDropDown.index]))
+                if (ItemTypeDictionaries.IsWeapon(typeList[typeDropDown.index]))
                 {
-                    ToggleSpecificStatGroup(armorStatsFoldout, false);
-                    ToggleSpecificStatGroup(weaponStatsFoldout, true);
+                    ToggleSpecificGroup(armorStatsFoldout, false);
+                    ToggleSpecificGroup(weaponStatsFoldout, true);
                 }
                 else
                 {
-                    ToggleSpecificStatGroup(weaponStatsFoldout, false);
-                    ToggleSpecificStatGroup(armorStatsFoldout, true);
+                    ToggleSpecificGroup(weaponStatsFoldout, false);
+                    ToggleSpecificGroup(armorStatsFoldout, true);
                 }
             });
 
             var generationButton = root.Q<Button>("GenerationButton");
             generationButton.RegisterCallback<ClickEvent>((_onClick) => Generate());
+
+            #endregion
+
+            #region SecondTab
+
+            var droptableField = root.Q<PropertyField>("DroptableField");
+
+            var droptableButton = root.Q<Button>("DroptableButton");
+            droptableButton.RegisterCallback<ClickEvent>((_onClick => CreateDropTable()));
+
+            var deleteDroptableButton = root.Q<Button>("DeleteDroptableButton");
+            deleteDroptableButton.RegisterCallback<ClickEvent>((_onClick => DeleteDropTable()));
+
+            var droptableNameField = root.Q<TextField>("DroptableName");
+            droptableNameField.RegisterValueChangedCallback((_onValueChange => dropTableName = _onValueChange.newValue));
+
+            #endregion
         }
 
-        void ChangeDictionaryValue(EItemStat _stat,int _value)
+        void ChangeDictionaryValue(EItemStat _stat, int _value)
         {
             itemStats[_stat] = _value;
         }
@@ -162,26 +209,81 @@ namespace Editor
                 errorStringList.Add("Unique Tier cannot be empty!");
             }
 
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append("Please fix the following errors: \n");
-            foreach (string error in errorStringList)
+            if (errorStringList.Count > 0)
             {
-                if (error == errorStringList.Last())
+                var stringBuilder = new StringBuilder();
+                stringBuilder.Append("Please fix the following errors: \n");
+                foreach (string error in errorStringList)
                 {
-                    stringBuilder.Append(error);
+                    if (error == errorStringList.Last())
+                    {
+                        stringBuilder.Append(error);
+                    }
+                    else
+                    {
+                        stringBuilder.Append(error + "\n");
+                    }
+                }
+
+                rootVisualElement.Add(new HelpBox(stringBuilder.ToString(), HelpBoxMessageType.Error));
+            }
+            else
+            {
+                builder.CreateItemData(typeList[typeDropDown.index], itemStats);
+                if (ItemTypeDictionaries.IsWeapon(typeList[typeDropDown.index]))
+                {
+                    builder.CreatePrefab(textField.value, typeList[typeDropDown.index], (Mesh)meshObjectField.value, (Material)materialObjectField.value, uniqueDropDown.index, _baseDamage: baseDamage, _baseAttackSpeed: baseAttackSpeed);
                 }
                 else
                 {
-                    stringBuilder.Append(error + "\n");
+                    builder.CreatePrefab(textField.value, typeList[typeDropDown.index], (Mesh)meshObjectField.value, (Material)materialObjectField.value, uniqueDropDown.index, _baseDefence: baseArmor);
                 }
             }
-            rootVisualElement.Add(new HelpBox(stringBuilder.ToString(), HelpBoxMessageType.Error));
-            
         }
 
-        void ToggleSpecificStatGroup(VisualElement _element, bool _show)
+        void CreateDropTable()
+        {
+            AssetDatabase.CreateAsset(dropTableInstance, SavePath + dropTableName + ".asset");
+        }
+
+        void DeleteDropTable()
+        {
+            rootVisualElement.Unbind();
+            dropTableInstance = CreateInstance(typeof(ItemTypeDropTable));
+            dropTableObject = new SerializedObject(dropTableInstance);
+            rootVisualElement.Bind(dropTableObject);
+            AssetDatabase.DeleteAsset(SavePath + dropTableName + ".asset");
+        }
+
+        void ToggleSpecificGroup(VisualElement _element, bool _show)
         {
             _element.style.display = _show ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        void SwitchTabs(int _targetTab)
+        {
+            switch (_targetTab)
+            {
+                case 1:
+                    ToggleSpecificGroup(secondTab, false);
+                    ToggleSpecificGroup(firstTab, true);
+                    secondTabButton.style.color = Color.white;
+                    firstTabButton.style.color = Color.green;
+                    break;
+                case 2:
+                    ToggleSpecificGroup(firstTab, false);
+                    ToggleSpecificGroup(secondTab, true);
+                    firstTabButton.style.color = Color.white;
+                    secondTabButton.style.color = Color.green;
+                    break;
+            }
+        }
+
+        [Shortcut("Window/Close", KeyCode.W, ShortcutModifiers.Control)]
+        static void CloseTab(ShortcutArguments _args)
+        {
+            if (window == null) return;
+            window.Close();
         }
 
         // void InitCustomFieldGroupWithLabel(VisualElement _parentElement, VisualElement _root, Type _objectFieldType, ref ObjectField _field, ref Label _label)
