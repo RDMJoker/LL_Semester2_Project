@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,12 +9,12 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
-namespace Generation.DungeonGenerator
+namespace Generation.DungeonGeneratorMultithreading
 {
-    public class DungeonGenerator : MonoBehaviour
+    public class DungeonGeneratorMultithreading : MonoBehaviour
     {
         [SerializeField] int levelAmount;
-        [SerializeField] LevelGenerator levelGenerator;
+        [SerializeField] LevelGeneratorMultithreading levelGeneratorMultithreading;
         [SerializeField] bool useMultithreading;
         [SerializeField] int generationIterations;
 
@@ -38,15 +37,15 @@ namespace Generation.DungeonGenerator
                     // levelGenerator.ResetSeed();
                     int i1 = i;
                     // var secondNewTask = new Task(levelGenerator.ResetSeed);
-                    var newTask = new Task<ObjectGrid<ERoomTypes>>(() => levelGenerator.InitMap(i1, seedList[i1 - 1]));
+                    var newTask = new Task<ObjectGrid<ERoomTypes>>(() => levelGeneratorMultithreading.InitMap(i1, seedList[i1 - 1]));
                     // secondNewTask.Start();
                     newTask.Start();
                     localList.Add(newTask.Result);
                 }
                 else
                 {
-                    levelGenerator.ResetSeed();
-                    localList.Add(levelGenerator.InitMap(i, seedList[i - 1]));
+                    levelGeneratorMultithreading.ResetSeed();
+                    localList.Add(levelGeneratorMultithreading.InitMap(i, seedList[i - 1]));
                 }
             }
 

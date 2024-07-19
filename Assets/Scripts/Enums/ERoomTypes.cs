@@ -5,5 +5,6 @@
         Free = -1,
         Normal,
         Boss,
+        Special
     }
 }

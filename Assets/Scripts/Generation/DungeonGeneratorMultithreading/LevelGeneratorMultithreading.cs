@@ -5,24 +5,20 @@ using System.Text;
 using DefaultNamespace.Enums;
 using LL_Unity_Utils.Generic;
 using NaughtyAttributes;
-using Unity.Collections;
-using Unity.Jobs;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace Generation.DungeonGenerator
+namespace Generation.DungeonGeneratorMultithreading
 {
-    public class LevelGenerator : MonoBehaviour
+    public class LevelGeneratorMultithreading : MonoBehaviour
     {
         [SerializeField] int generationWidth;
         [SerializeField] int generationHeight;
         [SerializeField] int minRoomCount;
         [SerializeField] float roomCountIncrementPerLevel;
         [SerializeField] int seed;
-        [SerializeField] DungeonBuilder builder;
         [SerializeField] bool debugLevel;
-
-        // int maxRoomCount => (int)((generationWidth + generationHeight) * 0.25f);
+        
         int maxRoomCount => (int)Mathf.Min((generationWidth + generationHeight) * 0.25f, 60);
 
         ObjectGrid<ERoomTypes> grid;
@@ -46,7 +42,6 @@ namespace Generation.DungeonGenerator
             grid = new ObjectGrid<ERoomTypes>(generationWidth, generationHeight);
             ResetMap();
             GenerateLevelMap(_level);
-            // builder.BuildDungeon(grid); --> temporarily disabled for multithreading purpose
             if (debugLevel) Debug.Log(GetLevelLog());
             stopwatch.Stop();
             if (debugLevel) Debug.Log(stopwatch.ElapsedMilliseconds);
