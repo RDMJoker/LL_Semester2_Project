@@ -18,4 +18,5 @@ MonoBehaviour:
   RoomCountIncrement: 2.6
   UseStaticSeed: 0
   Seed: 5226
+  GridCellSize: 1
   Tileset: {fileID: 11400000, guid: f0b18df083f09bf479150df9a4de07c0, type: 2}

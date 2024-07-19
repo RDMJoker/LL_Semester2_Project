@@ -21,6 +21,7 @@ namespace Generation.DungeonGeneration
         readonly int level;
         readonly bool debug;
         readonly bool useStaticSeed;
+        readonly float cellSize;
         
         int maxRoomCount => (int)Mathf.Min((generationWidth + generationHeight) * 0.25f, 60);
 
@@ -38,6 +39,7 @@ namespace Generation.DungeonGeneration
             useStaticSeed = _data.UseStaticSeed;
             level = _level;
             debug = _debug;
+            cellSize = _data.GridCellSize;
         }
 
         public ObjectGrid<ERoomTypes> GenerateLevel()
@@ -57,7 +59,7 @@ namespace Generation.DungeonGeneration
         {
             random = new System.Random(seed);
             endRooms = new List<Vector2Int>();
-            grid = new ObjectGrid<ERoomTypes>(generationWidth, generationHeight);
+            grid = new ObjectGrid<ERoomTypes>(generationWidth, generationHeight, cellSize, new Vector3(0,0,0));
             ResetMap();
             GenerateLevelMap(level);
             if (debug) Debug.Log(GetLevelLog());

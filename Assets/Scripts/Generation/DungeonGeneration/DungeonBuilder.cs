@@ -52,14 +52,15 @@ namespace Generation.DungeonGeneration
                 for (int x = 0; x < grid.Width; x++)
                 {
                     if (grid.GetValue(x, y) == ERoomTypes.Free) continue;
-                    var buildRoom = BuildRoom(new Vector2Int(x, y), grid.GetValue(x, y), _yOffset);
+                    var actualPosition = grid.GetWorldPosition(x, y);
+                    var buildRoom = BuildRoom(new Vector2Int(x, y), grid.GetValue(x, y),new Vector2Int((int)actualPosition.x,(int)actualPosition.y), _yOffset);
                     roomObjects.Add(buildRoom);
                     ColorRoom(buildRoom.GetComponent<Room>());
                 }
             }
         }
 
-        GameObject BuildRoom(Vector2Int _position, ERoomTypes _roomType, int _yOffset = 0)
+        GameObject BuildRoom(Vector2Int _position, ERoomTypes _roomType,Vector2Int _placingPosition, int _yOffset = 0)
         {
             Vector3 rotation;
             ERoomDoorType chosenDoorType;
@@ -129,7 +130,7 @@ namespace Generation.DungeonGeneration
             (rotation, chosenDoorType) = GetRotationAndDoorType(doorAmount, hasNorth, hasEast, hasSouth, hasWest);
             var correctRoomType = tileset.Rooms.Find(_room => _room.DoorType == chosenDoorType && _room.RoomType == _roomType).gameObject;
             if (correctRoomType == null) throw new ArgumentException("No valid room prefab found!");
-            return Instantiate(correctRoomType, new Vector3(_position.x, -_yOffset, _position.y), Quaternion.Euler(rotation), groupParent);
+            return Instantiate(correctRoomType, new Vector3(_placingPosition.x, -_yOffset, _placingPosition.y), Quaternion.Euler(rotation), groupParent);
         }
 
         (Vector3 rotation, ERoomDoorType doorType) GetRotationAndDoorType(int _doorAmount, bool _hasNorth, bool _hasEast, bool _hasSouth, bool _hasWest)
