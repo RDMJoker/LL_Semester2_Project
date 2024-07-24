@@ -8,7 +8,7 @@ namespace Generation.DungeonGeneration
 {
     public class DungeonGenerator : MonoBehaviour
     {
-        [SerializeField] List<LevelGenerationData> generationData;
+        [SerializeField] public List<LevelGenerationData> GenerationData;
         [SerializeField] DungeonBuilder dungeonBuilder;
         [SerializeField] bool debugGeneration;
         [SerializeField] Transform rootParent;
@@ -23,11 +23,11 @@ namespace Generation.DungeonGeneration
             if (parentObjects == null) parentObjects = new List<GameObject>();
             else ResetParentObjects();
             dungeonBuilder.ResetDungeon();
-            for (int i = 0, x = 1; i < generationData.Count; i++, x++)
+            for (int i = 0, x = 1; i < GenerationData.Count; i++, x++)
             {
-                levelGenerator = new LevelGenerator(generationData[i], x, debugGeneration);
+                levelGenerator = new LevelGenerator(GenerationData[i], x, debugGeneration);
                 var generatedLevel = levelGenerator.GenerateLevel();
-                currentTileset = generationData[i].Tileset;
+                currentTileset = GenerationData[i].Tileset;
                 var currentLevelParentTransform = new GameObject("DungeonLevel: " + x)
                 {
                     transform =
