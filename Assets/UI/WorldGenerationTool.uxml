@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="GenerationTab" style="flex-grow: 1;">
+        <uie:PropertyField name="LevelList" binding-path="generationData" />
+        <ui:Toggle label="Use static seeds" name="StaticSeedToggle" value="false" />
+        <ui:Button text="Generate" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GenerationButton" />
+    </ui:VisualElement>
+    <ui:VisualElement name="LevelDataBuilder" style="flex-grow: 1; display: none;" />
+</ui:UXML>
