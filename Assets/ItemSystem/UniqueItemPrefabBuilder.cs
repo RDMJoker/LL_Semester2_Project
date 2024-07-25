@@ -20,8 +20,6 @@ namespace ItemSystem
         // [SerializeField] string uniqueName;
         // [SerializeField] int chosenIndex = 0;
         // [SerializeField] [Range(0, 3)] int uniqueTier;
-
-        string filePath = "Assets/MyPrefabs/ItemSystem/UniqueItems/";
         string uniqueItemHolderPath = "Assets/ItemSystem/ItemSystemScriptables/UniqueItems/UniqueItems_Tier0";
 
         public List<Type> itemTypes = new()
@@ -31,9 +29,9 @@ namespace ItemSystem
         };
 
 
-        public void CreatePrefab(string _name, Type _type, Mesh _mesh, Material _material, int _uniqueTier, int _baseDamage = 0, int _baseAttackSpeed = 0, int _baseDefence = 0)
+        public void CreatePrefab(string _name, Type _type, Mesh _mesh, Material _material, int _uniqueTier, string _savePath, int _baseDamage = 0, int _baseAttackSpeed = 0, int _baseDefence = 0)
         {
-            var newUniqueItem = PrefabUtility.SaveAsPrefabAsset(basePrefab.gameObject, filePath + _name + ".prefab");
+            var newUniqueItem = PrefabUtility.SaveAsPrefabAsset(basePrefab.gameObject, _savePath + _name + ".prefab");
             DestroyImmediate(newUniqueItem.GetComponent<Item>(), true);
             var scriptComponent = newUniqueItem.AddComponent(_type);
             switch (scriptComponent)
@@ -62,7 +60,12 @@ namespace ItemSystem
             {
                 ItemRarity = EItemRarity.Unique,
                 ItemType = ItemTypeDictionaries.GetEItemType(_type)
+                
             };
+            foreach (var value in _values)
+            {
+                itemData.ItemStats[value.Key].StatValue = value.Value;
+            }
         }
     }
 }

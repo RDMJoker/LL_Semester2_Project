@@ -8,7 +8,7 @@ namespace ItemSystem
     [CreateAssetMenu(menuName = "Scriptables/Items/DropTables/ItemTypeDropTable", fileName = "NewItemTypeDropTable")]
     public class ItemTypeDropTable : ScriptableObject
     {
-        [SerializedDictionary("ItemType", "Overwrite Base Weight")]
+        [SerializedDictionary("ItemType", "Override Base Weight")]
         public SerializedDictionary<ItemType, int> DropTable = new ();
     }
 }

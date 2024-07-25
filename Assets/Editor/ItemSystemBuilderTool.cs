@@ -33,6 +33,11 @@ namespace Editor
         ScriptableObject dropTableInstance;
         SerializedObject dropTableObject;
 
+        HelpBox errorBox;
+
+        string itemSaveFilePath = "Assets/MyPrefabs/ItemSystem/UniqueItems/";
+        string tableSaveFilePath = "Assets/ItemSystem/ItemSystemScriptables/ItemTypes/DropTables/";
+
         static ItemSystemBuilderTool window;
 
         const string SavePath = "Assets/ItemSystem/ItemSystemScriptables/ItemTypes/DropTables/";
@@ -114,7 +119,13 @@ namespace Editor
             var baseArmorField = root.Q<IntegerField>("BaseArmor");
             var baseDamageField = root.Q<IntegerField>("BaseDamage");
             var baseAttackSpeedField = root.Q<IntegerField>("BaseAttackSpeed");
-
+            var itemLabel = root.Q<Label>("FilePathLabelItem");
+            var savePathButtonItem = root.Q<ToolbarButton>("OpenFolderPathChoosingButtonItem");
+            string cutString = itemSaveFilePath.Split("Assets")[1];
+            itemSaveFilePath = "Assets" + cutString;
+            itemLabel.text = "Chosen save path: " + itemSaveFilePath;
+            savePathButtonItem.RegisterCallback<ClickEvent>((_onClick => SetFilePath(ref itemSaveFilePath, itemLabel)));
+            
             healthField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.Health, _onValueChange.newValue));
             manaField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.Mana, _onValueChange.newValue));
             attackSpeedField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.AttackSpeed, _onValueChange.newValue));
@@ -172,6 +183,13 @@ namespace Editor
 
             var droptableNameField = root.Q<TextField>("DroptableName");
             droptableNameField.RegisterValueChangedCallback((_onValueChange => dropTableName = _onValueChange.newValue));
+            
+            var droptableLabel = root.Q<Label>("FilePathLabelTable");
+            var savePathButtonTable = root.Q<ToolbarButton>("OpenFolderPathChoosingButtonTable");
+            string cutStringTable = tableSaveFilePath.Split("Assets")[1];
+            tableSaveFilePath = "Assets" + cutStringTable;
+            droptableLabel.text = "Chosen save path: " + tableSaveFilePath;
+            savePathButtonTable.RegisterCallback<ClickEvent>((_onClick => SetFilePath(ref tableSaveFilePath, droptableLabel)));
 
             #endregion
         }
@@ -225,25 +243,27 @@ namespace Editor
                     }
                 }
 
-                rootVisualElement.Add(new HelpBox(stringBuilder.ToString(), HelpBoxMessageType.Error));
+                if (rootVisualElement.Children().Contains(errorBox)) rootVisualElement.Remove(errorBox);
+                errorBox = new HelpBox(stringBuilder.ToString(), HelpBoxMessageType.Error);
+                rootVisualElement.Add(errorBox);
             }
             else
             {
                 builder.CreateItemData(typeList[typeDropDown.index], itemStats);
                 if (ItemTypeDictionaries.IsWeapon(typeList[typeDropDown.index]))
                 {
-                    builder.CreatePrefab(textField.value, typeList[typeDropDown.index], (Mesh)meshObjectField.value, (Material)materialObjectField.value, uniqueDropDown.index, _baseDamage: baseDamage, _baseAttackSpeed: baseAttackSpeed);
+                    builder.CreatePrefab(textField.value, typeList[typeDropDown.index], (Mesh)meshObjectField.value, (Material)materialObjectField.value, uniqueDropDown.index, itemSaveFilePath, _baseDamage: baseDamage, _baseAttackSpeed: baseAttackSpeed);
                 }
                 else
                 {
-                    builder.CreatePrefab(textField.value, typeList[typeDropDown.index], (Mesh)meshObjectField.value, (Material)materialObjectField.value, uniqueDropDown.index, _baseDefence: baseArmor);
+                    builder.CreatePrefab(textField.value, typeList[typeDropDown.index], (Mesh)meshObjectField.value, (Material)materialObjectField.value, uniqueDropDown.index, itemSaveFilePath, _baseDefence: baseArmor);
                 }
             }
         }
 
         void CreateDropTable()
         {
-            AssetDatabase.CreateAsset(dropTableInstance, SavePath + dropTableName + ".asset");
+            AssetDatabase.CreateAsset(dropTableInstance, tableSaveFilePath + dropTableName + ".asset");
         }
 
         void DeleteDropTable()
@@ -252,7 +272,7 @@ namespace Editor
             dropTableInstance = CreateInstance(typeof(ItemTypeDropTable));
             dropTableObject = new SerializedObject(dropTableInstance);
             rootVisualElement.Bind(dropTableObject);
-            AssetDatabase.DeleteAsset(SavePath + dropTableName + ".asset");
+            AssetDatabase.DeleteAsset(tableSaveFilePath + dropTableName + ".asset");
         }
 
         void ToggleSpecificGroup(VisualElement _element, bool _show)
@@ -278,13 +298,17 @@ namespace Editor
                     break;
             }
         }
-
-        [Shortcut("Window/Close", KeyCode.W, ShortcutModifiers.Control)]
-        static void CloseTab(ShortcutArguments _args)
+        
+        void SetFilePath(ref string _overrideString, Label _label)
         {
-            if (window == null) return;
-            window.Close();
+            string tempString  = EditorUtility.OpenFolderPanel("Choose folder", "Assets", "");
+            if (string.IsNullOrEmpty(tempString)) return;
+            _overrideString = tempString;
+            string cutString = _overrideString.Split("Assets")[1];
+            _overrideString = "Assets" + cutString + "/";
+            _label.text = "Chosen save path: " + _overrideString;
         }
+
 
         // void InitCustomFieldGroupWithLabel(VisualElement _parentElement, VisualElement _root, Type _objectFieldType, ref ObjectField _field, ref Label _label)
         // {

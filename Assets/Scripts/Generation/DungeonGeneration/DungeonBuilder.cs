@@ -14,7 +14,7 @@ namespace Generation.DungeonGeneration
         Transform groupParent;
 
 
-        List<GameObject> roomObjects;
+        List<GameObject> roomObjects = new();
         ObjectGrid<ERoomTypes> grid;
         GenerationTileset tileset;
 
@@ -41,7 +41,7 @@ namespace Generation.DungeonGeneration
         //     }
         // }
 
-        public void BuildDungeon(ObjectGrid<ERoomTypes> _levelGrid, GenerationTileset _tileset,Transform _groupParent, int _yOffset = 0 )
+        public void BuildDungeon(ObjectGrid<ERoomTypes> _levelGrid, GenerationTileset _tileset, Transform _groupParent, int _yOffset = 0)
         {
             grid = _levelGrid;
             tileset = _tileset;
@@ -53,14 +53,14 @@ namespace Generation.DungeonGeneration
                 {
                     if (grid.GetValue(x, y) == ERoomTypes.Free) continue;
                     var actualPosition = grid.GetWorldPosition(x, y);
-                    var buildRoom = BuildRoom(new Vector2Int(x, y), grid.GetValue(x, y),new Vector2Int((int)actualPosition.x,(int)actualPosition.y), _yOffset);
+                    var buildRoom = BuildRoom(new Vector2Int(x, y), grid.GetValue(x, y), new Vector2Int((int)actualPosition.x, (int)actualPosition.y), _yOffset);
                     roomObjects.Add(buildRoom);
                     ColorRoom(buildRoom.GetComponent<Room>());
                 }
             }
         }
 
-        GameObject BuildRoom(Vector2Int _position, ERoomTypes _roomType,Vector2Int _placingPosition, int _yOffset = 0)
+        GameObject BuildRoom(Vector2Int _position, ERoomTypes _roomType, Vector2Int _placingPosition, int _yOffset = 0)
         {
             Vector3 rotation;
             ERoomDoorType chosenDoorType;
@@ -189,12 +189,11 @@ namespace Generation.DungeonGeneration
         }
 
         [Button]
-       public void ResetDungeon()
+        public void ResetDungeon()
         {
             if (roomObjects.Count == 0) return;
             foreach (var roomObject in roomObjects)
             {
-                
                 DestroyImmediate(roomObject.gameObject);
             }
 

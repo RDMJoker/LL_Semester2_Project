@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8d988e610b41478ed44445a0adfba8, type: 3}
   m_Name: DefaultLevelGeneration
   m_EditorClassIdentifier: 
-  GenerationGridWidth: 20
-  GenerationGridHeight: 20
+  GenerationGridWidth: 15
+  GenerationGridHeight: 15
   MinRoomCount: 14
   RoomCountIncrement: 2.6
   UseStaticSeed: 0
