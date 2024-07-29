@@ -55,7 +55,7 @@ namespace Generation.DungeonGeneration
                     var actualPosition = grid.GetWorldPosition(x, y);
                     var buildRoom = BuildRoom(new Vector2Int(x, y), grid.GetValue(x, y), new Vector2Int((int)actualPosition.x, (int)actualPosition.y), _yOffset);
                     roomObjects.Add(buildRoom);
-                    ColorRoom(buildRoom.GetComponent<Room>());
+                   // ColorRoom(buildRoom.GetComponent<Room>());
                 }
             }
         }
