@@ -28,8 +28,8 @@ namespace Editor
         public static void ShowWindow()
         {
             window = GetWindow<GenerationTool>();
-            window.minSize = new Vector2(650, 500);
-            window.titleContent = new GUIContent("ItemSystemBuilderTool");
+            window.minSize = new Vector2(650, 400);
+            window.titleContent = new GUIContent("GenerationTool");
         }
 
         void OnEnable()

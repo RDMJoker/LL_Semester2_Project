@@ -44,7 +44,7 @@ namespace ItemSystem
         }
 
 
-        void ResetWeights(ItemTypeDropTable _itemTypeDropTable = null, ItemRarityDropTable _itemRarityDropTable = null)
+        public void ResetWeights(ItemTypeDropTable _itemTypeDropTable = null, ItemRarityDropTable _itemRarityDropTable = null)
         {
             if (_itemTypeDropTable != null)
             {

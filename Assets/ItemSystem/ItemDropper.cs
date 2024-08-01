@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LL_Unity_Utils.Lists;
 using NaughtyAttributes;
@@ -25,6 +26,11 @@ namespace ItemSystem
         WeightedListManager weightedListManager;
 
         void Awake()
+        {
+            Init();
+        }
+
+        void Init()
         {
             weightedListManager = new WeightedListManager();
             itemTypes = weightedListManager.SetupItemTypeDropList(defaultItemTypeDropTable);
@@ -54,8 +60,24 @@ namespace ItemSystem
                     items.Add(item);
                 }
             }
-
             SpawnItems();
+        }
+
+        public Dictionary<EItemType, int>  SimulateItemDrop(int _amount, ItemTypeDropTable _typeDropTable)
+        {
+            Dictionary<EItemType, int> itemTypeDictionary = new();
+            if (!Application.isPlaying)
+            {
+                Init();
+            }
+            itemTypes ??= new RandomWeightedList<ItemType>();
+            itemTypes = weightedListManager.SetupItemTypeDropList(_typeDropTable);
+            for (int i = 0; i < _amount; i++)
+            {
+                var type = GetDroppedType();
+                if (!itemTypeDictionary.TryAdd(type.Type, 1)) itemTypeDictionary[type.Type] += 1;
+            }
+            return itemTypeDictionary;
         }
 
         ItemType GetDroppedType()
