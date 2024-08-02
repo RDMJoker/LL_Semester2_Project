@@ -16,7 +16,7 @@ MonoBehaviour:
   GenerationGridHeight: 20
   MinRoomCount: 10
   RoomCountIncrement: 2.6
-  UseStaticSeed: 0
+  UseStaticSeed: 1
   Seed: 0
   GridCellSize: 15
   Tileset: {fileID: 11400000, guid: f0b18df083f09bf479150df9a4de07c0, type: 2}

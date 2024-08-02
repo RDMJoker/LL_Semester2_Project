@@ -10,16 +10,7 @@ namespace ItemSystem
     public class UniqueItemPrefabBuilder : MonoBehaviour
     {
         [SerializeField] Item basePrefab;
-
-        // [SerializeField] Mesh mesh;
-        // [SerializeField] Material material;
         ItemData itemData;
-        // [SerializeField] int baseDamage;
-        // [SerializeField] int baseAttackSpeed;
-        // [SerializeField] int baseDefence;
-        // [SerializeField] string uniqueName;
-        // [SerializeField] int chosenIndex = 0;
-        // [SerializeField] [Range(0, 3)] int uniqueTier;
         string uniqueItemHolderPath = "Assets/ItemSystem/ItemSystemScriptables/UniqueItems/UniqueItems_Tier0";
 
         public List<Type> itemTypes = new()
@@ -29,6 +20,18 @@ namespace ItemSystem
         };
 
 
+        /// <summary>
+        /// Creates a prefab based on the given parameters.
+        /// </summary>
+        /// <param name="_name"></param>
+        /// <param name="_type"></param>
+        /// <param name="_mesh"></param>
+        /// <param name="_material"></param>
+        /// <param name="_uniqueTier"></param>
+        /// <param name="_savePath"></param>
+        /// <param name="_baseDamage"></param>
+        /// <param name="_baseAttackSpeed"></param>
+        /// <param name="_baseDefence"></param>
         public void CreatePrefab(string _name, Type _type, Mesh _mesh, Material _material, int _uniqueTier, string _savePath, int _baseDamage = 0, int _baseAttackSpeed = 0, int _baseDefence = 0)
         {
             var newUniqueItem = PrefabUtility.SaveAsPrefabAsset(basePrefab.gameObject, _savePath + _name + ".prefab");
@@ -54,6 +57,11 @@ namespace ItemSystem
             uniqueItemHolder.UniqueItems.Add(newUniqueItem.GetComponent<Item>());
         }
 
+        /// <summary>
+        /// Init Function to generate a new ItemData to be used by the Prefab Generator.
+        /// </summary>
+        /// <param name="_type"></param>
+        /// <param name="_values"></param>
         public void CreateItemData(Type _type, Dictionary<EItemStat, int> _values)
         {  
             itemData = new ItemData()

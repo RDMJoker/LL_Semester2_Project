@@ -44,7 +44,6 @@ namespace Generation.DungeonGeneratorMultithreading
             GenerateLevelMap(_level);
             if (debugLevel) Debug.Log(GetLevelLog());
             stopwatch.Stop();
-            if (debugLevel) Debug.Log(stopwatch.ElapsedMilliseconds);
             return grid;
         }
 
@@ -76,7 +75,6 @@ namespace Generation.DungeonGeneratorMultithreading
             }
 
             if (currentIterations >= maxIterations) Debug.LogError("Something went wrong!!" + seed);
-            if (debugLevel) Debug.Log("Generated after " + currentIterations + " iterations!");
             GenerateSpecialRooms();
         }
 

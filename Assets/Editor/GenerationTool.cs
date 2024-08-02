@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Generation.DungeonGeneration;
+﻿using Generation.DungeonGeneration;
 using Generation.DungeonGeneration.DungeonGenerationScriptables;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -45,8 +43,8 @@ namespace Editor
         {
             var root = rootVisualElement;
             uxmlRef.CloneTree(root);
-
-            // var propertyField = root.Q<PropertyField>("LevelList");
+            
+            // Get and Register the two VisualElements related to generating the dungeon
             var staticSeedToggle = root.Q<Toggle>("StaticSeedToggle");
             staticSeedToggle.RegisterValueChangedCallback((_onValueChange) => { overwriteStaticSeedSetting = _onValueChange.newValue; });
             var generateButton = root.Q<Button>("GenerationButton");
@@ -54,20 +52,18 @@ namespace Editor
 
             #region LevelGenDataEditor
 
+            // Get and Register all Visual Elements related to creating new LevelData ScriptableObjects
             var editModeToggle = root.Q<Toggle>("EditModeToggle");
             var editObjectField = root.Q<ObjectField>("EditObjectField");
-            // var seedField = root.Q<IntegerField>("SeedField");
-            // var generationWidthField = root.Q<IntegerField>("GenerationWidthField");
-            // var generationHeightField = root.Q<IntegerField>("GenerationHeightField");
-            // var minRoomCountField = root.Q<IntegerField>("MinRoomCountField");
-            // var gridCellSizeField = root.Q<IntegerField>("GridCellSizeField");
-            // var roomIncrementField = root.Q<FloatField>("RoomIncrementField");
-            // var tilesetField = root.Q<ObjectField>("TilesetField");
             var openFolderPathChoosing = root.Q<ToolbarButton>("OpenFolderPathChoosingButton");
+            
+            // Cut the savePath to fit the required format for the AssetDatabase function
             filePathLabel = root.Q<Label>("FilePathLabel");
             string cutString = savePath.Split("Assets")[1];
             savePath = "Assets" + cutString;
             filePathLabel.text = "Chosen save path: " + savePath;
+            
+            // Continue to register Visual Elements.
             var generateLevelDataButton = root.Q<Button>("GenerateLevelDataButton");
             var generationDataNameField = root.Q<TextField>("GenerationDataNameField");
             generationDataNameField.RegisterValueChangedCallback((_onValueChange) => generationDataName = _onValueChange.newValue);
@@ -97,6 +93,9 @@ namespace Editor
             #endregion
         }
 
+        /// <summary>
+        /// Function that prompts the user to choose a save file path. This path is then used to save created Assets.
+        /// </summary>
         void SetFilePath()
         {
             savePath = EditorUtility.OpenFolderPanel("Choose folder", "Assets", "");
@@ -105,6 +104,9 @@ namespace Editor
             filePathLabel.text = "Chosen save path: " + savePath;
         }
         
+        /// <summary>
+        /// Function to create a new Asset from the currently loaded instance.
+        /// </summary>
         void CreateLevelGenData()
         {
             if (creationInstance == null)
@@ -114,6 +116,10 @@ namespace Editor
             AssetDatabase.CreateAsset((LevelGenerationData)creationInstance, savePath + generationDataName + ".asset");
         }
 
+        /// <summary>
+        /// Function to copy the data of a existing ScriptableObject of the instance type to the current instance of the SerializedObject.
+        /// </summary>
+        /// <param name="_object"></param>
         void CopyDataFromGenDataToInstance(ScriptableObject _object)
         {
             if (_object == null) return;
@@ -122,6 +128,9 @@ namespace Editor
             rootVisualElement.Bind(levelGenData);
         }
 
+        /// <summary>
+        /// Resets the SerializedObject to a new, empty Instance. This should only be called everytime the old instance does no longer exist.
+        /// </summary>
         void ResetToEmptyInstance()
         {
             if (creationInstance == null)
@@ -138,7 +147,10 @@ namespace Editor
             levelGenData = new SerializedObject(creationInstance);
             rootVisualElement.Bind(levelGenData);
         }
-
+        
+        /// <summary>
+        /// Starts the generation.
+        /// </summary>
         void StartGeneration()
         {
             errorBox = new HelpBox("The list of generation data is empty! Please add at least one generation data!", HelpBoxMessageType.Error);
@@ -163,7 +175,7 @@ namespace Editor
                     }
                 }
 
-                if (rootVisualElement.Children().Contains(errorBox)) rootVisualElement.Remove(errorBox);
+                if (rootVisualElement.Contains(errorBox)) rootVisualElement.Remove(errorBox);
                 dungeonGenerator.GenerateDungeon();
             }
         }

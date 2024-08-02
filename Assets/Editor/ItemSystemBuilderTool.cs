@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using ItemSystem;
 using UnityEditor;
-using UnityEditor.ShortcutManagement;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -88,6 +87,7 @@ namespace Editor
             uxmlRef.CloneTree(root);
             root.Bind(serializedBuilderObject);
 
+            // Register the Visual Elements related to the tab system.
             firstTab = root.Q<VisualElement>("ItemBuilderTab");
             secondTab = root.Q<VisualElement>("DroptableBuilderTab");
 
@@ -100,16 +100,12 @@ namespace Editor
 
             #region FirstTab
 
+            // Register all Visual Elements related to the first tab.
             textField = root.Q<TextField>("UniqueNameTextField");
             meshObjectField = root.Q<ObjectField>("MeshField");
             materialObjectField = root.Q<ObjectField>("MaterialField");
-
             var weaponStatsFoldout = root.Q<Foldout>("WeaponStats");
             var armorStatsFoldout = root.Q<Foldout>("ArmorStats");
-            ToggleSpecificGroup(armorStatsFoldout, false);
-            ToggleSpecificGroup(weaponStatsFoldout, false);
-
-
             var healthField = root.Q<IntegerField>("HealthTextField");
             var manaField = root.Q<IntegerField>("ManaTextField");
             var attackSpeedField = root.Q<IntegerField>("AttackSpeedField");
@@ -121,11 +117,14 @@ namespace Editor
             var baseAttackSpeedField = root.Q<IntegerField>("BaseAttackSpeed");
             var itemLabel = root.Q<Label>("FilePathLabelItem");
             var savePathButtonItem = root.Q<ToolbarButton>("OpenFolderPathChoosingButtonItem");
+
+            // Cut the savePath to fit the required format for the AssetDatabase function
             string cutString = itemSaveFilePath.Split("Assets")[1];
             itemSaveFilePath = "Assets" + cutString;
             itemLabel.text = "Chosen save path: " + itemSaveFilePath;
+
+            // Continue with registration
             savePathButtonItem.RegisterCallback<ClickEvent>((_onClick => SetFilePath(ref itemSaveFilePath, itemLabel)));
-            
             healthField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.Health, _onValueChange.newValue));
             manaField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.Mana, _onValueChange.newValue));
             attackSpeedField.RegisterValueChangedCallback((_onValueChange) => ChangeDictionaryValue(EItemStat.AttackSpeed, _onValueChange.newValue));
@@ -165,27 +164,27 @@ namespace Editor
                     ToggleSpecificGroup(armorStatsFoldout, true);
                 }
             });
-
             var generationButton = root.Q<Button>("GenerationButton");
             generationButton.RegisterCallback<ClickEvent>((_onClick) => Generate());
+            // Setup so none of the script specific groups are shown at the start
+            ToggleSpecificGroup(armorStatsFoldout, false);
+            ToggleSpecificGroup(weaponStatsFoldout, false);
 
             #endregion
 
             #region SecondTab
 
-            var droptableField = root.Q<PropertyField>("DroptableField");
-
+            // Register all Visual Elements related to the second tab.
             var droptableButton = root.Q<Button>("DroptableButton");
             droptableButton.RegisterCallback<ClickEvent>((_onClick => CreateDropTable()));
-
             var deleteDroptableButton = root.Q<Button>("DeleteDroptableButton");
             deleteDroptableButton.RegisterCallback<ClickEvent>((_onClick => DeleteDropTable()));
-
             var droptableNameField = root.Q<TextField>("DroptableName");
             droptableNameField.RegisterValueChangedCallback((_onValueChange => dropTableName = _onValueChange.newValue));
-            
             var droptableLabel = root.Q<Label>("FilePathLabelTable");
             var savePathButtonTable = root.Q<ToolbarButton>("OpenFolderPathChoosingButtonTable");
+
+            // Cut the savePath to fit the required format for the AssetDatabase function
             string cutStringTable = tableSaveFilePath.Split("Assets")[1];
             tableSaveFilePath = "Assets" + cutStringTable;
             droptableLabel.text = "Chosen save path: " + tableSaveFilePath;
@@ -194,13 +193,24 @@ namespace Editor
             #endregion
         }
 
+        /// <summary>
+        /// Function to change the value of a specific entry within the overhead dictionary
+        /// </summary>
+        /// <param name="_stat"></param>
+        /// <param name="_value"></param>
         void ChangeDictionaryValue(EItemStat _stat, int _value)
         {
             itemStats[_stat] = _value;
         }
 
+
+        /// <summary>
+        /// Function to generate the unique item
+        /// </summary>
         void Generate()
         {
+            #region ErrorChecks
+
             List<string> errorStringList = new();
             if (textField.value == string.Empty || textField.value.Trim() == string.Empty)
             {
@@ -227,6 +237,9 @@ namespace Editor
                 errorStringList.Add("Unique Tier cannot be empty!");
             }
 
+            #endregion
+
+            // Checks the amount of errors. If any error exists, prints a string built from the individual error messages
             if (errorStringList.Count > 0)
             {
                 var stringBuilder = new StringBuilder();
@@ -250,6 +263,7 @@ namespace Editor
             else
             {
                 builder.CreateItemData(typeList[typeDropDown.index], itemStats);
+                // Checks script type and creates the item based on the script type. (Currently only 2 script types available, which is why this function is just a bool check.
                 if (ItemTypeDictionaries.IsWeapon(typeList[typeDropDown.index]))
                 {
                     builder.CreatePrefab(textField.value, typeList[typeDropDown.index], (Mesh)meshObjectField.value, (Material)materialObjectField.value, uniqueDropDown.index, itemSaveFilePath, _baseDamage: baseDamage, _baseAttackSpeed: baseAttackSpeed);
@@ -261,11 +275,17 @@ namespace Editor
             }
         }
 
+        /// <summary>
+        /// Creates the drop table ScriptableObject
+        /// </summary>
         void CreateDropTable()
         {
             AssetDatabase.CreateAsset(dropTableInstance, tableSaveFilePath + dropTableName + ".asset");
         }
 
+        /// <summary>
+        /// Deletes a DropTable. Uses the currently used dropTableName to find the correct table to delete.
+        /// </summary>
         void DeleteDropTable()
         {
             rootVisualElement.Unbind();
@@ -275,11 +295,20 @@ namespace Editor
             AssetDatabase.DeleteAsset(tableSaveFilePath + dropTableName + ".asset");
         }
 
+        /// <summary>
+        /// Helper function to toggle the display of any Visual Element.
+        /// </summary>
+        /// <param name="_element"></param>
+        /// <param name="_show"></param>
         void ToggleSpecificGroup(VisualElement _element, bool _show)
         {
             _element.style.display = _show ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
+        /// <summary>
+        /// Function called to switch from one tab to another. Uses self defined index.
+        /// </summary>
+        /// <param name="_targetTab"></param>
         void SwitchTabs(int _targetTab)
         {
             switch (_targetTab)
@@ -298,40 +327,20 @@ namespace Editor
                     break;
             }
         }
-        
+
+        /// <summary>
+        /// Function that prompts the user to choose a save file path. This path is then used to save created Assets.
+        /// </summary>
+        /// <param name="_overrideString"></param>
+        /// <param name="_label"></param>
         void SetFilePath(ref string _overrideString, Label _label)
         {
-            string tempString  = EditorUtility.OpenFolderPanel("Choose folder", "Assets", "");
+            string tempString = EditorUtility.OpenFolderPanel("Choose folder", "Assets", "");
             if (string.IsNullOrEmpty(tempString)) return;
             _overrideString = tempString;
             string cutString = _overrideString.Split("Assets")[1];
             _overrideString = "Assets" + cutString + "/";
             _label.text = "Chosen save path: " + _overrideString;
         }
-
-
-        // void InitCustomFieldGroupWithLabel(VisualElement _parentElement, VisualElement _root, Type _objectFieldType, ref ObjectField _field, ref Label _label)
-        // {
-        //     var childs = _parentElement.Children();
-        //     foreach (var element in childs)
-        //     {
-        //         Debug.Log(element.name);
-        //         switch (element)
-        //         {
-        //             case ObjectField:
-        //                 _field = _root.Q<ObjectField>(element.name);
-        //                 _field.objectType = _objectFieldType;
-        //                 break;
-        //             case Label:
-        //                 _label = _root.Q<Label>(element.name);
-        //                 break;
-        //         }
-        //     }
-        // }
-
-        // void SetTextElement(TextElement _label, string _value)
-        // {
-        //     _label.text = _value;
-        // }
     }
 }

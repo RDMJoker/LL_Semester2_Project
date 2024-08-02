@@ -12,15 +12,16 @@ namespace Editor
     public class ItemSystemSimulationTool : EditorWindow
     {
         [SerializeField] VisualTreeAsset uxmlRef;
-
+        
         static ItemSystemSimulationTool window;
-
+        
         ScrollView scrollView;
         ScrollView simulationScrollView;
-
+        
         ItemDropper dropper;
+        
         ItemTypeDropTable currentDropTable;
-
+        
         HelpBox errorBox;
         
         WeightedListManager weightedListManager;
@@ -47,17 +48,17 @@ namespace Editor
         {
             var root = rootVisualElement;
             uxmlRef.CloneTree(root);
+            // Register all Visual Elements related to the simulation of DropTables.
             scrollView = root.Q<ScrollView>("ScrollView");
             simulationScrollView = root.Q<ScrollView>("SimulationScrollView");
             var dropTableField = root.Q<ObjectField>("DropTableField");
             var simulateButton = root.Q<Button>("SimulateButton");
-            
-            
-            
             dropTableField.RegisterValueChangedCallback((_onValueChange => UpdateDisplayList((ItemTypeDropTable)_onValueChange.newValue)));
             simulateButton.RegisterCallback<ClickEvent>((_onClick) => SimulateItemDrops());
         }
-
+        /// <summary>
+        /// Function to generate simulated ItemDrops based on the chosen DropTable.
+        /// </summary>
         void SimulateItemDrops()
         {
             if (currentDropTable == null)
@@ -66,6 +67,7 @@ namespace Editor
                 return;
             }
             simulationScrollView.Clear();
+            // Simulated Items are saved in a dictionary when they are created. The dictionary keeps count of how many items of a specific type were generated.
             var simulatedItems = dropper.SimulateItemDrop(10,currentDropTable);
             foreach (EItemType entry in Enum.GetValues(typeof(EItemType)))
             {
@@ -75,6 +77,10 @@ namespace Editor
             }
         }
 
+        /// <summary>
+        /// Update the Scroll view. This function should be called everytime the items inside the scroll view change
+        /// </summary>
+        /// <param name="_currentObject"></param>
         void UpdateDisplayList(ItemTypeDropTable _currentObject)
         {
             scrollView.Clear();
@@ -98,7 +104,6 @@ namespace Editor
 
             foreach (var entry in localList)
             {
-                Debug.Log(entry.Weight + "|" + totalWeight);
                 float decimalValue = (float)entry.Weight / totalWeight; 
                 float percentageValue = decimalValue * 100;
                 scrollView.Add(new Label("The type " + entry.Type + " has a drop chance of: " + percentageValue.ToString("0.00") + "%"));

@@ -21,10 +21,7 @@ namespace Generation.DungeonGeneratorMultithreading
         List<ObjectGrid<ERoomTypes>> objectList01;
         List<long> timeList;
         List<int> seedList;
-
-        //TODO: LevelSeed that influences FloorSeed
-
-        [Button]
+        
         List<ObjectGrid<ERoomTypes>> GenerateDungeon()
         {
             var stopWatch = new Stopwatch();
@@ -58,15 +55,7 @@ namespace Generation.DungeonGeneratorMultithreading
         [Button]
         void MultipleGenerationRuns()
         {
-            if (seedList == null)
-            {
-                seedList = new List<int>();
-                for (int i = 0; i < levelAmount; i++)
-                {
-                    seedList.Add(Random.Range(0, 30001));
-                }
-            }
-
+            ResetSeedList();
             timeList = new List<long>();
             for (int i = 0; i < generationIterations; i++)
             {
@@ -81,10 +70,15 @@ namespace Generation.DungeonGeneratorMultithreading
             Debug.Log("Generation took an average time of: " + medianTime);
             Debug.Log("The shortest generation took: " + minTime);
             Debug.Log("The longest generation took: " + maxTime);
-            // Debug.Log("First Level Room Count: " + GetRoomAmountFromGrid(objectList01.First()));
-            // Debug.Log("Fifth Level Room Count " + GetRoomAmountFromGrid(objectList01[5]));
-            // Debug.Log("Tenth Level Room Count " + GetRoomAmountFromGrid(objectList01[10]));
-            // Debug.Log("Last Level Room Count: " + GetRoomAmountFromGrid(objectList01.Last()));
+        }
+
+        void ResetSeedList()
+        {
+            seedList = new List<int>();
+            for (int i = 0; i < levelAmount; i++)
+            {
+                seedList.Add(Random.Range(0, 30001));
+            }
         }
 
         int GetRoomAmountFromGrid(ObjectGrid<ERoomTypes> _grid)

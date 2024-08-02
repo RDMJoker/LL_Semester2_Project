@@ -24,11 +24,10 @@ namespace Generation.DungeonGeneration
         readonly float cellSize;
         
         int maxRoomCount => (int)Mathf.Min((generationWidth + generationHeight) * 0.25f, 60);
-
         ObjectGrid<ERoomTypes> grid;
         System.Random random;
         List<Vector2Int> endRooms;
-
+        
         public LevelGenerator(LevelGenerationData _data,int _level = 1, bool _debug = false)
         {
             generationWidth = _data.GenerationGridWidth;
