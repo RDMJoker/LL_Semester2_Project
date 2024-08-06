@@ -8,14 +8,11 @@ namespace LoadingScreen
 {
     public class PrepareLoadingScreen : MonoBehaviour
     {
-        [SerializeField] EScenes nextScene;
-        [SerializeField] NextSceneHolder holder;
-        [SerializeField] Sprite backgroundImage;
+        [SerializeField] SceneLoader loader;
+        [SerializeField] LoadScreen loadScreen;
         public void LoadScene()
         {
-            holder.SetNextScene(nextScene);
-            holder.backgroundImage = backgroundImage;
-            SceneManager.LoadScene("LoadingScreenScene");
+            loadScreen.StartLoading(loader);
         }
     }
 }

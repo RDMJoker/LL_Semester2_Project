@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using CombatSystems.Skills;
 using DefaultNamespace.Enums;
 using KI;
+using LoadingScreen;
 using Scriptables.SceneLoader;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,6 +14,7 @@ public class PlayerInputs : MonoBehaviour
 {
     [SerializeField] Camera mainCamera;
     [SerializeField] LayerMask mouseRayLayer;
+    [SerializeField] SceneLoader mainMenuLoader;
     PlayerAgent playerAgent;
     bool hasInput;
     bool hasCastInput;
@@ -20,6 +23,7 @@ public class PlayerInputs : MonoBehaviour
     Ray cameraRay;
     RaycastHit raycastHit;
     SkillCaster skillCaster;
+    LoadScreen loadScreen;
 
     public static Action<Vector3> OnSkillButtonPressed;
 
@@ -27,6 +31,7 @@ public class PlayerInputs : MonoBehaviour
     {
         playerAgent = GetComponent<PlayerAgent>();
         skillCaster = GetComponent<SkillCaster>();
+        loadScreen = FindObjectOfType<LoadScreen>();
     }
 
     void Update()
@@ -89,8 +94,7 @@ public class PlayerInputs : MonoBehaviour
     public void ReturnToMenu(InputAction.CallbackContext _callbackContext)
     {
         if (_callbackContext.phase != InputActionPhase.Started) return;
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-        SceneManager.LoadScene((int)EScenes.MainMenu);
+        loadScreen.StartLoading(mainMenuLoader);
     }
 
     public void PointAndClick(InputAction.CallbackContext _callbackContext)

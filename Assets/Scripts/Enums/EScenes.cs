@@ -4,7 +4,6 @@
     {
         MainMenu,
         Simulation,
-        LoadingScreenScene,
         AIScene
     }
 }

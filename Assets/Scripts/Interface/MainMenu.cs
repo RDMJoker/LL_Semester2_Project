@@ -19,8 +19,17 @@ namespace Interface
         [SerializeField] float sidebarEndY;
         [SerializeField] float animationDuration;
 
-        
-        
+
+        void OnEnable()
+        {
+            DisplayButtons(true);
+        }
+
+        public void DisplayButtons(bool _show)
+        {
+            buttonGroup.gameObject.SetActive(_show);
+        }
+
         public void SetText(TextHolder _text)
         {
             header.text = _text.header;
