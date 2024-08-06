@@ -1,9 +1,17 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 OPR/109.0.0.0" version="24.7.6">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="1402" dy="771" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2541" dy="1398" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="zkfFHV4jXpPFQw0GAbJ--0" target="vgG2ldRCSXcRbSybJgC7-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-56" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;" vertex="1" connectable="0" parent="vgG2ldRCSXcRbSybJgC7-55">
+          <mxGeometry x="-1" y="-1" relative="1" as="geometry">
+            <mxPoint x="-10" y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="zkfFHV4jXpPFQw0GAbJ--0" value="ItemSystemSimulationTool : EditorWindow" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="10" y="40" width="346" height="372" as="geometry">
             <mxRectangle x="230" y="140" width="160" height="26" as="alternateBounds" />
@@ -94,8 +102,16 @@
         <mxCell id="vgG2ldRCSXcRbSybJgC7-26" value="+ResetWeights(itemTypeDropTable : ItemTypeDropTable, itemRarityDropTable : ItemRarityDropTable) : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-20">
           <mxGeometry y="134" width="590" height="24" as="geometry" />
         </mxCell>
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="vgG2ldRCSXcRbSybJgC7-29" target="vgG2ldRCSXcRbSybJgC7-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-46" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;" vertex="1" connectable="0" parent="vgG2ldRCSXcRbSybJgC7-45">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="-10" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="vgG2ldRCSXcRbSybJgC7-29" value="ItemDropper : MonoBehaviour" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="30" y="630" width="650" height="346" as="geometry" />
+          <mxGeometry x="30" y="660" width="650" height="554" as="geometry" />
         </mxCell>
         <mxCell id="vgG2ldRCSXcRbSybJgC7-30" value="-items : List&amp;lt;ItemData&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
           <mxGeometry y="26" width="650" height="26" as="geometry" />
@@ -133,8 +149,32 @@
         <mxCell id="vgG2ldRCSXcRbSybJgC7-31" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
           <mxGeometry y="312" width="650" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="vgG2ldRCSXcRbSybJgC7-32" value="+ method(type): type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-32" value="-Awake() : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
           <mxGeometry y="320" width="650" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-47" value="-Init() : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
+          <mxGeometry y="346" width="650" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-48" value="+DropItem(amount : int, typeDropTable : ItemTypeDropTable, rarityDropTable : ItemRarityDropTable) : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
+          <mxGeometry y="372" width="650" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-49" value="+SimulateItemDrop(amount : int, typeDropTable : ItemTypeDropTable) : Dicitonary&amp;lt;EItemType, int&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
+          <mxGeometry y="398" width="650" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-50" value="-GetDroppedType() : ItemType" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
+          <mxGeometry y="424" width="650" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-51" value="-GetDroppedRarity() : ItemRarity" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
+          <mxGeometry y="450" width="650" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-52" value="-SpawnItems() : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
+          <mxGeometry y="476" width="650" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-53" value="-GetPrefab(itemData : ItemData) : Item" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
+          <mxGeometry y="502" width="650" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vgG2ldRCSXcRbSybJgC7-54" value="-GetRandomUnique(type : EItemType) : Item" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="vgG2ldRCSXcRbSybJgC7-29">
+          <mxGeometry y="528" width="650" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
