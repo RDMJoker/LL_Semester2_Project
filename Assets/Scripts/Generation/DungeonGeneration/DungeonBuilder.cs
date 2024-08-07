@@ -20,27 +20,6 @@ namespace Generation.DungeonGeneration
 
         Room currentRoom;
 
-        //public void BuildDungeon(ObjectGrid<ERoomTypes> _levelGrid, int _yOffset = 0)
-        // {
-        //     roomObjects ??= new List<GameObject>();
-        //     ResetDungeon();
-        //     for (int y = 0; y < _levelGrid.Height; y++)
-        //     {
-        //         for (int x = 0; x < _levelGrid.Width; x++)
-        //         {
-        //             if (_levelGrid.GetValue(x, y) == ERoomTypes.Normal) roomObjects.Add(Instantiate(prefab, new Vector3(x, _yOffset, y), Quaternion.identity));
-        //             if (_levelGrid.GetValue(x, y) != ERoomTypes.Boss) continue;
-        //             var bossRoom = Instantiate(prefab, new Vector3(x, 0, y), Quaternion.identity);
-        //             bossRoom.TryGetComponent(out MeshRenderer bossSpriteRenderer);
-        //             bossSpriteRenderer.material = new Material(bossSpriteRenderer.material)
-        //             {
-        //                 color = Color.red
-        //             };
-        //             roomObjects.Add(bossRoom);
-        //         }
-        //     }
-        // }
-
         public void BuildDungeon(ObjectGrid<ERoomTypes> _levelGrid, GenerationTileset _tileset, Transform _groupParent, int _yOffset = 0)
         {
             grid = _levelGrid;
@@ -55,7 +34,6 @@ namespace Generation.DungeonGeneration
                     var actualPosition = grid.GetWorldPosition(x, y);
                     var buildRoom = BuildRoom(new Vector2Int(x, y), grid.GetValue(x, y), new Vector2Int((int)actualPosition.x, (int)actualPosition.y), _yOffset);
                     roomObjects.Add(buildRoom);
-                   // ColorRoom(buildRoom.GetComponent<Room>());
                 }
             }
         }
@@ -80,51 +58,6 @@ namespace Generation.DungeonGeneration
             bool hasEast = hasDirection[1];
             bool hasSouth = hasDirection[2];
             bool hasWest = hasDirection[3];
-
-            // switch (_doorAmount)
-            // {
-            //     case 1:
-            //         chosenDoorType = ERoomDoorType.North;
-            //         if (hasNorth) rotation = new Vector3(0, 0, 0);
-            //         else if (hasEast) rotation = new Vector3(0, 90, 0);
-            //         else if (hasSouth) rotation = new Vector3(0, 180, 0);
-            //         else if (hasWest) rotation = new Vector3(0, -90, 0);
-            //         break;
-            //     case 2:
-            //         if (hasNorth && hasSouth)
-            //         {
-            //             rotation = new Vector3(0, 0, 0);
-            //             chosenDoorType = ERoomDoorType.NorthSouth;
-            //         }
-            //         else if (hasEast && hasWest)
-            //         {
-            //             rotation = new Vector3(0, 90, 0);
-            //             chosenDoorType = ERoomDoorType.NorthSouth;
-            //         }
-            //         else if (hasNorth && hasEast)
-            //         {
-            //             rotation = new Vector3(0, 0, 0);
-            //             chosenDoorType = ERoomDoorType.NorthEast;
-            //         }
-            //         else
-            //         {
-            //             rotation = new Vector3(0, -90, 0);
-            //             chosenDoorType = ERoomDoorType.NorthEast;
-            //         }
-//
-            //         break;
-            //     case 3:
-            //         chosenDoorType = ERoomDoorType.NorthEastWest;
-            //         if (hasNorth && hasEast && hasWest) rotation = new Vector3(0, 0, 0);
-            //         if (hasNorth && hasEast && hasSouth) rotation = new Vector3(0, 90, 0);
-            //         if (hasEast && hasSouth && hasWest) rotation = new Vector3(0, 180, 0);
-            //         if (hasNorth && hasSouth && hasWest) rotation = new Vector3(0, -90, 0);
-            //         break;
-            //     case 4:
-            //         chosenDoorType = ERoomDoorType.Full;
-            //         rotation = new Vector3(0, 0, 0);
-            //         break;
-            // }
 
             int doorAmount = GetNeighbourCount(_position);
             (rotation, chosenDoorType) = GetRotationAndDoorType(doorAmount, hasNorth, hasEast, hasSouth, hasWest);
@@ -198,30 +131,6 @@ namespace Generation.DungeonGeneration
             }
 
             roomObjects.Clear();
-        }
-
-        /// <summary>
-        /// For testing purpose. Will not be needed later
-        /// </summary>
-        void ColorRoom(Room _room)
-        {
-            var localRenderer = _room.gameObject.GetComponent<MeshRenderer>();
-            localRenderer.sharedMaterial = new Material(localRenderer.sharedMaterial);
-            if (_room.RoomType == ERoomTypes.Boss)
-            {
-                localRenderer.sharedMaterial.color = Color.red;
-                return;
-            }
-
-            localRenderer.sharedMaterial.color = _room.DoorType switch
-            {
-                ERoomDoorType.North => Color.white,
-                ERoomDoorType.NorthEast => Color.green,
-                ERoomDoorType.NorthSouth => Color.yellow,
-                ERoomDoorType.NorthEastWest => Color.magenta,
-                ERoomDoorType.Full => Color.cyan,
-                _ => throw new ArgumentOutOfRangeException()
-            };
         }
     }
 }
