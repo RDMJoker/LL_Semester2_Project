@@ -26,7 +26,7 @@ namespace Editor
         
         WeightedListManager weightedListManager;
         
-        [MenuItem("Window/ItemSystemSimulationTool")]
+        [MenuItem("Window/ItemSystemSimulationTool %&i")]
         public static void ShowWindow()
         {
             window = GetWindow<ItemSystemSimulationTool>();
@@ -36,7 +36,14 @@ namespace Editor
 
         void OnEnable()
         {
+            errorBox = new HelpBox("", HelpBoxMessageType.Error);
             dropper = FindObjectOfType<ItemDropper>();
+            if (dropper == null)
+            {
+                errorBox.text = "No Item Dropper Found! Please switch to the correct scene and reopen the window! Correct scene: 'ItemSystemScene' ";
+                rootVisualElement.Add(errorBox);
+                return;
+            }
             var dropperObject = new SerializedObject(dropper);
             rootVisualElement.Bind(dropperObject);
 
@@ -48,6 +55,7 @@ namespace Editor
         {
             var root = rootVisualElement;
             uxmlRef.CloneTree(root);
+            if (errorBox.text == "No Item Builder Found! Please switch to the correct scene and reopen the window! Correct scene: 'ItemSystem' ") return;
             // Register all Visual Elements related to the simulation of DropTables.
             scrollView = root.Q<ScrollView>("ScrollView");
             simulationScrollView = root.Q<ScrollView>("SimulationScrollView");

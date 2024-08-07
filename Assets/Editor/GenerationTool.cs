@@ -32,7 +32,14 @@ namespace Editor
 
         void OnEnable()
         {
+            errorBox = new HelpBox("", HelpBoxMessageType.Error);
             dungeonGenerator = FindObjectOfType<DungeonGenerator>();
+            if (dungeonGenerator == null)
+            {
+                errorBox.text = "No Dungeon Generator Found! Please switch to the correct scene and reopen the window! Correct scene: 'Generation' ";
+                rootVisualElement.Add(errorBox);
+                return;
+            }
             generator = new SerializedObject(dungeonGenerator);
             rootVisualElement.Bind(generator);
 
@@ -43,6 +50,7 @@ namespace Editor
         {
             var root = rootVisualElement;
             uxmlRef.CloneTree(root);
+            if (errorBox.text == "No Item Builder Found! Please switch to the correct scene and reopen the window! Correct scene: 'ItemSystem' ") return;
             
             // Get and Register the two VisualElements related to generating the dungeon
             var staticSeedToggle = root.Q<Toggle>("StaticSeedToggle");

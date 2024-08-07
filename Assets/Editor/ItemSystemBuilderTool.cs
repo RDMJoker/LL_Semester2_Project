@@ -72,7 +72,14 @@ namespace Editor
 
         void OnEnable()
         {
+            errorBox = new HelpBox("", HelpBoxMessageType.Error);
             builder = FindObjectOfType<UniqueItemPrefabBuilder>();
+            if (builder == null)
+            {
+                errorBox.text = "No Item Builder Found! Please switch to the correct scene and reopen the window! Correct scene: 'ItemSystem' ";
+                rootVisualElement.Add(errorBox);
+                return;
+            }
             typeList = new List<Type>(builder.itemTypes);
             serializedBuilderObject = new SerializedObject(builder);
 
@@ -85,6 +92,7 @@ namespace Editor
         {
             var root = rootVisualElement;
             uxmlRef.CloneTree(root);
+            if (errorBox.text == "No Item Builder Found! Please switch to the correct scene and reopen the window! Correct scene: 'ItemSystem' ") return;
             root.Bind(serializedBuilderObject);
 
             // Register the Visual Elements related to the tab system.
