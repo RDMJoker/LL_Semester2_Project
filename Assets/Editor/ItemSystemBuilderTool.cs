@@ -66,7 +66,7 @@ namespace Editor
         public static void ShowWindow()
         {
             window = GetWindow<ItemSystemBuilderTool>();
-            window.minSize = new Vector2(650, 400);
+            window.minSize = new Vector2(650, 450);
             window.titleContent = new GUIContent("ItemSystemBuilderTool");
         }
 
