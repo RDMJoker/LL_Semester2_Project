@@ -4,7 +4,7 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="5" value="Start" style="ellipse;shape=startState;fillColor=#000000;strokeColor=#ff0000;spacingLeft=60;" parent="1" vertex="1">
+        <mxCell id="5" value="Start" style="ellipse;shape=startState;fillColor=#000000;strokeColor=#ff0000;spacingLeft=59;" parent="1" vertex="1">
           <mxGeometry x="130" y="40" width="30" height="30" as="geometry" />
         </mxCell>
         <mxCell id="6" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#FF0000;endFill=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="5" target="kETFKb8yOWNyLw1JTbQq-47" edge="1">
@@ -51,9 +51,6 @@
             <mxPoint x="10" y="5" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="kETFKb8yOWNyLw1JTbQq-58" value="Changed any value?" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="1">
-          <mxGeometry x="510" width="130" height="80" as="geometry" />
-        </mxCell>
         <mxCell id="kETFKb8yOWNyLw1JTbQq-101" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;resizable=0;fillColor=none;gradientColor=none;strokeColor=#ff0000;endArrow=open;endSize=8;" edge="1" parent="1" source="kETFKb8yOWNyLw1JTbQq-60" target="kETFKb8yOWNyLw1JTbQq-56">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -61,9 +58,6 @@
           <mxGeometry x="-1" relative="1" as="geometry">
             <mxPoint x="10" y="-10" as="offset" />
           </mxGeometry>
-        </mxCell>
-        <mxCell id="kETFKb8yOWNyLw1JTbQq-59" value="Activity" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="1">
-          <mxGeometry x="360" y="10" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="kETFKb8yOWNyLw1JTbQq-60" value="Changed Item Type?" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="1">
           <mxGeometry x="455" y="150" width="130" height="80" as="geometry" />
