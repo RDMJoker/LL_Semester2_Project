@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GenerationData:
-  - {fileID: 11400000, guid: dd193b8a4446a2344a30d3791057a9d1, type: 2}
+  - {fileID: 11400000, guid: 78dd2ea76f9e41b4492903fda1e1e0bb, type: 2}
   dungeonBuilder: {fileID: 1038403859}
   debugGeneration: 0
   rootParent: {fileID: 81572330}
