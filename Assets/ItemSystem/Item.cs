@@ -1,6 +1,4 @@
 ﻿using System.Linq;
-using System.Reflection;
-using UnityEditor.TextCore.Text;
 using UnityEngine;
 
 namespace ItemSystem

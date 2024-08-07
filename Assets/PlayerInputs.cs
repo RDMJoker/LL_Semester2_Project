@@ -94,6 +94,7 @@ public class PlayerInputs : MonoBehaviour
     public void ReturnToMenu(InputAction.CallbackContext _callbackContext)
     {
         if (_callbackContext.phase != InputActionPhase.Started) return;
+        loadScreen.OverwriteText("Retreating from the battlefield...");
         loadScreen.StartLoading(mainMenuLoader);
     }
 

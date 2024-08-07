@@ -12,6 +12,7 @@ namespace LoadingScreen
         [SerializeField] LoadScreen loadScreen;
         public void LoadScene()
         {
+            loadScreen.OverwriteText("Preparing the greek army...");
             loadScreen.StartLoading(loader);
         }
     }

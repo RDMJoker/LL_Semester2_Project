@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <uie:ObjectField label="Object Field" name="DropTableField" type="ItemSystem.ItemTypeDropTable, Assembly-CSharp" />
+    <uie:ObjectField label="Drop Table" name="DropTableField" type="ItemSystem.ItemTypeDropTable, Assembly-CSharp" />
     <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="ScrollView" vertical-scroller-visibility="Auto" mode="Vertical" horizontal-scroller-visibility="Hidden" horizontal-page-size="-1" vertical-page-size="-1" style="margin-top: 9px; max-height: 35%; max-width: none; min-width: auto; min-height: 0;" />
     <ui:Button text="Simulate Items" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SimulateButton" style="min-height: 30px; max-height: 30px; height: auto;" />
     <ui:GroupBox name="CountBox" style="flex-direction: row;" />

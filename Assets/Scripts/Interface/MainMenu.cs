@@ -62,5 +62,10 @@ namespace Interface
         {
             StartCoroutine(CloseSidebarWithAnimation());
         }
+
+        public void CloseGame()
+        {
+            Application.Quit();
+        }
     }
 }

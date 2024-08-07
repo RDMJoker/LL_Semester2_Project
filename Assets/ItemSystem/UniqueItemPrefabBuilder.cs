@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 
 namespace ItemSystem
 {
+#if UNITY_EDITOR
+
     public class UniqueItemPrefabBuilder : MonoBehaviour
     {
         [SerializeField] Item basePrefab;
@@ -63,12 +63,11 @@ namespace ItemSystem
         /// <param name="_type"></param>
         /// <param name="_values"></param>
         public void CreateItemData(Type _type, Dictionary<EItemStat, int> _values)
-        {  
+        {
             itemData = new ItemData()
             {
                 ItemRarity = EItemRarity.Unique,
                 ItemType = ItemTypeDictionaries.GetEItemType(_type)
-                
             };
             foreach (var value in _values)
             {
@@ -76,4 +75,5 @@ namespace ItemSystem
             }
         }
     }
+#endif
 }
